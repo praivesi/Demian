@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,12 +58,17 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String formSubmit(@Valid Board board, BindingResult bindingResult){
+    public String postForm(@Valid Board board, BindingResult bindingResult, Authentication authentication){
         boardValidator.validate(board, bindingResult);
 
        if(bindingResult.hasErrors()) {
            return "board/form";
        }
+
+       String username = authentication.getName();
+
+        // [210205 hsoh] Tutorial Link https://www.youtube.com/watch?v=wM7P-6_CHFM&list=PLPtc9qD1979DG675XufGs0-gBeb2mrona&index=10
+        // 10:20 까지 봤음
 
        boardRepository.save(board);
 
