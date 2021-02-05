@@ -2,6 +2,7 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.tutorial.ohDiaraySpringBoot.model.Board;
 import com.tutorial.ohDiaraySpringBoot.repository.BoardRepository;
+import com.tutorial.ohDiaraySpringBoot.service.BoardService;
 import com.tutorial.ohDiaraySpringBoot.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,9 @@ public class BoardController {
 
     @Autowired
     private BoardValidator boardValidator;
+
+    @Autowired
+    private BoardService boardService;
 
     @GetMapping("/list")
     public String list(Model model,@PageableDefault(size = 2) Pageable pageable,
@@ -70,7 +74,9 @@ public class BoardController {
         // [210205 hsoh] Tutorial Link https://www.youtube.com/watch?v=wM7P-6_CHFM&list=PLPtc9qD1979DG675XufGs0-gBeb2mrona&index=10
         // 10:20 까지 봤음
 
-       boardRepository.save(board);
+        boardService.save(username, board);
+//       boardRepository.save(board);
+
 
        return "redirect:/board/list";
     }
