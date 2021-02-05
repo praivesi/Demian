@@ -3,6 +3,7 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 import com.tutorial.ohDiaraySpringBoot.model.Board;
 import com.tutorial.ohDiaraySpringBoot.model.User;
 import com.tutorial.ohDiaraySpringBoot.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 class UserApiController {
     @Autowired
     private UserRepository repository;
@@ -19,7 +21,13 @@ class UserApiController {
     // tag::get-aggregate-root[]
     @GetMapping("/users")
     List<User> all() {
-        return repository.findAll();
+        List<User> users = repository.findAll();
+
+        log.debug("Before calling users.get(0).getBoards().size()");
+        log.debug("users.get(0).getBoards().size() : {}", users.get(0).getBoards().size());
+        log.debug("After calling users.get(0).getBoards().size()");
+
+        return users;
     }
     // end::get-aggregate-root[]
 
