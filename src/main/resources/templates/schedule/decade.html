@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <style>
-
-
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
         body {
@@ -35,6 +34,24 @@
             align-items: stretch;
         }
 
+        .container {
+            width:100%;
+        }
+
+        .row {
+            border: 1px solid gray;
+        }
+
+        .col-sm-1 {
+            border: 1px solid gray;
+            height: 100%;
+        }
+
+        .col-sm-2 {
+            border: 1px solid gray;
+            height: 100%;
+        }
+
         .content {
             width: 100%;
             height: 100%;
@@ -60,11 +77,11 @@
             background-color: purple;
         }
 
-        #decade-navigator {
+        /* #decade-navigator {
             width: 95%;
             height: 100px;
             background-color: yellow;
-        }
+        } */
 
         #grid-container {
             height: 500px;
@@ -97,22 +114,22 @@
         }
 
         #sidebar .sidebar-header {
-            padding: 20px;
+            padding: 0;
             background: #6d7fcc;
         }
 
         #sidebar ul.components {
-            padding: 20px 0;
+            padding: 0;
             border-bottom: 1px solid #47748b;
         }
 
         #sidebar ul p {
             color: #fff;
-            padding: 10px;
+            padding: 0;
         }
 
         #sidebar ul li a {
-            padding: 10px;
+            padding: 0;
             font-size: 1.1em;
             display: block;
         }
@@ -200,120 +217,51 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar">
-            <div class="sidbar-header">
-                <h3>Bootstrap Sidebar</h3>
+            <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
+                <span>Desire</span>
             </div>
-
-            <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expaneded="false"
-                        class="dropdown-toggle">Pages</a>
-                    <ul>
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
+                <th:block th:each="desireNum: ${#numbers.sequence(1, 100)}">
+                    <div th:id="'desire-row-' + ${desireNum}" style="border: 1px solid black">
+                        <span>Desire #</span><span th:text="${desireNum}"></span>
+                    </div>
+                </th:block>
         </nav>
-        <div id="content-wrapper">
-            <div class="content">
-                <div id="decade-toggle-btn">
-                    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
-                    <!-- <div class="container-fluid"> -->
-                    <button type="button" id="sidebarCollapse" class="vertical-center">
-                        <!-- <i class="fas fa-align-left"></i> -->
-                        <span>Toggle</span>
+        <div id="schedule-content" class="container">
+            <div id="decade-navigator-row" class="row" style="height: 10vh">
+                <div class="col-sm-1" style="background-color:#BBF9F6">
+                <button type="button" id="sidebarCollapse">
+                    <span> T
+                    </span>
+                </button>
+                    <button type="button" id="leftMoveDecade">
+                        <span> < </span>
                     </button>
-                    <!-- </div> -->
-                    <!-- </nav> -->
                 </div>
-                <div id="decade-navigator">
-                    <div class="pagination p1">
-                        <ul>
-                            <a href="#">
-                                <li> < </li>
-                            </a>
-                            <a class="is-active" href="#">
-                                <li>1</li>
-                            </a>
-                            <a href="#">
-                                <li>2</li>
-                            </a>
-                            <a href="#">
-                                <li>3</li>
-                            </a>
-                            <a href="#">
-                                <li>4</li>
-                            </a>
-                            <a href="#">
-                                <li>5</li>
-                            </a>
-                            <a href="#">
-                                <li>6</li>
-                            </a>
-                            <a href="#">
-                                <li> > </li>
-                            </a>
-                        </ul>
+                <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
+                    <div class="col-sm-2" style="background-color:#42F26B">
+                        <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
                     </div>
+                </th:block>
+                <div class="col-sm-1" style="background-color:#D5F9F6">
+                    <button type="button" id="rightMoveDecade">
+                        <span> > </span>
+                    </button>
                 </div>
             </div>
-            <div id="grid-container" class="container">
-                <div class="container">
-                    <div class="row">
-                      <div class="col">
-                        1 of 2
-                      </div>
-                      <div class="col">
-                        2 of 2
-                      </div>
+            <div id="job-rows">
+                <th:block th:each="jobNum : ${#numbers.sequence(1, 100)}">
+                    <div th:id="'job-row-' + ${jobNum}" class="row" style="height: 10vh;background-color: #3355dd">
+                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                        <th:block th:each="job: ${#numbers.sequence(1, 5)}">
+                            <div class="col-sm-2" style="background-color:#bbbbbb">
+                                <span>Job #</span><span th:text="${2000 + (job -1) * 10}"></span><span>s</span>
+                            </div>
+                        </th:block>
+                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
                     </div>
-                    <div class="row">
-                      <div class="col">
-                        1 of 3
-                      </div>
-                      <div class="col">
-                        2 of 3
-                      </div>
-                      <div class="col">
-                        3 of 3
-                      </div>
-                    </div>
-                  </div>
+                </th:block>
             </div>
-        </div>
-
+            </div>
         <script>
             $(document).ready(function () {
                 $('#sidebarCollapse').on('click', function () {
@@ -321,4 +269,18 @@
                 });
             });
         </script>
+        <script>
+                var dhh = $("#decade-navigator-row").height();
+                console.log("dhh = " + dhh);
+                $("#desire-header").height(dhh);
+                console.log("desire-header: " + $("#desire-header").height());
+            </script>
+        <script>
+            for (var i = 0; i < 100; i++)
+            {
+                var jobRowHeight = $("#job-row-" + (i + 1)).height();
+                $("#desire-row-" + (i + 1)).height(jobRowHeight);
+            }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
