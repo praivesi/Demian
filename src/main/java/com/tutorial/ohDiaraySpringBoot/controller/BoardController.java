@@ -71,9 +71,6 @@ public class BoardController {
 
        String username = authentication.getName();
 
-        // [210205 hsoh] Tutorial Link https://www.youtube.com/watch?v=wM7P-6_CHFM&list=PLPtc9qD1979DG675XufGs0-gBeb2mrona&index=10
-        // 10:20 까지 봤음
-
         boardService.save(username, board);
 //       boardRepository.save(board);
 

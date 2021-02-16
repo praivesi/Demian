@@ -249,12 +249,12 @@
                 </div>
             </div>
             <div id="job-rows">
-                <th:block th:each="jobNum : ${#numbers.sequence(1, 100)}">
-                    <div th:id="'job-row-' + ${jobNum}" class="row" style="height: 10vh;background-color: #3355dd">
+                <th:block th:each="desire : ${desires}">
+                    <div th:id="'job-row-' + ${desire.title}" class="row" style="height: 10vh;background-color: #3355dd">
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                        <th:block th:each="job: ${#numbers.sequence(1, 5)}">
+                        <th:block th:each="job: ${desire.jobs}">
                             <div class="col-sm-2" style="background-color:#bbbbbb">
-                                <span>Job #</span><span th:text="${2000 + (job -1) * 10}"></span><span>s</span>
+                                <span th:text="${job.title}"></span>
                             </div>
                         </th:block>
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
@@ -276,11 +276,26 @@
                 console.log("desire-header: " + $("#desire-header").height());
             </script>
         <script>
-            for (var i = 0; i < 100; i++)
+            var desires = $("#desires");
+            var desiresVal = $("desires").val();
+            console.log("desires => " + desires);
+            console.log("desiresVal => " + desiresVal);
+
+            console.log("desires.length: " + desires.length);
+
+            for(var i = 0; i < desires.length; i++)
             {
-                var jobRowHeight = $("#job-row-" + (i + 1)).height();
-                $("#desire-row-" + (i + 1)).height(jobRowHeight);
+                console.log("desire #" + i + ": " + desires[i].title);
+
+                var jobRowHeight = $('#job-row-' + desires[i].title);
+                $('#desire-row-' + (i + 1)).height(jobRowHeight);
             }
+
+            // for (var i = 0; i < 100; i++)
+            // {
+            //     var jobRowHeight = $("#job-row-" + (i + 1)).height();
+            //     $("#desire-row-" + (i + 1)).height(jobRowHeight);
+            // }
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
