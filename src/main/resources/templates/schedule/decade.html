@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <style>
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
@@ -210,92 +210,107 @@
             border-radius: 100%;
             color: #fff;
         }
+
+
+
+
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <div class="wrapper">
-        <nav id="sidebar">
-            <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
-                <span>Desire</span>
+<div class="wrapper">
+    <nav id="sidebar">
+        <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
+            <span>Desire</span>
+        </div>
+        <th:block th:each="desire : ${desires}">
+            <div th:id="'desire-row-' + ${desire.title}" style="border: 1px solid black">
+                <span>Desire #</span><span th:text="${desire.title}"></span>
             </div>
-                <th:block th:each="desireNum: ${#numbers.sequence(1, 100)}">
-                    <div th:id="'desire-row-' + ${desireNum}" style="border: 1px solid black">
-                        <span>Desire #</span><span th:text="${desireNum}"></span>
-                    </div>
-                </th:block>
-        </nav>
-        <div id="schedule-content" class="container">
-            <div id="decade-navigator-row" class="row" style="height: 10vh">
-                <div class="col-sm-1" style="background-color:#BBF9F6">
+        </th:block>
+    </nav>
+    <div id="schedule-content" class="container">
+        <div id="decade-navigator-row" class="row" style="height: 10vh">
+            <div class="col-sm-1" style="background-color:#BBF9F6">
                 <button type="button" id="sidebarCollapse">
                     <span> T
                     </span>
                 </button>
-                    <button type="button" id="leftMoveDecade">
-                        <span> < </span>
-                    </button>
+                <button type="button" id="leftMoveDecade">
+                    <span> < </span>
+                </button>
+            </div>
+            <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
+                <div class="col-sm-2" style="background-color:#42F26B">
+                    <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
                 </div>
-                <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
-                    <div class="col-sm-2" style="background-color:#42F26B">
-                        <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
-                    </div>
-                </th:block>
-                <div class="col-sm-1" style="background-color:#D5F9F6">
-                    <button type="button" id="rightMoveDecade">
-                        <span> > </span>
-                    </button>
+            </th:block>
+            <div class="col-sm-1" style="background-color:#D5F9F6">
+                <button type="button" id="rightMoveDecade">
+                    <span> > </span>
+                </button>
+            </div>
+        </div>
+        <div id="job-rows">
+            <th:block th:each="desire : ${desires}">
+                <div th:id="'job-row-' + ${desire.title}" class="row" style="height: 10vh;background-color: #3355dd">
+                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                    <th:block th:each="job: ${desire.jobs}">
+                        <div class="col-sm-2" style="background-color:#bbbbbb">
+                            <span th:text="${job.title}"></span>
+                        </div>
+                    </th:block>
+                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
                 </div>
-            </div>
-            <div id="job-rows">
-                <th:block th:each="desire : ${desires}">
-                    <div th:id="'job-row-' + ${desire.title}" class="row" style="height: 10vh;background-color: #3355dd">
-                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                        <th:block th:each="job: ${desire.jobs}">
-                            <div class="col-sm-2" style="background-color:#bbbbbb">
-                                <span th:text="${job.title}"></span>
-                            </div>
-                        </th:block>
-                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                    </div>
-                </th:block>
-            </div>
-            </div>
-        <script>
+            </th:block>
+        </div>
+    </div>
+
+    <script>
             $(document).ready(function () {
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
             });
-        </script>
-        <script>
+
+    </script>
+    <script>
                 var dhh = $("#decade-navigator-row").height();
                 console.log("dhh = " + dhh);
                 $("#desire-header").height(dhh);
                 console.log("desire-header: " + $("#desire-header").height());
-            </script>
-        <script>
-            var desires = $("#desires");
-            var desiresVal = $("desires").val();
-            console.log("desires => " + desires);
-            console.log("desiresVal => " + desiresVal);
 
-            console.log("desires.length: " + desires.length);
+
+
+
+
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</div>
+</body>
+<script th:inline="javascript">
+            var desires = [[${desires}]];
+            console.log("desires => " + desires);
 
             for(var i = 0; i < desires.length; i++)
             {
                 console.log("desire #" + i + ": " + desires[i].title);
 
-                var jobRowHeight = $('#job-row-' + desires[i].title);
-                $('#desire-row-' + (i + 1)).height(jobRowHeight);
+                var jobRowHeight = $("#job-row-" + desires[i].title).height();
+
+                console.log("jobRowHeight: " + jobRowHeight);
+
+                $("#desire-row-" + desires[i].title).height(jobRowHeight);
+
+                console.log("#desire-row-" + desires[i].title + " height: " +
+                    $('#desire-row-' + desires[i].title).height());
             }
 
-            // for (var i = 0; i < 100; i++)
-            // {
-            //     var jobRowHeight = $("#job-row-" + (i + 1)).height();
-            //     $("#desire-row-" + (i + 1)).height(jobRowHeight);
-            // }
-        </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</body>
+
+
+
+</script>

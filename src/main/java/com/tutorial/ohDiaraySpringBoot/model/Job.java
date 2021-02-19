@@ -29,6 +29,7 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name = "desire_id")
+    @JsonIgnore
     private Desire desire;
 
     public enum JOB_TYPE {
