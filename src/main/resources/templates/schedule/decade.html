@@ -1,316 +1,62 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <style>
-        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #fafafa;
-        }
-
-        p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            font-weight: 300;
-            line-height: 1.7em;
-            color: #999;
-        }
-
-        a,
-        a:hover,
-        a:focus {
-            color: inherit;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .wrapper {
-            display: flex;
-            width: 100%;
-            align-items: stretch;
-        }
-
-        .container {
-            width:100%;
-        }
-
-        .row {
-            border: 1px solid gray;
-        }
-
-        .col-sm-1 {
-            border: 1px solid gray;
-            height: 100%;
-        }
-
-        .col-sm-2 {
-            border: 1px solid gray;
-            height: 100%;
-        }
-
-        .content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-        }
-
-        #content-wrapper {
-            width: 100%;
-            height: 100%;
-            background: gray;
-        }
-
-        #sidebarCollapse {
-            height: 50%;
-            background-color: green;
-        }
-
-        #decade-toggle-btn {
-            width: 5%;
-            height: 100px;
-            display: flex;
-            margin: auto;
-            background-color: purple;
-        }
-
-        /* #decade-navigator {
-            width: 95%;
-            height: 100px;
-            background-color: yellow;
-        } */
-
-        #grid-container {
-            height: 500px;
-            background-color: skyblue;
-        }
-
-        /* .container-fluid {
-        width:10%;
-        height: 100px;
-        background-color: purple;
-        vertical-align: middle;
-        position: relative;
-    } */
-
-        .vertical-center {
-            margin: 0;
-            position: relative;
-            top: 50%;
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-        }
-
-        #sidebar {
-            background: #7386D5;
-            color: #fff;
-            transition: all 0.3s;
-            min-width: 250px;
-            max-width: 250px;
-            min-height: 100vh;
-        }
-
-        #sidebar .sidebar-header {
-            padding: 0;
-            background: #6d7fcc;
-        }
-
-        #sidebar ul.components {
-            padding: 0;
-            border-bottom: 1px solid #47748b;
-        }
-
-        #sidebar ul p {
-            color: #fff;
-            padding: 0;
-        }
-
-        #sidebar ul li a {
-            padding: 0;
-            font-size: 1.1em;
-            display: block;
-        }
-
-        #sidebar ul li a:hover {
-            color: #7386D5;
-            background: #fff;
-        }
-
-        #sidebar ul li.active>a,
-        a[aria-expanded="true"] {
-            color: #fff;
-            background: #6d7fcc;
-        }
-
-        ul ul a {
-            font-size: 0.9em !important;
-            padding-left: 30px !important;
-            background: #6d7fcc;
-        }
-
-        #sidebar.active {
-            margin-left: -250px;
-        }
-
-        a[data-toggle="collapse"] {
-            position: relative;
-        }
-
-
-        .dropdown-toggle::after {
-            display: block;
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-        }
-
-        @media(max-width: 768px) {
-            #sidebar {
-                margin-left: -250px;
-            }
-
-            #sidebar.active {
-                margin-left: 0;
-            }
-        }
-
-        /* Pagination */
-        .pagination {
-            padding: 30px 0;
-        }
-
-        .pagination ul {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .pagination a {
-            display: inline-block;
-            padding: 10px 18px;
-            color: #222;
-        }
-
-        /* ONE */
-
-        .p1 a {
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            padding: 0;
-            text-align: center;
-        }
-
-        .p1 a.is-active {
-            background-color: #2ecc71;
-            border-radius: 100%;
-            color: #fff;
-        }
-
-
-
-
-
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>
 </head>
-
 <body>
-<div class="wrapper">
-    <nav id="sidebar">
-        <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
-            <span>Desire</span>
-        </div>
-        <th:block th:each="desire : ${desires}">
-            <div th:id="'desire-row-' + ${desire.title}" style="border: 1px solid black">
-                <span>Desire #</span><span th:text="${desire.title}"></span>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
+                <span>Desire</span>
             </div>
-        </th:block>
-    </nav>
-    <div id="schedule-content" class="container">
-        <div id="decade-navigator-row" class="row" style="height: 10vh">
-            <div class="col-sm-1" style="background-color:#BBF9F6">
-                <button type="button" id="sidebarCollapse">
-                    <span> T
-                    </span>
-                </button>
-                <button type="button" id="leftMoveDecade">
-                    <span> < </span>
-                </button>
-            </div>
-            <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
-                <div class="col-sm-2" style="background-color:#42F26B">
-                    <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
-                </div>
-            </th:block>
-            <div class="col-sm-1" style="background-color:#D5F9F6">
-                <button type="button" id="rightMoveDecade">
-                    <span> > </span>
-                </button>
-            </div>
-        </div>
-        <div id="job-rows">
             <th:block th:each="desire : ${desires}">
-                <div th:id="'job-row-' + ${desire.title}" class="row" style="height: 10vh;background-color: #3355dd">
-                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                    <th:block th:each="job: ${desire.jobs}">
-                        <div class="col-sm-2" style="background-color:#bbbbbb">
-                            <span th:text="${job.title}"></span>
-                        </div>
-                    </th:block>
-                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                <div th:id="'desire-row-' + ${desire.id}" style="border: 1px solid black">
+                    <span>Desire named </span><span th:text="${desire.title}"></span>
                 </div>
             </th:block>
+        </nav>
+        <div id="schedule-content" class="container">
+            <div id="decade-navigator-row" class="row" style="height: 10vh">
+                <div class="col-sm-1" style="background-color:#BBF9F6">
+                    <button type="button" id="sidebarCollapse">
+                        <span> T
+                        </span>
+                    </button>
+                    <button type="button" id="leftMoveDecade">
+                        <span>
+                            < </span>
+                    </button>
+                </div>
+                <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
+                    <div class="col-sm-2" style="background-color:#42F26B">
+                        <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
+                    </div>
+                </th:block>
+                <div class="col-sm-1" style="background-color:#D5F9F6">
+                    <button type="button" id="rightMoveDecade">
+                        <span> > </span>
+                    </button>
+                </div>
+            </div>
+            <div id="job-rows">
+                <th:block th:each="desire : ${desires}">
+                    <div th:id="'job-row-' + ${desire.id}" class="row" style="height: 10vh;background-color: #3355dd">
+                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                        <th:block th:each="job: ${desire.jobs}">
+                            <div class="col-sm-2" style="background-color:#bbbbbb">
+                                <span th:text="${job.title}"></span>
+                            </div>
+                        </th:block>
+                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                    </div>
+                </th:block>
+            </div>
         </div>
     </div>
-
-    <script>
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
-            });
-
-    </script>
-    <script>
-                var dhh = $("#decade-navigator-row").height();
-                console.log("dhh = " + dhh);
-                $("#desire-header").height(dhh);
-                console.log("desire-header: " + $("#desire-header").height());
-
-
-
-
-
-    </script>
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
-            var desires = [[${desires}]];
-            console.log("desires => " + desires);
-
-            for(var i = 0; i < desires.length; i++)
-            {
-                console.log("desire #" + i + ": " + desires[i].title);
-
-                var jobRowHeight = $("#job-row-" + desires[i].title).height();
-
-                console.log("jobRowHeight: " + jobRowHeight);
-
-                $("#desire-row-" + desires[i].title).height(jobRowHeight);
-
-                console.log("#desire-row-" + desires[i].title + " height: " +
-                    $('#desire-row-' + desires[i].title).height());
-            }
-
-
-
-
+    var desires = [[${desires}]]
 </script>
