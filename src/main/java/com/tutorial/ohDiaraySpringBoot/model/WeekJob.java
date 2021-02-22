@@ -11,23 +11,23 @@ import java.util.List;
 
 @Entity
 @Data
-public class Desire {
+public class WeekJob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     private String title;
+
     private String content;
-    private Long sortNum;
     private Timestamp from;
     private Timestamp to;
 
-    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<DecadeJob> decadeJobs = new ArrayList<>();
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "month_job_id")
     @JsonIgnore
-    private User user;
+    private MonthJob monthJob;
+
+    @OneToMany(mappedBy = "weekJob", fetch = FetchType.LAZY)
+    private List<DayJob> dayJobs = new ArrayList<>();
 }

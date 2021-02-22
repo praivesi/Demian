@@ -6,15 +6,15 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
-public class Job {
+public class DecadeJob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private JOB_TYPE jobType;
 
     @NotNull
     private String title;
@@ -23,23 +23,11 @@ public class Job {
     private Timestamp from;
     private Timestamp to;
 
-    @OneToOne
-    @JoinColumn(name = "parent_job_id")
-    private Job parentJob;
-
     @ManyToOne
     @JoinColumn(name = "desire_id")
     @JsonIgnore
     private Desire desire;
 
-    public enum JOB_TYPE {
-        DECADE,
-        YEAR,
-        MONTH,
-        WEEK,
-        DAY
-    }
+    @OneToMany(mappedBy = "decadeJob", fetch = FetchType.LAZY)
+    private List<YearJob> yearJobs = new ArrayList<>();
 }
-
-
-

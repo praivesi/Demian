@@ -30,4 +30,24 @@ public class ScheduleController {
 
         return "schedule/decade";
     }
+
+    @GetMapping("/year")
+    public String year(Model model){
+        return "schedule/year";
+    }
+
+    @GetMapping("/month")
+    public String month(Model model){
+        return "schedule/month";
+    }
+
+    @GetMapping("/week")
+    public String week(Model model){
+        return "schedule/week";
+    }
+
+    @GetMapping("/day")
+    public String day(Model model) {
+        return "schedule/day";
+    }
 }
