@@ -1,8 +1,8 @@
 window.onload = function() {
-    $("#desire-header").height($("#decade-navigator-row").height());
+    $("#left-nav-header").height($("#time-navigator-row").height());
 
-    for (var i = 0; i < desires.length; i++) {
-        $("#desire-row-" + desires[i].id).height($("#job-row-" + desires[i].id).height());
+    for (var i = 0; i < mainObjects.length; i++) {
+        $("#left-nav-row-" + mainObjects[i].id).height($("#content-row-" + mainObjects[i].id).height());
     }
 }
 

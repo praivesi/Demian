@@ -24,7 +24,7 @@ public class DayJob {
     private Timestamp to;
 
     @ManyToOne
-    @JoinColumn(name = "day_job_id")
+    @JoinColumn(name = "week_job_id")
     @JsonIgnore
-    private DayJob dayJob;
+    private WeekJob weekJob;
 }

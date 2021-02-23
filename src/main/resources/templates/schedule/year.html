@@ -7,17 +7,17 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar">
-            <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
-                <span>Desire</span>
+            <div id="left-nav-header" class="sidbar-header" style="background-color: #FF1111">
+                <span>Decade</span>
             </div>
-            <th:block th:each="desire : ${desires}">
-                <div th:id="'desire-row-' + ${desire.id}" style="border: 1px solid black">
-                    <span>Desire named </span><span th:text="${desire.title}"></span>
+            <th:block th:each="decadeJob : ${decadeJobs}">
+                <div th:id="'left-nav-row-' + ${decadeJob.id}" style="border: 1px solid black">
+                    <span>Decade named </span><span th:text="${decadeJob.title}"></span>
                 </div>
             </th:block>
         </nav>
         <div id="schedule-content" class="container">
-            <div id="decade-navigator-row" class="row" style="height: 10vh">
+            <div id="time-navigator-row" class="row" style="height: 10vh">
                 <div class="col-sm-1" style="background-color:#BBF9F6">
                     <button type="button" id="sidebarCollapse">
                         <span> T
@@ -40,12 +40,12 @@
                 </div>
             </div>
             <div id="job-rows">
-                <th:block th:each="desire : ${desires}">
-                    <div th:id="'job-row-' + ${desire.id}" class="row" style="height: 10vh;background-color: #3355dd">
+                <th:block th:each="decadeJob : ${decadeJobs}">
+                    <div th:id="'content-row-' + ${decadeJob.id}" class="row" style="height: 10vh;background-color: #3355dd">
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                        <th:block th:each="job: ${desire.jobs}">
+                        <th:block th:each="yearJob: ${decadeJob.yearJobs}">
                             <div class="col-sm-2" style="background-color:#bbbbbb">
-                                <span th:text="${job.title}"></span>
+                                <span th:text="${yearJob.title}"></span>
                             </div>
                         </th:block>
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
@@ -58,5 +58,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
-    var desires = [[${desires}]]
+    var mainObjects = [[${decadeJobs}]]
 </script>

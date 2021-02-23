@@ -7,17 +7,17 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar">
-            <div id="desire-header" class="sidbar-header" style="background-color: #FF1111">
+            <div id="left-nav-header" class="sidbar-header" style="background-color: #FF1111">
                 <span>Desire</span>
             </div>
             <th:block th:each="desire : ${desires}">
-                <div th:id="'desire-row-' + ${desire.id}" style="border: 1px solid black">
+                <div th:id="'left-nav-row-' + ${desire.id}" style="border: 1px solid black">
                     <span>Desire named </span><span th:text="${desire.title}"></span>
                 </div>
             </th:block>
         </nav>
         <div id="schedule-content" class="container">
-            <div id="decade-navigator-row" class="row" style="height: 10vh">
+            <div id="time-navigator-row" class="row" style="height: 10vh">
                 <div class="col-sm-1" style="background-color:#BBF9F6">
                     <button type="button" id="sidebarCollapse">
                         <span> T
@@ -28,9 +28,9 @@
                             < </span>
                     </button>
                 </div>
-                <th:block th:each="decade: ${#numbers.sequence(1, 5)}">
+                <th:block th:each="time_sequence : ${#numbers.sequence(1, 5)}">
                     <div class="col-sm-2" style="background-color:#42F26B">
-                        <span th:text="${2000 + (decade - 1) * 10}"></span><span>s</span>
+                        <span th:text="${2000 + (time_sequence - 1) * 10}"></span><span>s</span>
                     </div>
                 </th:block>
                 <div class="col-sm-1" style="background-color:#D5F9F6">
@@ -41,9 +41,9 @@
             </div>
             <div id="job-rows">
                 <th:block th:each="desire : ${desires}">
-                    <div th:id="'job-row-' + ${desire.id}" class="row" style="height: 10vh;background-color: #3355dd">
+                    <div th:id="'content-row-' + ${desire.id}" class="row" style="height: 10vh;background-color: #3355dd">
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                        <th:block th:each="job: ${desire.jobs}">
+                        <th:block th:each="job: ${desire.decadeJobs}">
                             <div class="col-sm-2" style="background-color:#bbbbbb">
                                 <span th:text="${job.title}"></span>
                             </div>
@@ -58,5 +58,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
-    var desires = [[${desires}]]
+    var mainObjects = [[${desires}]]
 </script>
