@@ -39,6 +39,11 @@
     background-color: green;
 }
 
+#controlPanelCollapse {
+    height: 50%;
+    background-color: green;
+}
+
 #grid-container {
     height: 500px;
     background-color: skyblue;
@@ -61,8 +66,23 @@
     min-height: 100vh;
 }
 
+#control-panel {
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
 #sidebar.active {
     margin-left: -250px;
+}
+
+#control-panel.active {
+    //margin-right: -250px;
+    min-width: 0px;
+    max-width: 0px;
 }
 
 a[data-toggle="collapse"] {
@@ -75,5 +95,13 @@ a[data-toggle="collapse"] {
     }
     #sidebar.active {
         margin-left: 0;
+    }
+
+    #control-panel {
+        margin-right: 0;
+    }
+
+    #control-panel.active {
+        margin-right: 250px;
     }
 }

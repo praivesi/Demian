@@ -10,4 +10,8 @@ $(document).ready(function() {
     $('#sidebarCollapse').on('click', function() {
         $('#sidebar').toggleClass('active');
     });
+
+        $('#controlPanelCollapse').on('click', function() {
+            $('#control-panel').toggleClass('active');
+        });
 });
