@@ -11,7 +11,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="wrapper">
+    <li class="wrapper">
         <nav id="sidebar">
             <div id="left-nav-header" class="sidbar-header" style="background-color: #FF1111">
                 <span>Desire</span>
@@ -68,18 +68,38 @@
                 <span>CONTROL PANEL</span>
             </div>
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="parentTypeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     PARENT TYPE
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">DESIRE</a>
-                    <a class="dropdown-item" href="#">DECADE</a>
-                    <a class="dropdown-item" href="#">YEAR</a>
-                    <a class="dropdown-item" href="#">MONTH</a>
-                    <a class="dropdown-item" href="#">WEEK</a>
-                    <a class="dropdown-item" href="#">NONE</a>
+                <ul class="dropdown-menu control-panel-dropdown-menu" aria-labelledby="parentTypeDropDownBtn">
+                    <li><a class="dropdown-item" href="#">DESIRE</a></li>
+                    <li><a class="dropdown-item" href="#">DECADE</a></li>
+                    <li><a class="dropdown-item" href="#">YEAR</a></li>
+                    <li><a class="dropdown-item" href="#">MONTH</a></li>
+                    <li><a class="dropdown-item" href="#">WEEK</a></li>
+                    <li><a class="dropdown-item" href="#">NONE</a></li>
                 </ul>
             </div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="typeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TYPE
+                </button>
+                <ul class="dropdown-menu control-panel-dropdown-menu" aria-labelledby="typeDropDownBtn">
+                    <li><a class="dropdown-item" href="#">DESIRE</a></li>
+                    <li><a class="dropdown-item" href="#">DECADE</a></li>
+                    <li><a class="dropdown-item" href="#">YEAR</a></li>
+                    <li><a class="dropdown-item" href="#">MONTH</a></li>
+                    <li><a class="dropdown-item" href="#">WEEK</a></li>
+                    <li><a class="dropdown-item" href="#">DAY</a></li>
+                </ul>
+            </div>
+            <label>TITLE: </label>
+            <input type="text" class="form-control" id="contentTitle" placeholder="Enter Title">
+            <label>CONTENT</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <button>Edit</button>
+            <button>Remove</button>
+            <button>Add</button>
         </nav>
     </div>
 </body>

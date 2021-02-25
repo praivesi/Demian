@@ -49,6 +49,14 @@
     background-color: skyblue;
 }
 
+.control-panel-button {
+    width: 250px;
+}
+
+.control-panel-dropdown-menu {
+    width: 250px;
+}
+
 .vertical-center {
     margin: 0;
     position: relative;
