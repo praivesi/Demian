@@ -20,6 +20,13 @@ $('.decades-of-desire-row').on('click', function(){
     clickedDesireId = $(this).attr('id').substring(12);
     clickedDesire = mainObjects[clickedDesireId - 1];
     clickedDecadeJob = mainObjects[clickedDesireId - 1].decadeJobs[clickedDecadeJobId - 1];
+
+    $('#control-panel-job-id').val(clickedDecadeJob.id);
+    $('#control-panel-job-title').val(clickedDecadeJob.title);
+    $('#control-panel-job-content').text(clickedDecadeJob.content);
+
+    console.log(clickedDesire);
+    console.log(clickedDecadeJob);
 })
 
 $('.decade-row').on('click', function(){

@@ -4,6 +4,10 @@
     align-items: stretch;
 }
 
+input, select, textarea{
+    color: #000000;
+}
+
 .container {
     width: 100%;
 }

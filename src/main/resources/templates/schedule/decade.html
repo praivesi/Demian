@@ -69,7 +69,8 @@
             <div id="right-nav-header" class="sidbar-header" style="background-color: #FF1111">
                 <span>CONTROL PANEL</span>
             </div>
-                <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDesire}" method="post" >
+                <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDecadeJob}" method="post" >
+                    <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="parentTypeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             PARENT TYPE
@@ -96,10 +97,10 @@
                             <li><a class="dropdown-item" href="#">DAY</a></li>
                         </ul>
                     </div>
-                    <label for="title">TITLE: </label>
-                    <input type="text" id="title" placeholder="Enter Title">
-                    <label for="content">CONTENT</label>
-                    <textarea class="form-control" id="content"></textarea>
+                    <label for="control-panel-job-title">TITLE: </label>
+                    <input type="text" id="control-panel-job-title" th:field="*{title}"/>
+                    <label for="control-panel-job-content">CONTENT</label>
+                    <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>
                     <button>Edit</button>
                     <button>Remove</button>
                     <button>Add</button>
@@ -112,8 +113,8 @@
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
      var mainObjects = [[${desires}]]
-     var clickedDesire = {};
-     var clickedDecadeJob = {};
+     var clickedDesire = [[${clickedDesire}]];
+     var clickedDecadeJob = [[${clickedDecadeJob}]];
      var clickedDesireId = -1;
      var clickedDecadeJobId = -1;
         // var mainObjects = [[${desires}]]

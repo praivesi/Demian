@@ -37,6 +37,8 @@ public class ScheduleController {
     public String decade(Model model) {
         List<Desire> desires = desireRepository.findAll();
         model.addAttribute("desires", desires);
+        model.addAttribute("clickedDesire", new Desire());
+        model.addAttribute("clickedDecadeJob", new DecadeJob());
 
         return "schedule/decade";
     }
@@ -84,7 +86,7 @@ public class ScheduleController {
            return "schedule/decade";
        }
 
-       String username = authentication.getName();
+//       String username = authentication.getName();
 
         // boardService.save(username, board);
 
