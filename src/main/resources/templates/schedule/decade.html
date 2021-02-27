@@ -52,11 +52,12 @@
             </div>
             <div id="job-rows">
                 <th:block th:each="desire : ${desires}">
-                    <div th:id="'content-row-' + ${desire.id}" class="row" style="height: 10vh;background-color: #3355dd">
+                    <div th:id="'content-row-' + ${desire.id}" class="row decades-of-desire-row" style="height: 10vh;background-color: #3355dd">
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
                         <th:block th:each="job: ${desire.decadeJobs}">
-                            <div class="col-sm-2" style="background-color:#bbbbbb">
+                            <div class="col-sm-2 decade-row"  th:id="'job-id-' + ${job.id}" style="background-color:#bbbbbb">
                                 <span th:text="${job.title}"></span>
+                                <script th:inline="javascript">$(".decade-row").data("job", [[${job}]]);</script>
                             </div>
                         </th:block>
                         <div class="col-sm-1" style="background-color:#aaaaaa"></div>
@@ -68,7 +69,7 @@
             <div id="right-nav-header" class="sidbar-header" style="background-color: #FF1111">
                 <span>CONTROL PANEL</span>
             </div>
-                <form action="#" th:action="@{/schedule/decade}" th:object="${desire}" method="post" >
+                <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDesire}" method="post" >
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="parentTypeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             PARENT TYPE
@@ -96,9 +97,9 @@
                         </ul>
                     </div>
                     <label for="title">TITLE: </label>
-                    <input type="text" id="title" th:field="*{title}" placeholder="Enter Title">
+                    <input type="text" id="title" placeholder="Enter Title">
                     <label for="content">CONTENT</label>
-                    <textarea class="form-control" id="content" th:field="*{content}"></textarea>
+                    <textarea class="form-control" id="content"></textarea>
                     <button>Edit</button>
                     <button>Remove</button>
                     <button>Add</button>
@@ -111,5 +112,13 @@
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
      var mainObjects = [[${desires}]]
+     var clickedDesire = {};
+     var clickedDecadeJob = {};
+     var clickedDesireId = -1;
+     var clickedDecadeJobId = -1;
         // var mainObjects = [[${desires}]]
+        // var clickedDesire = {};
+        // var clickedDecadeJob = {};
+        // var clickedDesireId = -1;
+        // var clickedDecadeJobId = -1;
 </script>

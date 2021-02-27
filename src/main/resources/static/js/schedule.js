@@ -15,3 +15,13 @@ $(document).ready(function() {
             $('#control-panel').toggleClass('active');
         });
 });
+
+$('.decades-of-desire-row').on('click', function(){
+    clickedDesireId = $(this).attr('id').substring(12);
+    clickedDesire = mainObjects[clickedDesireId - 1];
+    clickedDecadeJob = mainObjects[clickedDesireId - 1].decadeJobs[clickedDecadeJobId - 1];
+})
+
+$('.decade-row').on('click', function(){
+    clickedDecadeJobId = $(this).attr('id').substring(7);
+})
