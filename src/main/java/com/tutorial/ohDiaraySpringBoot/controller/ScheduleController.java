@@ -2,6 +2,8 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.tutorial.ohDiaraySpringBoot.model.*;
 import com.tutorial.ohDiaraySpringBoot.repository.*;
+import com.tutorial.ohDiaraySpringBoot.service.DecadeJobService;
+import com.tutorial.ohDiaraySpringBoot.service.DesireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,11 @@ public class ScheduleController {
     private WeekJobRepository weekJobRepository;
     @Autowired
     private DayJobRepository dayJobRepository;
+
+    @Autowired
+    private DesireService desireService;
+    @Autowired
+    private DecadeJobService decadeJobService;
 
 
     @GetMapping("/decade")
@@ -79,7 +86,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/decade")
-    public String postForm(@Valid Desire desire, BindingResult bindingResult, Authentication authentication){
+    public String postForm(@Valid DecadeJob decadeJob, BindingResult bindingResult, Authentication authentication){
         // boardValidator.validate(board, bindingResult);
 
        if(bindingResult.hasErrors()) {
@@ -88,9 +95,23 @@ public class ScheduleController {
 
 //       String username = authentication.getName();
 
-        // boardService.save(username, board);
-
+//         boardService.save(username, board);
+        decadeJobService.save("hsoh", decadeJob);
 
        return "redirect:/schedule/decade";
+    }
+
+    @PostMapping("/desire")
+    public  String postForm(@Valid Desire desire, BindingResult bindingResult, Authentication authentication){
+        if(bindingResult.hasErrors()){
+            return "schedule/decade";
+        }
+
+//        String username = authentication.getName();
+
+//        desireService.save(username, desire);
+        desireService.save("hsoh", desire);
+
+        return "redirect:/schedule/decade";
     }
 }

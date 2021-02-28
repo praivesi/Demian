@@ -78,12 +78,21 @@ input, select, textarea{
     min-height: 100vh;
 }
 
-#control-panel {
+#decade-job-control-panel {
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 0px;
+    max-width: 0px;
+    min-height: 100vh;
+}
+
+#desire-control-panel {
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+    min-width: 0px;
+    max-width: 0px;
     min-height: 100vh;
 }
 
@@ -91,29 +100,18 @@ input, select, textarea{
     margin-left: -250px;
 }
 
-#control-panel.active {
+#decade-job-control-panel.active {
     //margin-right: -250px;
-    min-width: 0px;
-    max-width: 0px;
+    min-width: 250px;
+    max-width: 250px;
+}
+
+#desire-control-panel.active {
+    //margin-right: -250px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 a[data-toggle="collapse"] {
     position: relative;
-}
-
-@media(max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #control-panel {
-        margin-right: 0;
-    }
-
-    #control-panel.active {
-        margin-right: 250px;
-    }
 }

@@ -2,6 +2,7 @@ package com.tutorial.ohDiaraySpringBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,11 +18,17 @@ public class Desire {
     private Long id;
 
     @NotNull
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "content")
     private String content;
+    @Column(name = "sortNum")
     private Long sortNum;
-    private Timestamp from;
-    private Timestamp to;
+    @Column(name = "from_time")
+    private Timestamp fromTime;
+    @Column(name = "to_time")
+    private Timestamp toTime;
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
     private List<DecadeJob> decadeJobs = new ArrayList<>();

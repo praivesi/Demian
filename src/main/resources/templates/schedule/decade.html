@@ -2,113 +2,124 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <li class="wrapper">
-        <nav id="sidebar">
-            <div id="left-nav-header" class="sidbar-header" style="background-color: #FF1111">
-                <span>Desire</span>
+<li class="wrapper">
+    <nav id="sidebar">
+        <div id="left-nav-header" class="sidebar-header" style="background-color: #FF1111">
+            <span>Desire</span>
+        </div>
+        <th:block th:each="desire : ${desires}">
+            <div th:id="'left-nav-row-' + ${desire.id}" class="left-desire-row" style="border: 1px solid black">
+                <span>Desire named </span><span th:text="${desire.title}"></span>
             </div>
-            <th:block th:each="desire : ${desires}">
-                <div th:id="'left-nav-row-' + ${desire.id}" style="border: 1px solid black">
-                    <span>Desire named </span><span th:text="${desire.title}"></span>
-                </div>
-            </th:block>
-        </nav>
-        <div id="schedule-content" class="container">
-            <div id="time-navigator-row" class="row" style="height: 10vh">
-                <div class="col-sm-1" style="background-color:#BBF9F6">
-                    <button type="button" id="sidebarCollapse">
+        </th:block>
+    </nav>
+    <div id="schedule-content" class="container">
+        <div id="time-navigator-row" class="row" style="height: 10vh">
+            <div class="col-sm-1" style="background-color:#BBF9F6">
+                <button type="button" id="sidebarCollapse">
                         <span> S
                         </span>
-                    </button>
-                    <button type="button" id="leftMoveDecade">
+                </button>
+                <button type="button" id="leftMoveDecade">
                         <span>
                             < </span>
-                    </button>
+                </button>
+            </div>
+            <th:block th:each="time_sequence : ${#numbers.sequence(1, 5)}">
+                <div class="col-sm-2" style="background-color:#42F26B">
+                    <span th:text="${2000 + (time_sequence - 1) * 10}"></span><span>s</span>
                 </div>
-                <th:block th:each="time_sequence : ${#numbers.sequence(1, 5)}">
-                    <div class="col-sm-2" style="background-color:#42F26B">
-                        <span th:text="${2000 + (time_sequence - 1) * 10}"></span><span>s</span>
-                    </div>
-                </th:block>
-                <div class="col-sm-1" style="background-color:#D5F9F6">
-                    <button type="button" id="rightMoveDecade">
-                        <span> > </span>
-                        <button type="button" id="controlPanelCollapse">
+            </th:block>
+            <div class="col-sm-1" style="background-color:#D5F9F6">
+                <button type="button" id="rightMoveDecade">
+                    <span> > </span>
+                    <button type="button" id="controlPanelCollapse">
                         <span> C
                         </span>
-                        </button>
                     </button>
+                    <button type="button" id="desireControlPanelCollapse">
+                        <span> DC
+                        </span>
+                    </button>
+                </button>
+            </div>
+        </div>
+        <div id="job-rows">
+            <th:block th:each="desire : ${desires}">
+                <div th:id="'content-row-' + ${desire.id}" class="row decades-of-desire-row"
+                     style="height: 10vh;background-color: #3355dd">
+                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
+                    <th:block th:each="job: ${desire.decadeJobs}">
+                        <div class="col-sm-2 decade-row" th:id="'job-id-' + ${job.id}" style="background-color:#bbbbbb">
+                            <span th:text="${job.title}"></span>
+                            <script th:inline="javascript">$(".decade-row").data("job", [[${job}]]);</script>
+                        </div>
+                    </th:block>
+                    <div class="col-sm-1" style="background-color:#aaaaaa"></div>
                 </div>
-            </div>
-            <div id="job-rows">
-                <th:block th:each="desire : ${desires}">
-                    <div th:id="'content-row-' + ${desire.id}" class="row decades-of-desire-row" style="height: 10vh;background-color: #3355dd">
-                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                        <th:block th:each="job: ${desire.decadeJobs}">
-                            <div class="col-sm-2 decade-row"  th:id="'job-id-' + ${job.id}" style="background-color:#bbbbbb">
-                                <span th:text="${job.title}"></span>
-                                <script th:inline="javascript">$(".decade-row").data("job", [[${job}]]);</script>
-                            </div>
-                        </th:block>
-                        <div class="col-sm-1" style="background-color:#aaaaaa"></div>
-                    </div>
-                </th:block>
-            </div>
+            </th:block>
         </div>
-        <nav id="control-panel">
-            <div id="right-nav-header" class="sidbar-header" style="background-color: #FF1111">
-                <span>CONTROL PANEL</span>
-            </div>
-                <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDecadeJob}" method="post" >
-                    <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="parentTypeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            PARENT TYPE
-                        </button>
-                        <ul class="dropdown-menu control-panel-dropdown-menu" aria-labelledby="parentTypeDropDownBtn">
-                            <li><a class="dropdown-item" href="#">DESIRE</a></li>
-                            <li><a class="dropdown-item" href="#">DECADE</a></li>
-                            <li><a class="dropdown-item" href="#">YEAR</a></li>
-                            <li><a class="dropdown-item" href="#">MONTH</a></li>
-                            <li><a class="dropdown-item" href="#">WEEK</a></li>
-                            <li><a class="dropdown-item" href="#">NONE</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="typeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            TYPE
-                        </button>
-                        <ul class="dropdown-menu control-panel-dropdown-menu" aria-labelledby="typeDropDownBtn">
-                            <li><a class="dropdown-item" href="#">DESIRE</a></li>
-                            <li><a class="dropdown-item" href="#">DECADE</a></li>
-                            <li><a class="dropdown-item" href="#">YEAR</a></li>
-                            <li><a class="dropdown-item" href="#">MONTH</a></li>
-                            <li><a class="dropdown-item" href="#">WEEK</a></li>
-                            <li><a class="dropdown-item" href="#">DAY</a></li>
-                        </ul>
-                    </div>
-                    <label for="control-panel-job-title">TITLE: </label>
-                    <input type="text" id="control-panel-job-title" th:field="*{title}"/>
-                    <label for="control-panel-job-content">CONTENT</label>
-                    <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>
-                    <button>Edit</button>
-                    <button>Remove</button>
-                    <button>Add</button>
-                    <button type="submit" class="btn btn-primary">확인</button>
-                </form>
-        </nav>
+    </div>
+    <nav id="decade-job-control-panel">
+        <div id="right-nav-header" class="sidebar-header" style="background-color: #FF1111">
+            <span>CONTROL PANEL</span>
         </div>
-    </li>
+        <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDecadeJob}" method="post">
+            <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>
+            <div><label for="control-panel-job-title">PARENT TYPE: DESIRE</label></div>
+            <div><label for="control-panel-job-title">TYPE: DECADE JOB</label></div>
+            <div>
+                <label for="control-panel-job-title">TITLE: </label>
+                <input type="text" id="control-panel-job-title" th:field="*{title}"/>
+            </div>
+            <div>
+                <label for="control-panel-job-content">CONTENT</label>
+                <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>
+            </div>
+            <button>Edit</button>
+            <button>Remove</button>
+            <button>Add</button>
+            <button type="submit" class="btn btn-primary">확인</button>
+        </form>
+    </nav>
+    <nav id="desire-control-panel">
+        <div id="desire-right-nav-header" class="sidebar-header" style="background-color: #FF1111">
+            <span>CONTROL PANEL</span>
+        </div>
+        <form action="#" th:action="@{/schedule/desire}" th:object="${clickedDesire}" method="post">
+            <input type="hidden" th:field="*{id}" id="control-panel-desire-id"/>
+            <div><label for="control-panel-desire-title">TYPE: DESIRE</label></div>
+            <div>
+                <label for="control-panel-desire-title">TITLE: </label>
+                <input type="text" id="control-panel-desire-title" th:field="*{title}"/>
+            </div>
+            <div>
+                <label for="control-panel-desire-content">CONTENT</label>
+                <textarea class="form-control" id="control-panel-desire-content" th:field="*{content}"></textarea>
+            </div>
+            <button>Edit</button>
+            <button>Remove</button>
+            <button>Add</button>
+            <button type="submit" class="btn btn-primary">확인</button>
+        </form>
+    </nav>
+</li>
 </body>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
@@ -122,4 +133,5 @@
         // var clickedDecadeJob = {};
         // var clickedDesireId = -1;
         // var clickedDecadeJobId = -1;
+
 </script>
