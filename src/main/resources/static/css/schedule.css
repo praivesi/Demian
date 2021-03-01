@@ -96,6 +96,15 @@ input, select, textarea{
     min-height: 100vh;
 }
 
+#year-job-control-panel {
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+    min-width: 0px;
+    max-width: 0px;
+    min-height: 100vh;
+}
+
 #sidebar.active {
     margin-left: -250px;
 }
