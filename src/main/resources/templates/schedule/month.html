@@ -53,10 +53,57 @@
                 </th:block>
             </div>
         </div>
+        <nav id="month-job-in-year-view-control-panel">
+            <div id="right-nav-header" class="sidebar-header" style="background-color: #FF1111">
+                <span>YEAR CONTROL PANEL</span>
+            </div>
+            <form action="#" th:action="@{/schedule/month}" th:object="${clickedMonthJob}" method="post">
+                <input type="hidden" th:field="*{id}" id="control-panel-month-job-in-year-view-id"/>
+                <div><label>PARENT TYPE: YEAR</label></div>
+                <div><label>TYPE: MONTH JOB</label></div>
+                <div>
+                    <label for="control-panel-month-job-in-year-view-title">TITLE: </label>
+                    <input type="text" id="control-panel-month-job-in-year-view-title" th:field="*{title}"/>
+                </div>
+                <div>
+                    <label for="control-panel-month-job-in-year-view-content">CONTENT</label>
+                    <textarea class="form-control" id="control-panel-month-job-in-year-view-content" th:field="*{content}"></textarea>
+                </div>
+                <button>Edit</button>
+                <button>Remove</button>
+                <button>Add</button>
+                <button type="submit" class="btn btn-primary">확인</button>
+            </form>
+        </nav>
+        <nav id="year-job-in-year-view-control-panel">
+            <div id="year-right-nav-header" class="sidebar-header" style="background-color: #FF1111">
+                <span>YEAR CONTROL PANEL</span>
+            </div>
+            <form action="#" th:action="@{/schedule/year}" th:object="${clickedYearJob}" method="post">
+                <input type="hidden" th:field="*{id}" id="control-panel-year-job-in-year-view-id"/>
+                <div><label>TYPE: YEAR JOB</label></div>
+                <div>
+                    <label for="control-panel-year-job-in-year-view-title">TITLE: </label>
+                    <input type="text" id="control-panel-year-job-in-year-view-title" th:field="*{title}"/>
+                </div>
+                <div>
+                    <label for="control-panel-year-job-in-year-view-content">CONTENT</label>
+                    <textarea class="form-control" id="control-panel-year-job-in-year-view-content" th:field="*{content}"></textarea>
+                </div>
+                <button>Edit</button>
+                <button>Remove</button>
+                <button>Add</button>
+                <button type="submit" class="btn btn-primary">확인</button>
+            </form>
+        </nav>
     </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
     var mainObjects = [[${yearJobs}]]
+    var clickedYearJob = [[${clickedYearJob}]];
+     var clickedMonthJob = [[${clickedMonthJob}]];
+     var clickedYearJobId = -1;
+     var clickedMonthJobId = -1;
 </script>
