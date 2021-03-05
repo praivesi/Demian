@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/schedule")
@@ -42,10 +45,45 @@ public class ScheduleController {
 
     @GetMapping("/decade")
     public String decade(Model model) {
+        Map<Desire, List<DecadeJob>> scheduleMap = new HashMap<>();
+
+        List<String> timeTitles = new ArrayList<>();
+        timeTitles.add("2000s");
+        timeTitles.add("2010s");
+        timeTitles.add("2020s");
+        timeTitles.add("2030s");
+        timeTitles.add("2040s");
+
         List<Desire> desires = desireRepository.findAll();
-        model.addAttribute("desires", desires);
-        model.addAttribute("clickedDesire", new Desire());
-        model.addAttribute("clickedDecadeJob", new DecadeJob());
+
+        for (Desire desire : desires)
+        {
+            List<DecadeJob> orgDecadeJobs = desire.getDecadeJobs();
+
+            List<DecadeJob> sequencedDecadeJobs = new ArrayList<>();
+            for (int i = 0; i < timeTitles.size(); i++)
+            {
+                if(orgDecadeJobs.size() > i)
+                {
+                    sequencedDecadeJobs.add(orgDecadeJobs.get(i));
+                }
+                else
+                {
+//                    sequencedDecadeJobs.add(null);
+                    DecadeJob emptyDecadeJob = new DecadeJob();
+                    emptyDecadeJob.setTitle("DEFAULT");
+                    sequencedDecadeJobs.add(emptyDecadeJob);
+                }
+            }
+
+            scheduleMap.put(desire, sequencedDecadeJobs);
+        }
+
+        model.addAttribute("timeTitles", timeTitles);
+        model.addAttribute("scheduleMap", scheduleMap);
+//        model.addAttribute("desires", desires);
+//        model.addAttribute("clickedDesire", new Desire());
+//        model.addAttribute("clickedDecadeJob", new DecadeJob());
 
         return "schedule/decade";
     }

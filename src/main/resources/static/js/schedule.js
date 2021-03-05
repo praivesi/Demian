@@ -1,8 +1,15 @@
 window.onload = function() {
     $("#left-nav-header").height($("#time-navigator-row").height());
+//
+//    for (var i = 0; i < mainObjects.length; i++) {
+//        $("#left-nav-row-" + mainObjects[i].id).height($("#content-row-" + mainObjects[i].id).height());
+//    }
 
-    for (var i = 0; i < mainObjects.length; i++) {
-        $("#left-nav-row-" + mainObjects[i].id).height($("#content-row-" + mainObjects[i].id).height());
+    console.log("scheduleMap => " + scheduleMap);
+
+    for (var schedule in scheduleMap)
+    {
+        $("#left-nav-row-" + schedule.key.id).height($("#content-row-" + schedule.key.id).height());
     }
 }
 

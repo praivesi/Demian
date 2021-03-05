@@ -20,8 +20,8 @@ public class DecadeJob {
     private String title;
 
     private String content;
-    private Timestamp from;
-    private Timestamp to;
+    private Timestamp fromTime;
+    private Timestamp toTime;
 
     @ManyToOne
     @JoinColumn(name = "desire_id")

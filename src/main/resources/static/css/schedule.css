@@ -78,6 +78,12 @@ input, select, textarea{
     min-height: 100vh;
 }
 
+#buttonPanel {
+    position: absolute;
+    bottom: 0px;
+    background-color: #f23;
+}
+
 #decade-job-control-panel {
     background: #7386D5;
     color: #fff;
