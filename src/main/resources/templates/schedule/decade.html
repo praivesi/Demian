@@ -18,11 +18,14 @@
 </head>
 
 <body>
-<li class="wrapper">
+<div class="wrapper">
     <nav id="sidebar">
         <div id="left-nav-header" class="sidebar-header" style="background-color: #FF1111">
             <span>Desire</span>
         </div>
+        <th:block th:each="desire : ${desires}">
+            <div th:text="${desire.id}"></div>
+        </th:block>
         <th:block th:each="schedule : ${scheduleMap}">
             <div th:id="'left-nav-row-' + ${schedule.key.id}" class="left-desire-row" style="border: 1px solid black">
                 <span>Desire named </span><span th:text="${schedule.key.title}"></span>
@@ -130,23 +133,14 @@
 <!--            <button type="submit" class="btn btn-primary">확인</button>-->
 <!--        </form>-->
 <!--    </nav>-->
-</li>
+</div>
 </body>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
-    var scheduleMap = [[${scheduleMap}]]
+    var mainObjects = [[${desires}]];
+    var timeTitles = [[${timeTitles}]];
 
-     //var mainObjects = [[${desires}]]
-     //var clickedDesire = [[${clickedDesire}]];
-     //var clickedDecadeJob = [[${clickedDecadeJob}]];
-     //var clickedDesireId = -1;
-     //var clickedDecadeJobId = -1;
-
-
-        // var mainObjects = [[${desires}]]
-        // var clickedDesire = {};
-        // var clickedDecadeJob = {};
-        // var clickedDesireId = -1;
-        // var clickedDecadeJobId = -1;
+    var schedulesJson = [[${scheduleMapJson}]];
+    var schedules = JSON.parse([[${scheduleMapJson}]]);
 
 </script>

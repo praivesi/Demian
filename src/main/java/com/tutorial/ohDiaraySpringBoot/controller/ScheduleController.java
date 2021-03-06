@@ -1,5 +1,9 @@
 package com.tutorial.ohDiaraySpringBoot.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tutorial.ohDiaraySpringBoot.model.*;
 import com.tutorial.ohDiaraySpringBoot.repository.*;
 import com.tutorial.ohDiaraySpringBoot.service.DecadeJobService;
@@ -44,7 +48,7 @@ public class ScheduleController {
 
 
     @GetMapping("/decade")
-    public String decade(Model model) {
+    public String decade(Model model) throws JsonProcessingException {
         Map<Desire, List<DecadeJob>> scheduleMap = new HashMap<>();
 
         List<String> timeTitles = new ArrayList<>();
@@ -79,8 +83,46 @@ public class ScheduleController {
             scheduleMap.put(desire, sequencedDecadeJobs);
         }
 
+        Map<Desire, List<DecadeJob>> scheduleMapWithNoChilren = new HashMap<>();
+
+        for(Map.Entry<Desire, List<DecadeJob>> schedule : scheduleMap.entrySet())
+        {
+            List<DecadeJob> decadesWithNoChildren = new ArrayList<DecadeJob>();
+            for(DecadeJob decadeJob : schedule.getValue())
+            {
+                DecadeJob job = new DecadeJob();
+                job.setId(decadeJob.getId());
+                job.setTitle(decadeJob.getTitle());
+                job.setContent(decadeJob.getContent());
+                job.setFromTime(decadeJob.getFromTime());
+                job.setToTime(decadeJob.getToTime());
+                job.setDesire(null);
+                job.setYearJobs(null);
+
+                decadesWithNoChildren.add(job);
+            }
+
+            Desire desire = new Desire();
+            desire.setId(schedule.getKey().getId());
+            desire.setTitle(schedule.getKey().getTitle());
+            desire.setContent(schedule.getKey().getContent());
+            desire.setFromTime(schedule.getKey().getFromTime());
+            desire.setToTime(schedule.getKey().getToTime());
+            desire.setSortNum(schedule.getKey().getSortNum());
+            desire.setUser(null);
+            desire.setDecadeJobs(null);
+
+            scheduleMapWithNoChilren.put(desire, decadesWithNoChildren);
+        }
+
+        Gson gson = new Gson();
+        String scheduleMapJson = gson.toJson(scheduleMapWithNoChilren);
+
         model.addAttribute("timeTitles", timeTitles);
+        //model.addAttribute("scheduleMap", scheduleMap);
         model.addAttribute("scheduleMap", scheduleMap);
+        model.addAttribute("scheduleMapJson", scheduleMapJson);
+        model.addAttribute("desires", desires);
 //        model.addAttribute("desires", desires);
 //        model.addAttribute("clickedDesire", new Desire());
 //        model.addAttribute("clickedDecadeJob", new DecadeJob());

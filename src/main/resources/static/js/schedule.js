@@ -5,7 +5,24 @@ window.onload = function() {
 //        $("#left-nav-row-" + mainObjects[i].id).height($("#content-row-" + mainObjects[i].id).height());
 //    }
 
-    console.log("scheduleMap => " + scheduleMap);
+    console.log("before");
+    for (const [key, value] of Object.entries(schedules)) {
+//      console.log(key, value);
+        console.log("key => " + key);
+        console.log("value => " + value);
+
+        console.log("value start");
+        for(var i = 0; i < value.length; i++)
+        {
+            console.log("value id => " + value[i].id);
+        }
+        console.log("value end");
+
+    }
+    console.log("end");
+
+    console.log("schedules => " + schedules);
+
 
     for (var schedule in scheduleMap)
     {

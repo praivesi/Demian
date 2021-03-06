@@ -1,6 +1,7 @@
 package com.tutorial.ohDiaraySpringBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 
