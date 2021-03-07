@@ -123,6 +123,7 @@ public class ScheduleController {
         model.addAttribute("scheduleMap", scheduleMap);
         model.addAttribute("scheduleMapJson", scheduleMapJson);
         model.addAttribute("desires", desires);
+        model.addAttribute("addedDecadeJob", new DecadeJob());
 //        model.addAttribute("desires", desires);
 //        model.addAttribute("clickedDesire", new Desire());
 //        model.addAttribute("clickedDecadeJob", new DecadeJob());
@@ -169,9 +170,11 @@ public class ScheduleController {
     public String postForm(@Valid DecadeJob decadeJob, BindingResult bindingResult, Authentication authentication){
         // boardValidator.validate(board, bindingResult);
 
-       if(bindingResult.hasErrors()) {
-           return "schedule/decade";
-       }
+//       if(bindingResult.hasErrors()) {
+//           return "schedule/decade";
+//       }
+
+        decadeJob.setId(13l);
 
 //       String username = authentication.getName();
 

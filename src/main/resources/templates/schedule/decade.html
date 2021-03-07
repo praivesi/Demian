@@ -76,33 +76,33 @@
             <button type="button" id="controlPanelCollapse"> + </button>
         </div>
     </div>
-<!--    <nav id="decade-job-control-panel">-->
-<!--        <div id="right-nav-header" class="sidebar-header" style="background-color: #FF1111">-->
-<!--            <span>CONTROL PANEL</span>-->
-<!--        </div>-->
-<!--        <form action="#" th:action="@{/schedule/decade}" th:object="${clickedDecadeJob}" method="post">-->
-<!--            <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>-->
-<!--            <div><label for="control-panel-job-title">TYPE: DECADE JOB</label></div>-->
-<!--            <div>-->
-<!--                <label for="control-panel-job-title">TITLE: </label>-->
-<!--                <input type="text" id="control-panel-job-title" th:field="*{title}"/>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="control-panel-job-content">CONTENT</label>-->
-<!--                <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="control-panel-decade-job-from-time">FROM</label>-->
-<!--                <input type="text" id="control-panel-decade-job-from-time" th:field="*{fromTime}"/>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="control-panel-decade-job-to-time">TO</label>-->
-<!--                <input type="text" id="control-panel-decade-job-to-time" th:field="*{toTime}"/>-->
-<!--            </div>-->
-<!--            <button>Add</button>-->
-<!--&lt;!&ndash;            <button type="submit" class="btn btn-primary">확인</button>&ndash;&gt;-->
-<!--        </form>-->
-<!--    </nav>-->
+    <nav id="decade-job-control-panel">
+        <div id="right-nav-header" class="sidebar-header" style="background-color: #FF1111">
+            <span>CONTROL PANEL</span>
+        </div>
+        <form action="#" th:action="@{/schedule/decade}" th:object="${addedDecadeJob}" method="post">
+            <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>
+            <div><label for="control-panel-job-title">TYPE: DECADE JOB</label></div>
+            <div>
+                <label for="control-panel-job-title">TITLE: </label>
+                <input type="text" id="control-panel-job-title" th:field="*{title}"/>
+            </div>
+            <div>
+                <label for="control-panel-job-content">CONTENT</label>
+                <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>
+            </div>
+            <div>
+                <label for="control-panel-decade-job-from-time">FROM</label>
+                <input type="text" id="control-panel-decade-job-from-time" th:field="*{fromTime}"/>
+            </div>
+            <div>
+                <label for="control-panel-decade-job-to-time">TO</label>
+                <input type="text" id="control-panel-decade-job-to-time" th:field="*{toTime}"/>
+            </div>
+            <button>Add</button>
+<!--            <button type="submit" class="btn btn-primary">확인</button>-->
+        </form>
+    </nav>
 <!--    <nav id="desire-control-panel">-->
 <!--        <div id="desire-right-nav-header" class="sidebar-header" style="background-color: #FF1111">-->
 <!--            <span>DESIRE CONTROL PANEL</span>-->
