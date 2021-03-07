@@ -1,13 +1,12 @@
 package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.tutorial.ohDiaraySpringBoot.model.*;
 import com.tutorial.ohDiaraySpringBoot.repository.*;
 import com.tutorial.ohDiaraySpringBoot.service.DecadeJobService;
 import com.tutorial.ohDiaraySpringBoot.service.DesireService;
+import com.tutorial.ohDiaraySpringBoot.validator.DecadeJobValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/schedule")
 public class ScheduleController {
-
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
@@ -45,6 +42,9 @@ public class ScheduleController {
     private DesireService desireService;
     @Autowired
     private DecadeJobService decadeJobService;
+
+    @Autowired
+    private DecadeJobValidator decadeJobValidator;
 
 
     @GetMapping("/decade")
@@ -73,7 +73,6 @@ public class ScheduleController {
                 }
                 else
                 {
-//                    sequencedDecadeJobs.add(null);
                     DecadeJob emptyDecadeJob = new DecadeJob();
                     emptyDecadeJob.setTitle("DEFAULT");
                     sequencedDecadeJobs.add(emptyDecadeJob);
@@ -101,16 +100,6 @@ public class ScheduleController {
 
                 decadesWithNoChildren.add(job);
             }
-//
-//            Desire desire = new Desire();
-//            desire.setId(schedule.getKey().getId());
-//            desire.setTitle(schedule.getKey().getTitle());
-//            desire.setContent(schedule.getKey().getContent());
-//            desire.setFromTime(schedule.getKey().getFromTime());
-//            desire.setToTime(schedule.getKey().getToTime());
-//            desire.setSortNum(schedule.getKey().getSortNum());
-//            desire.setUser(null);
-//            desire.setDecadeJobs(null);
 
             scheduleMapWithNoChilren.put(schedule.getKey().getId(), decadesWithNoChildren);
         }
@@ -124,9 +113,7 @@ public class ScheduleController {
         model.addAttribute("scheduleMapJson", scheduleMapJson);
         model.addAttribute("desires", desires);
         model.addAttribute("addedDecadeJob", new DecadeJob());
-//        model.addAttribute("desires", desires);
-//        model.addAttribute("clickedDesire", new Desire());
-//        model.addAttribute("clickedDecadeJob", new DecadeJob());
+        model.addAttribute("curDesire", desires.get(0));
 
         return "schedule/decade";
     }
@@ -168,18 +155,16 @@ public class ScheduleController {
 
     @PostMapping("/decade")
     public String postForm(@Valid DecadeJob decadeJob, BindingResult bindingResult, Authentication authentication){
-        // boardValidator.validate(board, bindingResult);
+        decadeJobValidator.validate(decadeJob, bindingResult);
 
-//       if(bindingResult.hasErrors()) {
-//           return "schedule/decade";
-//       }
+       if(bindingResult.hasErrors()) {
+           // [210308] TODO: Fix decade.html when ScheduleCotroller returns error
+           return "schedule/decade";
+       }
 
-        decadeJob.setId(13l);
+       String username = authentication.getName();
 
-//       String username = authentication.getName();
-
-//         boardService.save(username, board);
-        decadeJobService.save("hsoh", decadeJob);
+        decadeJobService.save(username, decadeJob);
 
        return "redirect:/schedule/decade";
     }

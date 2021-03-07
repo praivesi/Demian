@@ -18,6 +18,28 @@ $(document).ready(function() {
     $('#desireControlPanelCollapse').on('click', function(){
         $('#desire-control-panel').toggleClass('active');
     });
+
+    $('.desire-dropdown-item').on('click', function(){
+        var clickedDesireDropItemText = $(this).text();
+
+        for (var i = 0; i < desires.length; i++)
+        {
+            console.log("desires loop");
+            if(desires[i].title === clickedDesireDropItemText)
+            {
+                console.log("title in");
+                console.log("desires[" + i + "] => " + desires[i]);
+                console.log("Before addedDecadeJob.desire => " + addedDecadeJob.desire);
+                console.log("Before curDesire => " + curDesire);
+                addedDecadeJob.desire = desires[i].id;
+                curDesire = desires[i];
+                console.log("After addedDecadeJob.desire => " + addedDecadeJob.desire);
+                console.log("After curDesire => " + curDesire);
+
+                break;
+            }
+        }
+    });
 });
 
 $('.decades-of-desire-row').on('click', function(){

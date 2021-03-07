@@ -81,8 +81,18 @@
             <span>CONTROL PANEL</span>
         </div>
         <form action="#" th:action="@{/schedule/decade}" th:object="${addedDecadeJob}" method="post">
+            <input type="hidden" th:value="${curDesire.id}" name="desire"/>
             <input type="hidden" th:field="*{id}" id="control-panel-job-id"/>
-            <div><label for="control-panel-job-title">TYPE: DECADE JOB</label></div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle control-panel-button" type="button" id="typeDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SELECT DESIRE
+                </button>
+                <ul class="dropdown-menu control-panel-dropdown-menu" aria-labelledby="typeDropDownBtn">
+                    <th:block th:each="desire : ${desires}">
+                        <li><a class="desire-dropdown-item" href="#" th:text="${desire.title}"></a></li>
+                    </th:block>
+                </ul>
+            </div>
             <div>
                 <label for="control-panel-job-title">TITLE: </label>
                 <input type="text" id="control-panel-job-title" th:field="*{title}"/>
@@ -92,15 +102,14 @@
                 <textarea class="form-control" id="control-panel-job-content" th:field="*{content}"></textarea>
             </div>
             <div>
-                <label for="control-panel-decade-job-from-time">FROM</label>
-                <input type="text" id="control-panel-decade-job-from-time" th:field="*{fromTime}"/>
+                <label>FROM</label>
+                <input type="datetime-local" th:field="*{fromTime}"/>
             </div>
             <div>
-                <label for="control-panel-decade-job-to-time">TO</label>
-                <input type="text" id="control-panel-decade-job-to-time" th:field="*{toTime}"/>
+                <label>TO</label>
+                <input type="datetime-local" th:field="*{toTime}"/>
             </div>
             <button>Add</button>
-<!--            <button type="submit" class="btn btn-primary">확인</button>-->
         </form>
     </nav>
 <!--    <nav id="desire-control-panel">-->
@@ -134,10 +143,9 @@
 </body>
 <script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
 <script th:inline="javascript">
-    var mainObjects = [[${desires}]];
+    var desires = [[${desires}]];
     var timeTitles = [[${timeTitles}]];
-
-    var schedulesJson = [[${scheduleMapJson}]];
     var schedules = JSON.parse([[${scheduleMapJson}]]);
-
+    var addedDecadeJob = [[${addedDecadeJob}]];
+    var curDesire = [[${curDesire}]];
 </script>

@@ -3,11 +3,13 @@ package com.tutorial.ohDiaraySpringBoot.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,12 +22,13 @@ public class DecadeJob {
     @NotNull
     private String title;
 
-
     private String content;
 
-    private Timestamp fromTime;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date fromTime;
 
-    private Timestamp toTime;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date toTime;
 
     @ManyToOne
     @JoinColumn(name = "desire_id")
