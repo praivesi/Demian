@@ -1,32 +1,8 @@
 window.onload = function() {
     $("#left-nav-header").height($("#time-navigator-row").height());
-//
-//    for (var i = 0; i < mainObjects.length; i++) {
-//        $("#left-nav-row-" + mainObjects[i].id).height($("#content-row-" + mainObjects[i].id).height());
-//    }
 
-    console.log("before");
-    for (const [key, value] of Object.entries(schedules)) {
-//      console.log(key, value);
-        console.log("key => " + key);
-        console.log("value => " + value);
-
-        console.log("value start");
-        for(var i = 0; i < value.length; i++)
-        {
-            console.log("value id => " + value[i].id);
-        }
-        console.log("value end");
-
-    }
-    console.log("end");
-
-    console.log("schedules => " + schedules);
-
-
-    for (var schedule in scheduleMap)
-    {
-        $("#left-nav-row-" + schedule.key.id).height($("#content-row-" + schedule.key.id).height());
+    for(const [key,value] of Object.entries(schedules)){
+        $("#left-nav-row-" + key).height($("#content-row-" + key).height());
     }
 }
 

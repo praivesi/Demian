@@ -23,9 +23,6 @@
         <div id="left-nav-header" class="sidebar-header" style="background-color: #FF1111">
             <span>Desire</span>
         </div>
-        <th:block th:each="desire : ${desires}">
-            <div th:text="${desire.id}"></div>
-        </th:block>
         <th:block th:each="schedule : ${scheduleMap}">
             <div th:id="'left-nav-row-' + ${schedule.key.id}" class="left-desire-row" style="border: 1px solid black">
                 <span>Desire named </span><span th:text="${schedule.key.title}"></span>

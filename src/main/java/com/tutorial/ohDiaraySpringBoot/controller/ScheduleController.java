@@ -83,7 +83,7 @@ public class ScheduleController {
             scheduleMap.put(desire, sequencedDecadeJobs);
         }
 
-        Map<Desire, List<DecadeJob>> scheduleMapWithNoChilren = new HashMap<>();
+        Map<Long, List<DecadeJob>> scheduleMapWithNoChilren = new HashMap<>();
 
         for(Map.Entry<Desire, List<DecadeJob>> schedule : scheduleMap.entrySet())
         {
@@ -101,18 +101,18 @@ public class ScheduleController {
 
                 decadesWithNoChildren.add(job);
             }
+//
+//            Desire desire = new Desire();
+//            desire.setId(schedule.getKey().getId());
+//            desire.setTitle(schedule.getKey().getTitle());
+//            desire.setContent(schedule.getKey().getContent());
+//            desire.setFromTime(schedule.getKey().getFromTime());
+//            desire.setToTime(schedule.getKey().getToTime());
+//            desire.setSortNum(schedule.getKey().getSortNum());
+//            desire.setUser(null);
+//            desire.setDecadeJobs(null);
 
-            Desire desire = new Desire();
-            desire.setId(schedule.getKey().getId());
-            desire.setTitle(schedule.getKey().getTitle());
-            desire.setContent(schedule.getKey().getContent());
-            desire.setFromTime(schedule.getKey().getFromTime());
-            desire.setToTime(schedule.getKey().getToTime());
-            desire.setSortNum(schedule.getKey().getSortNum());
-            desire.setUser(null);
-            desire.setDecadeJobs(null);
-
-            scheduleMapWithNoChilren.put(desire, decadesWithNoChildren);
+            scheduleMapWithNoChilren.put(schedule.getKey().getId(), decadesWithNoChildren);
         }
 
         Gson gson = new Gson();
