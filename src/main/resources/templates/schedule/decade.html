@@ -59,6 +59,18 @@
                     <div class="col-sm-1" style="background-color:#aaaaaa"></div>
                     <th:block th:each="decadeJob : ${schedule.value}">
                         <div class="col-sm-2 decade-row" th:id="'job-id-' + ${decadeJob.id}" style="background-color:#bbbbbb">
+<!--                            <ul id="myMenu">-->
+<!--                                <li th:each="desire : ${desires}">-->
+<!--                                    <a th:text="${desire.title}">My product</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                            <select>-->
+<!--                                <option th:each="desire : ${desires}"-->
+<!--                                        th:value="${desire.id}"-->
+<!--                                        th:text="${desire.id}">-->
+<!--                                    Options-->
+<!--                                </option>-->
+<!--                            </select>-->
                             <span th:text="${decadeJob.title}"></span>
                             <script th:inline="javascript">$(".decade-row").data("job", [[${decadeJob}]]);</script>
                         </div>

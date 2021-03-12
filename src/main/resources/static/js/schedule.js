@@ -7,6 +7,8 @@ window.onload = function() {
 }
 
 $(document).ready(function() {
+    $("#myMenu").menu();
+
     $('#sidebarCollapse').on('click', function() {
         $('#sidebar').toggleClass('active');
     });
@@ -67,6 +69,8 @@ $('.decades-of-desire-row').on('click', function(){
 })
 
 $('.decade-row').on('click', function(){
+    console.log("decade-row clicked");
+
     clickedDecadeJobId = $(this).attr('id').substring(7);
 })
 
