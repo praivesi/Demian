@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -30,4 +31,14 @@ public class YearJob {
 
     @OneToMany(mappedBy = "yearJob", fetch = FetchType.LAZY)
     private List<MonthJob> monthJobs = new ArrayList<>();
+
+    public YearJob(){}
+
+    public YearJob(String _title, String _content, Timestamp _from, Timestamp _to, DecadeJob _decadeJob) {
+        this.title = _title;
+        this.content = _content;
+        this.from = _from;
+        this.to = _to;
+        this.decadeJob = _decadeJob;
+    }
 }

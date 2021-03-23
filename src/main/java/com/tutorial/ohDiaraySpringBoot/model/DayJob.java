@@ -27,4 +27,14 @@ public class DayJob {
     @JoinColumn(name = "week_job_id")
     @JsonIgnore
     private WeekJob weekJob;
+
+    public DayJob(){}
+
+    public DayJob(String _title, String _content, Timestamp _from, Timestamp _to, WeekJob _weekJob) {
+        this.title = _title;
+        this.content = _content;
+        this.from = _from;
+        this.to = _to;
+        this.weekJob = _weekJob;
+    }
 }

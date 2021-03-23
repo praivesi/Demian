@@ -2,6 +2,7 @@ package com.tutorial.ohDiaraySpringBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
+import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,4 +38,16 @@ public class DecadeJob {
 
     @OneToMany(mappedBy = "decadeJob", fetch = FetchType.LAZY)
     private List<YearJob> yearJobs = new ArrayList<>();
+
+    public DecadeJob(){
+
+    }
+
+    public DecadeJob(String _title, String _content, Date _fromTime, Date _toTime, Desire _desire) {
+        this.title = _title;
+        this.content = _content;
+        this.fromTime = _fromTime;
+        this.toTime = _toTime;
+        this.desire = _desire;
+    }
 }

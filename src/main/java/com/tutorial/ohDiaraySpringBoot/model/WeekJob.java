@@ -30,4 +30,14 @@ public class WeekJob {
 
     @OneToMany(mappedBy = "weekJob", fetch = FetchType.LAZY)
     private List<DayJob> dayJobs = new ArrayList<>();
+
+    public WeekJob(){}
+
+    public WeekJob(String _title, String _content, Timestamp _from, Timestamp _to, MonthJob _monthJob) {
+        this.title = _title;
+        this.content = _content;
+        this.from = _from;
+        this.to = _to;
+        this.monthJob = _monthJob;
+    }
 }
