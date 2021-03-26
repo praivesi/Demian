@@ -1,5 +1,6 @@
 package com.tutorial.ohDiaraySpringBoot.service;
 
+import com.tutorial.ohDiaraySpringBoot.dto.DecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.DesireWithDecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
 import com.tutorial.ohDiaraySpringBoot.model.*;
@@ -86,6 +87,91 @@ public class ScheduleService {
         }
 
         return jobDTO;
+    }
+
+    public JobDTO get(Long id, int jobType) {
+        JobDTO dto = new JobDTO();
+        dto.setJobType(jobType);
+
+        switch (jobType){
+            case 0: // Decade
+                DecadeJob decadeJob = decadeJobRepository.findById(id).get();
+
+                dto.setId(decadeJob.getId());
+                dto.setTitle(decadeJob.getTitle());
+                dto.setContent(decadeJob.getContent());
+                dto.setFromTime(decadeJob.getFromTime());
+                dto.setToTime(decadeJob.getToTime());
+                dto.setParentId(decadeJob.getDesire().getId());
+
+                break;
+            case 1: // Year
+                YearJob yearJob = yearJobRepository.findById(id).get();
+
+                dto.setId(yearJob.getId());
+                dto.setTitle(yearJob.getTitle());
+                dto.setContent(yearJob.getContent());
+                dto.setFromTime(yearJob.getFromTime());
+                dto.setToTime(yearJob.getToTime());
+                dto.setParentId(yearJob.getDecadeJob().getId());
+
+                break;
+            case 2: // Month
+                MonthJob monthJob = monthJobRepository.findById(id).get();
+
+                dto.setId(monthJob.getId());
+                dto.setTitle(monthJob.getTitle());
+                dto.setContent(monthJob.getContent());
+                dto.setFromTime(monthJob.getFromTime());
+                dto.setToTime(monthJob.getToTime());
+                dto.setParentId(monthJob.getYearJob().getId());
+
+                break;
+            case 3: // Week
+                WeekJob weekJob = weekJobRepository.findById(id).get();
+
+                dto.setId(weekJob.getId());
+                dto.setTitle(weekJob.getTitle());
+                dto.setContent(weekJob.getContent());
+                dto.setFromTime(weekJob.getFromTime());
+                dto.setToTime(weekJob.getToTime());
+                dto.setParentId(weekJob.getMonthJob().getId());
+
+                break;
+            case 4: // Day
+                DayJob dayJob = dayJobRepository.findById(id).get();
+
+                dto.setId(dayJob.getId());
+                dto.setTitle(dayJob.getTitle());
+                dto.setContent(dayJob.getContent());
+                dto.setFromTime(dayJob.getFromTime());
+                dto.setToTime(dayJob.getToTime());
+                dto.setParentId(dayJob.getWeekJob().getId());
+
+                break;
+        }
+
+        return dto;
+    }
+
+    public void delete(Long id, int jobType){
+        switch (jobType){
+            case 0: // Decade
+                decadeJobRepository.deleteById(id);
+                break;
+            case 1: // Year
+                yearJobRepository.deleteById(id);
+                break;
+            case 2: // Month
+                monthJobRepository.deleteById(id);
+                break;
+            case 3: // Week
+                weekJobRepository.deleteById(id);
+                break;
+            case 4: // Day
+                dayJobRepository.deleteById(id);
+                break;
+        }
     }
 }
 

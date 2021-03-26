@@ -56,8 +56,8 @@ public class YearJobDTO {
         dto.id = year.getId();
         dto.title = year.getTitle();
         dto.content = year.getContent();
-        dto.from = year.getFrom();
-        dto.to = year.getTo();
+        dto.from = year.getFromTime();
+        dto.to = year.getToTime();
 
         return dto;
     }

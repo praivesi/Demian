@@ -56,8 +56,8 @@ public class DayJobDTO {
         dto.id = day.getId();
         dto.title = day.getTitle();
         dto.content = day.getContent();
-        dto.from = day.getFrom();
-        dto.to = day.getTo();
+        dto.from = day.getFromTime();
+        dto.to = day.getToTime();
 
         return dto;
     }

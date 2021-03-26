@@ -20,8 +20,8 @@ public class WeekJob {
     private String title;
 
     private String content;
-    private Timestamp from;
-    private Timestamp to;
+    private Timestamp fromTime;
+    private Timestamp toTime;
 
     @ManyToOne
     @JoinColumn(name = "month_job_id")
@@ -36,8 +36,8 @@ public class WeekJob {
     public WeekJob(String _title, String _content, Timestamp _from, Timestamp _to, MonthJob _monthJob) {
         this.title = _title;
         this.content = _content;
-        this.from = _from;
-        this.to = _to;
+        this.fromTime = _from;
+        this.toTime = _to;
         this.monthJob = _monthJob;
     }
 }

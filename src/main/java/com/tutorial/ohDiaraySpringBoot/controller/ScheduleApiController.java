@@ -16,24 +16,33 @@ public class ScheduleApiController {
     @Autowired
     private ScheduleService service;
 
-    @GetMapping("/schedule")
+    @GetMapping("/schedules")
     List<DesireWithDecadeJobDTO> all() {
         return service.GetAllDesires();
     }
 
-    @PostMapping("/schedule/job")
+    @PostMapping("/schedules/job")
     JobDTO newJob(@RequestBody JobDTO jobDTO) {
         // 0 - Decade, 1 - Year, 2 - Month, 3 - Week, 4 - Day
         return service.save(jobDTO);
     }
 
-//    @GetMapping("/boards/{id}")
-//    Board one(@PathVariable Long id) {
+    @GetMapping("/schedules/job/{id}/{jobType}")
+    JobDTO one(@PathVariable Long id, @PathVariable int jobType) {
+        return service.get(id, jobType);
 //        return repository.findById(id).orElse(null);
-//    }
-//
-//    @PutMapping("/boards/{id}")
-//    Board replaceBoard(@RequestBody Board newBoard, @PathVariable Long id) {
+    }
+
+    @PutMapping("/schedules/job/{id}/{jobType}")
+    JobDTO replaceJob(@RequestBody JobDTO newJob, @PathVariable Long id, @PathVariable int jobType) {
+        JobDTO dto = service.get(id, jobType);
+        dto.setTitle(newJob.getTitle());
+        dto.setContent(newJob.getContent());
+        dto.setFromTime(newJob.getFromTime());
+        dto.setToTime(newJob.getToTime());
+
+        return service.save(dto);
+
 //        return repository.findById(id)
 //                .map(Board -> {
 //                    Board.setTitle(newBoard.getTitle());
@@ -44,10 +53,11 @@ public class ScheduleApiController {
 //                    newBoard.setId(id);
 //                    return repository.save(newBoard);
 //                });
-//    }
+    }
 //
-//    @DeleteMapping("/boards/{id}")
-//    void deleteBoard(@PathVariable Long id) {
+    @DeleteMapping("/schedules/job/{id}/{jobType}")
+    void deleteBoard(@PathVariable Long id, @PathVariable int jobType) {
+        service.delete(id, jobType);
 //        repository.deleteById(id);
-//    }
+    }
 }

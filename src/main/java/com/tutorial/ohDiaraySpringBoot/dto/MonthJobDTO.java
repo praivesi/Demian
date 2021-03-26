@@ -56,8 +56,8 @@ public class MonthJobDTO {
         dto.id = month.getId();
         dto.title = month.getTitle();
         dto.content = month.getContent();
-        dto.from = month.getFrom();
-        dto.to = month.getTo();
+        dto.from = month.getFromTime();
+        dto.to = month.getToTime();
 
         return dto;
     }

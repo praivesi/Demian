@@ -1,7 +1,10 @@
 package com.tutorial.ohDiaraySpringBoot.dto;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class JobDTO {
     private Long id;
     private String title;

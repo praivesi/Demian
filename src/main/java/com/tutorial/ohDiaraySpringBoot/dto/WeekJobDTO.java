@@ -57,8 +57,8 @@ public class WeekJobDTO {
         dto.id = week.getId();
         dto.title = week.getTitle();
         dto.content = week.getContent();
-        dto.from = week.getFrom();
-        dto.to = week.getTo();
+        dto.from = week.getFromTime();
+        dto.to = week.getToTime();
 
         return dto;
     }
