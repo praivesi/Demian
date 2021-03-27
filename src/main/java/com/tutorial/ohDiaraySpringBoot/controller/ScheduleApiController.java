@@ -28,7 +28,7 @@ public class ScheduleApiController {
     }
 
     @GetMapping("/schedules/job/{id}/{jobType}")
-    JobDTO one(@PathVariable Long id, @PathVariable int jobType) {
+    JobDTO getJob(@PathVariable Long id, @PathVariable int jobType) {
         return service.get(id, jobType);
 //        return repository.findById(id).orElse(null);
     }
@@ -56,7 +56,7 @@ public class ScheduleApiController {
     }
 //
     @DeleteMapping("/schedules/job/{id}/{jobType}")
-    void deleteBoard(@PathVariable Long id, @PathVariable int jobType) {
+    void deleteJob(@PathVariable Long id, @PathVariable int jobType) {
         service.delete(id, jobType);
 //        repository.deleteById(id);
     }
