@@ -1,13 +1,15 @@
 package com.tutorial.ohDiaraySpringBoot.dto;
 
 import com.tutorial.ohDiaraySpringBoot.model.Desire;
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class DesireDTO {
     private Long id;
     private String title;
     private String content;
     private Long sortNum;
+    private Date fromTime;
+    private Date toTime;
 
     public Long getId() {
         return id;
@@ -41,24 +43,21 @@ public class DesireDTO {
         this.sortNum = sortNum;
     }
 
-    public Timestamp getFromTime() {
+    public Date getFromTime() {
         return fromTime;
     }
 
-    public void setFromTime(Timestamp fromTime) {
+    public void setFromTime(Date fromTime) {
         this.fromTime = fromTime;
     }
 
-    public Timestamp getToTime() {
+    public Date getToTime() {
         return toTime;
     }
 
-    public void setToTime(Timestamp toTime) {
+    public void setToTime(Date toTime) {
         this.toTime = toTime;
     }
-
-    private Timestamp fromTime;
-    private Timestamp toTime;
 
     public static DesireDTO of(Desire desire)  {
         DesireDTO dto = new DesireDTO();

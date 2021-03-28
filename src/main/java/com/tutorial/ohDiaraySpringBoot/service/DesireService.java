@@ -1,5 +1,6 @@
 package com.tutorial.ohDiaraySpringBoot.service;
 
+import com.tutorial.ohDiaraySpringBoot.dto.DesireDTO;
 import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
 import com.tutorial.ohDiaraySpringBoot.model.Desire;
 import com.tutorial.ohDiaraySpringBoot.model.User;
@@ -13,14 +14,12 @@ import java.util.ArrayList;
 
 @Service
 public class DesireService {
-
     @Autowired
     private DesireRepository desireRepository;
-
     @Autowired
     private UserRepository userRepository;
 
-    public Desire save(String username, Desire desire)
+    public Desire savePrev(String username, Desire desire)
     {
         User user = userRepository.findByUsername(username);
         desire.setUser(user);
@@ -32,5 +31,30 @@ public class DesireService {
         desire.setToTime(Timestamp.valueOf("2007-09-23 10:10:10.0"));
 
         return desireRepository.save(desire);
+    }
+
+    public DesireDTO save(DesireDTO dto) {
+        Desire newDesire = new Desire(dto.getTitle(), dto.getContent(), 0l, dto.getFromTime(), dto.getToTime());
+        desireRepository.save(newDesire);
+
+        return dto;
+    }
+
+    public DesireDTO get(Long id) {
+        Desire desire = desireRepository.findById(id).get();
+        DesireDTO dto = new DesireDTO();
+
+        dto.setId(desire.getId());
+        dto.setTitle(desire.getTitle());
+        dto.setContent(desire.getContent());
+        dto.setSortNum(desire.getSortNum());
+        dto.setFromTime(desire.getFromTime());
+        dto.setToTime(desire.getToTime());
+
+        return dto;
+    }
+
+    public void delete(Long id) {
+        desireRepository.deleteById(id);
     }
 }

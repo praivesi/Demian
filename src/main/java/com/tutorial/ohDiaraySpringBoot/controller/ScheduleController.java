@@ -164,7 +164,7 @@ public class ScheduleController {
 
        String username = authentication.getName();
 
-        decadeJobService.save(username, decadeJob);
+        decadeJobService.savePrev(username, decadeJob);
 
        return "redirect:/schedule/decade";
     }
@@ -178,7 +178,7 @@ public class ScheduleController {
 //        String username = authentication.getName();
 
 //        desireService.save(username, desire);
-        desireService.save("hsoh", desire);
+        desireService.savePrev("hsoh", desire);
 
         return "redirect:/schedule/decade";
     }

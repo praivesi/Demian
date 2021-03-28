@@ -5,9 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Data
@@ -20,8 +18,8 @@ public class DayJob {
     private String title;
 
     private String content;
-    private Timestamp fromTime;
-    private Timestamp toTime;
+    private Date fromTime;
+    private Date toTime;
 
     @ManyToOne
     @JoinColumn(name = "week_job_id")
@@ -30,7 +28,7 @@ public class DayJob {
 
     public DayJob(){}
 
-    public DayJob(String _title, String _content, Timestamp _from, Timestamp _to, WeekJob _weekJob) {
+    public DayJob(String _title, String _content, Date _from, Date _to, WeekJob _weekJob) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;

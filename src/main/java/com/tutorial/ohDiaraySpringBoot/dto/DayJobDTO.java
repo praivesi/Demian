@@ -1,7 +1,7 @@
 package com.tutorial.ohDiaraySpringBoot.dto;
 
 import com.tutorial.ohDiaraySpringBoot.model.DayJob;
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class DayJobDTO {
     public Long getId() {
@@ -28,27 +28,27 @@ public class DayJobDTO {
         this.content = content;
     }
 
-    public Timestamp getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(Timestamp from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public Timestamp getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(Timestamp to) {
+    public void setTo(Date to) {
         this.to = to;
     }
 
     private Long id;
     private String title;
     private String content;
-    private Timestamp from;
-    private Timestamp to;
+    private Date from;
+    private Date to;
 
     public static DayJobDTO of(DayJob day) {
         DayJobDTO dto = new DayJobDTO();

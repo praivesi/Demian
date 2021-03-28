@@ -2,8 +2,6 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.tutorial.ohDiaraySpringBoot.dto.DesireWithDecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
-import com.tutorial.ohDiaraySpringBoot.model.Board;
-import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
 import com.tutorial.ohDiaraySpringBoot.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

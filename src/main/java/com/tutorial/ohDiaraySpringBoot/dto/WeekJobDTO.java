@@ -1,13 +1,14 @@
 package com.tutorial.ohDiaraySpringBoot.dto;
 
 import com.tutorial.ohDiaraySpringBoot.model.WeekJob;
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class WeekJobDTO {
     private Long id;
     private String title;
     private String content;
-    private Timestamp from;
+    private Date from;
+    private Date to;
 
     public Long getId() {
         return id;
@@ -33,23 +34,21 @@ public class WeekJobDTO {
         this.content = content;
     }
 
-    public Timestamp getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(Timestamp from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public Timestamp getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(Timestamp to) {
+    public void setTo(Date to) {
         this.to = to;
     }
-
-    private Timestamp to;
 
     public static WeekJobDTO of(WeekJob week){
         WeekJobDTO dto = new WeekJobDTO();

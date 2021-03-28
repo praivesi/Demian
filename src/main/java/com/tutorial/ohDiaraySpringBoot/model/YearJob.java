@@ -21,8 +21,8 @@ public class YearJob {
     private String title;
 
     private String content;
-    private Timestamp fromTime;
-    private Timestamp toTime;
+    private Date fromTime;
+    private Date toTime;
 
     @ManyToOne
     @JoinColumn(name = "decade_job_id")
@@ -34,7 +34,7 @@ public class YearJob {
 
     public YearJob(){}
 
-    public YearJob(String _title, String _content, Timestamp _from, Timestamp _to, DecadeJob _decadeJob) {
+    public YearJob(String _title, String _content, Date _from, Date _to, DecadeJob _decadeJob) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;

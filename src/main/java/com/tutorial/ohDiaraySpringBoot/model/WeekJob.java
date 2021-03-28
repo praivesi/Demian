@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,8 @@ public class WeekJob {
     private String title;
 
     private String content;
-    private Timestamp fromTime;
-    private Timestamp toTime;
+    private Date fromTime;
+    private Date toTime;
 
     @ManyToOne
     @JoinColumn(name = "month_job_id")
@@ -33,7 +34,7 @@ public class WeekJob {
 
     public WeekJob(){}
 
-    public WeekJob(String _title, String _content, Timestamp _from, Timestamp _to, MonthJob _monthJob) {
+    public WeekJob(String _title, String _content, Date _from, Date _to, MonthJob _monthJob) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;
