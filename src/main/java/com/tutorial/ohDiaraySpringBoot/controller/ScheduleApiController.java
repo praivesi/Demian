@@ -54,8 +54,8 @@ public class ScheduleApiController {
     }
 //
     @DeleteMapping("/schedules/job/{id}/{jobType}")
-    void deleteJob(@PathVariable Long id, @PathVariable int jobType) {
-        service.delete(id, jobType);
+    Long deleteJob(@PathVariable Long id, @PathVariable int jobType) {
+        return service.delete(id, jobType);
 //        repository.deleteById(id);
     }
 }

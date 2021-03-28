@@ -42,7 +42,16 @@ public class WeekJobService {
         return dto;
     }
 
-    public void delete(Long id) {
-        weekJobRepository.deleteById(id);
+    public Long delete(Long id) {
+        boolean succeed = false;
+
+        try {
+            weekJobRepository.deleteById(id);
+            succeed = true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return succeed ? id : -1;
     }
 }

@@ -42,7 +42,16 @@ public class DayJobService {
         return dto;
     }
 
-    public void delete(Long id) {
-        dayJobRepository.deleteById(id);
+    public Long delete(Long id) {
+        boolean succeed = false;
+
+        try {
+            dayJobRepository.deleteById(id);
+            succeed = true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return succeed ? id : -1;
     }
 }

@@ -42,7 +42,16 @@ public class MonthJobService {
         return dto;
     }
 
-    public void delete(Long id) {
-        monthJobRepository.deleteById(id);
+    public Long delete(Long id) {
+        boolean succeed = false;
+
+        try {
+            monthJobRepository.deleteById(id);
+            succeed = true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return succeed ? id : -1;
     }
 }

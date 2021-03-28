@@ -55,7 +55,14 @@ public class DecadeJobService {
         return dto;
     }
 
-    public void delete(Long id) {
-        decadeJobRepository.deleteById(id);
+    public Long delete(Long id) {
+        boolean succeed = false;
+
+        try {
+            decadeJobRepository.deleteById(id);
+            succeed = true;
+        } catch (Exception e){ }
+
+        return succeed ? id : -1;
     }
 }

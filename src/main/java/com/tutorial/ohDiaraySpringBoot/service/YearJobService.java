@@ -52,17 +52,16 @@ public class YearJobService {
         return dto;
     }
 
-    public void delete(Long id) {
+    public Long delete(Long id) {
         boolean succeed = false;
 
         try {
             yearJobRepository.deleteById(id);
-
             succeed = true;
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
 
-        // return succeed;
+        return succeed ? id : -1;
     }
 }

@@ -90,28 +90,32 @@ public class ScheduleService {
         return response;
     }
 
-    public void delete(Long id, int jobType) {
+    public Long delete(Long id, int jobType) {
+        Long response = -1l;
+
         switch (jobType) {
             case 0: // Decade
-                decadeJobService.delete(id);
+                response = decadeJobService.delete(id);
                 break;
 
             case 1: // Year
-                yearJobService.delete(id);
+                response = yearJobService.delete(id);
                 break;
 
             case 2: // Month
-                monthJobService.delete(id);
+                response = monthJobService.delete(id);
                 break;
 
             case 3: // Week
-                weekJobService.delete(id);
+                response = weekJobService.delete(id);
                 break;
 
             case 4: // Day
-                dayJobService.delete(id);
+                response = dayJobService.delete(id);
                 break;
         }
+
+        return response;
     }
 }
 
