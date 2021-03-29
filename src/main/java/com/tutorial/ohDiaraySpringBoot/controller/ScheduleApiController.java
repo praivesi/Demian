@@ -1,8 +1,10 @@
 package com.tutorial.ohDiaraySpringBoot.controller;
 
+import com.tutorial.ohDiaraySpringBoot.dto.DesireDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.DesireWithDecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
-import com.tutorial.ohDiaraySpringBoot.service.ScheduleService;
+import com.tutorial.ohDiaraySpringBoot.service.DesireService;
+import com.tutorial.ohDiaraySpringBoot.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,50 +14,53 @@ import java.util.List;
 @RequestMapping("/api")
 public class ScheduleApiController {
     @Autowired
-    private ScheduleService service;
+    private DesireService desireService;
+    @Autowired
+    private JobService jobService;
 
     @GetMapping("/schedules")
     List<DesireWithDecadeJobDTO> all() {
-        return service.GetAllDesires();
+        return desireService.GetAllDesires();
+    }
+
+    @PostMapping("/schedules/desire")
+    DesireDTO addDesire(@RequestBody DesireDTO desireDTO) {
+        return desireService.save(desireDTO);
+    }
+
+    @GetMapping("/schedules/desire/{id}")
+    DesireDTO getDesire(@PathVariable Long id) {
+        return desireService.get(id);
+    }
+
+    @PutMapping("/schedules/desire/{id}")
+    DesireDTO updateDesire(@RequestBody DesireDTO dto, @PathVariable Long id) {
+       return desireService.update(dto, id);
+    }
+
+    @DeleteMapping("/schedules/desire/{id}")
+    Long deleteDesire(@PathVariable Long id) {
+        return desireService.delete(id);
     }
 
     @PostMapping("/schedules/job")
     JobDTO newJob(@RequestBody JobDTO jobDTO) {
         // 0 - Decade, 1 - Year, 2 - Month, 3 - Week, 4 - Day
-        return service.save(jobDTO);
+        return jobService.save(jobDTO);
     }
 
     @GetMapping("/schedules/job/{id}/{jobType}")
     JobDTO getJob(@PathVariable Long id, @PathVariable int jobType) {
-        return service.get(id, jobType);
-//        return repository.findById(id).orElse(null);
+        return jobService.get(id, jobType);
     }
 
     @PutMapping("/schedules/job/{id}/{jobType}")
-    JobDTO replaceJob(@RequestBody JobDTO newJob, @PathVariable Long id, @PathVariable int jobType) {
-        JobDTO dto = service.get(id, jobType);
-        dto.setTitle(newJob.getTitle());
-        dto.setContent(newJob.getContent());
-        dto.setFromTime(newJob.getFromTime());
-        dto.setToTime(newJob.getToTime());
-
-        return service.save(dto);
-
-//        return repository.findById(id)
-//                .map(Board -> {
-//                    Board.setTitle(newBoard.getTitle());
-//                    Board.setContent(newBoard.getContent());
-//                    return repository.save(Board);
-//                })
-//                .orElseGet(() -> {
-//                    newBoard.setId(id);
-//                    return repository.save(newBoard);
-//                });
+    JobDTO replaceJob(@RequestBody JobDTO dto, @PathVariable Long id, @PathVariable int jobType) {
+        return jobService.update(dto, id, jobType);
     }
-//
+
     @DeleteMapping("/schedules/job/{id}/{jobType}")
     Long deleteJob(@PathVariable Long id, @PathVariable int jobType) {
-        return service.delete(id, jobType);
-//        repository.deleteById(id);
+        return jobService.delete(id, jobType);
     }
 }

@@ -2,13 +2,15 @@ package com.tutorial.ohDiaraySpringBoot.service;
 
 import com.tutorial.ohDiaraySpringBoot.dto.DesireWithDecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
+import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ScheduleService {
+public class JobService {
     @Autowired
     private DesireService desireService;
     @Autowired
@@ -35,7 +37,7 @@ public class ScheduleService {
     }
 
     public JobDTO save(JobDTO dto) {
-        JobDTO response = null;
+        JobDTO response = new JobDTO();
 
         switch (dto.getJobType()) {
             case 0: // Decade
@@ -56,6 +58,34 @@ public class ScheduleService {
 
             case 4: // Day
                 response = dayJobService.save(dto);
+                break;
+        }
+
+        return response;
+    }
+
+    public JobDTO update(JobDTO dto, Long id, int jobType) {
+        JobDTO response = new JobDTO();
+
+        switch (jobType) {
+            case 0: // Decade
+                response = decadeJobService.update(dto, id);
+                break;
+
+            case 1: // Year
+                response = yearJobService.update(dto, id);
+                break;
+
+            case 2: // Month
+                response = monthJobService.update(dto, id);
+                break;
+
+            case 3: // Week
+                response = weekJobService.update(dto, id);
+                break;
+
+            case 4: // Day
+                response = dayJobService.update(dto, id);
                 break;
         }
 

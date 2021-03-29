@@ -1,5 +1,7 @@
 package com.tutorial.ohDiaraySpringBoot.service;
 
+import com.tutorial.ohDiaraySpringBoot.dto.DecadeJobDTO;
+import com.tutorial.ohDiaraySpringBoot.dto.DesireDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
 import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
 import com.tutorial.ohDiaraySpringBoot.model.Desire;
@@ -43,6 +45,26 @@ public class DecadeJobService {
         }
 
         return jobDTO;
+    }
+
+    public JobDTO update(JobDTO dto, Long id) {
+        Optional<DecadeJob> maybeEntity = decadeJobRepository.findById(id);
+
+        if (maybeEntity.isPresent()) {
+            DecadeJob entity = maybeEntity.get();
+
+            entity.setTitle(dto.getTitle());
+            entity.setContent(dto.getContent());
+            entity.setFromTime(dto.getFromTime());
+            entity.setToTime(dto.getToTime());
+
+            decadeJobRepository.save(entity);
+            dto.setId(id);
+        } else {
+            dto = new JobDTO();
+        }
+
+        return dto;
     }
 
     public JobDTO get(Long id) {

@@ -32,6 +32,26 @@ public class YearJobService {
         return jobDTO;
     }
 
+    public JobDTO update(JobDTO dto, Long id) {
+        Optional<YearJob> maybeEntity = yearJobRepository.findById(id);
+
+        if (maybeEntity.isPresent()) {
+            YearJob entity = maybeEntity.get();
+
+            entity.setTitle(dto.getTitle());
+            entity.setContent(dto.getContent());
+            entity.setFromTime(dto.getFromTime());
+            entity.setToTime(dto.getToTime());
+
+            yearJobRepository.save(entity);
+            dto.setId(id);
+        } else {
+            dto = new JobDTO();
+        }
+
+        return dto;
+    }
+
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
         Optional<YearJob> maybeYearJob = yearJobRepository.findById(id);

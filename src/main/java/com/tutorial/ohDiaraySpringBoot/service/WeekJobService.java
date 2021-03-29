@@ -1,6 +1,7 @@
 package com.tutorial.ohDiaraySpringBoot.service;
 
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
+import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
 import com.tutorial.ohDiaraySpringBoot.model.MonthJob;
 import com.tutorial.ohDiaraySpringBoot.model.WeekJob;
 import com.tutorial.ohDiaraySpringBoot.repository.MonthJobRepository;
@@ -31,6 +32,26 @@ public class WeekJobService {
         }
 
         return jobDTO;
+    }
+
+    public JobDTO update(JobDTO dto, Long id) {
+        Optional<WeekJob> maybeEntity = weekJobRepository.findById(id);
+
+        if (maybeEntity.isPresent()) {
+            WeekJob entity = maybeEntity.get();
+
+            entity.setTitle(dto.getTitle());
+            entity.setContent(dto.getContent());
+            entity.setFromTime(dto.getFromTime());
+            entity.setToTime(dto.getToTime());
+
+            weekJobRepository.save(entity);
+            dto.setId(id);
+        } else {
+            dto = new JobDTO();
+        }
+
+        return dto;
     }
 
     public JobDTO get(Long id) {
