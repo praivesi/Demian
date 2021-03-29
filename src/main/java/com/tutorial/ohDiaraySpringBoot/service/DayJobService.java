@@ -8,6 +8,8 @@ import com.tutorial.ohDiaraySpringBoot.repository.WeekJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DayJobService {
     @Autowired
@@ -18,40 +20,44 @@ public class DayJobService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 4) return null;
 
-        WeekJob parentJob = weekJobRepository.findById(jobDTO.getParentId()).get(); // TODO: Need exception handling
-        DayJob dayJob = new DayJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), parentJob);
-
-        dayJobRepository.save(dayJob);
+        Optional<WeekJob> maybeParentJob = weekJobRepository.findById(jobDTO.getParentId());
+        if (maybeParentJob.isPresent()) {
+            DayJob newDayJob = new DayJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+            DayJob entity = dayJobRepository.save(newDayJob);
+            jobDTO.setId(entity.getId());
+        } else {
+            jobDTO = new JobDTO();
+        }
 
         return jobDTO;
     }
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
-        dto.setJobType(4);
+        Optional<DayJob> maybeDayJob = dayJobRepository.findById(id);
 
-        DayJob dayJob = dayJobRepository.findById(id).get();
+        if (maybeDayJob.isPresent()) {
+            DayJob entity = maybeDayJob.get();
 
-        dto.setId(dayJob.getId());
-        dto.setTitle(dayJob.getTitle());
-        dto.setContent(dayJob.getContent());
-        dto.setFromTime(dayJob.getFromTime());
-        dto.setToTime(dayJob.getToTime());
-        dto.setParentId(dayJob.getWeekJob().getId());
+            dto.setJobType(1);
+            dto.setId(entity.getId());
+            dto.setTitle(entity.getTitle());
+            dto.setContent(entity.getContent());
+            dto.setFromTime(entity.getFromTime());
+            dto.setToTime(entity.getToTime());
+            dto.setParentId(entity.getWeekJob().getId());
+        }
 
         return dto;
     }
 
     public Long delete(Long id) {
-        boolean succeed = false;
-
         try {
             dayJobRepository.deleteById(id);
-            succeed = true;
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            id = -1l;
         }
 
-        return succeed ? id : -1;
+        return id;
     }
 }

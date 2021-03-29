@@ -75,11 +75,11 @@ public class ScheduleService {
                 break;
 
             case 2: // Month
-                response = weekJobService.get(id);
+                response = monthJobService.get(id);
                 break;
 
             case 3: // Week
-                response = monthJobService.get(id);
+                response = weekJobService.get(id);
                 break;
 
             case 4: // Day

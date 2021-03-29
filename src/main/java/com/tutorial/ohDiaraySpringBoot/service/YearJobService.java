@@ -7,6 +7,7 @@ import com.tutorial.ohDiaraySpringBoot.repository.DecadeJobRepository;
 import com.tutorial.ohDiaraySpringBoot.repository.YearJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -19,25 +20,23 @@ public class YearJobService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 1) return null;
 
-        boolean succeed = false;
-
         Optional<DecadeJob> maybeParentJob = decadeJobRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
             YearJob newYearJob = new YearJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
             YearJob entity = yearJobRepository.save(newYearJob);
             jobDTO.setId(entity.getId());
-
-            succeed = true;
+        } else {
+            jobDTO = new JobDTO();
         }
 
-        return succeed ? jobDTO : new JobDTO();
+        return jobDTO;
     }
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
         Optional<YearJob> maybeYearJob = yearJobRepository.findById(id);
 
-        if(maybeYearJob.isPresent()){
+        if (maybeYearJob.isPresent()) {
             YearJob entity = maybeYearJob.get();
 
             dto.setJobType(1);
@@ -53,15 +52,12 @@ public class YearJobService {
     }
 
     public Long delete(Long id) {
-        boolean succeed = false;
-
         try {
             yearJobRepository.deleteById(id);
-            succeed = true;
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            id = -1l;
         }
 
-        return succeed ? id : -1;
+        return id;
     }
 }

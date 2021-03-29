@@ -10,6 +10,8 @@ import com.tutorial.ohDiaraySpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DecadeJobService {
     @Autowired
@@ -30,39 +32,45 @@ public class DecadeJobService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 0) return null;
 
-        Desire parentDesire = desireRepository.findById(jobDTO.getParentId()).get(); // TODO: Need exception handling
-        DecadeJob decade = new DecadeJob(jobDTO.getTitle(), jobDTO.getContent(),
-                jobDTO.getFromTime(), jobDTO.getToTime(), parentDesire);
-
-        decadeJobRepository.save(decade);
+        Optional<Desire> maybeDesire = desireRepository.findById(jobDTO.getParentId());
+        if (maybeDesire.isPresent()) {
+            DecadeJob newDecadeJob = new DecadeJob(jobDTO.getTitle(), jobDTO.getContent(),
+                    jobDTO.getFromTime(), jobDTO.getToTime(), maybeDesire.get());
+            DecadeJob entity = decadeJobRepository.save(newDecadeJob);
+            jobDTO.setId(entity.getId());
+        } else {
+            jobDTO = new JobDTO();
+        }
 
         return jobDTO;
     }
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
-        dto.setJobType(0);
+        Optional<DecadeJob> maybeDecadeJob = decadeJobRepository.findById(id);
 
-        DecadeJob decadeJob = decadeJobRepository.findById(id).get();
+        if (maybeDecadeJob.isPresent()) {
+            DecadeJob entity = maybeDecadeJob.get();
 
-        dto.setId(decadeJob.getId());
-        dto.setTitle(decadeJob.getTitle());
-        dto.setContent(decadeJob.getContent());
-        dto.setFromTime(decadeJob.getFromTime());
-        dto.setToTime(decadeJob.getToTime());
-        dto.setParentId(decadeJob.getDesire().getId());
+            dto.setJobType(0);
+            dto.setId(entity.getId());
+            dto.setTitle(entity.getTitle());
+            dto.setContent(entity.getContent());
+            dto.setFromTime(entity.getFromTime());
+            dto.setToTime(entity.getToTime());
+            dto.setParentId(entity.getDesire().getId());
+        }
 
         return dto;
     }
 
     public Long delete(Long id) {
-        boolean succeed = false;
-
         try {
             decadeJobRepository.deleteById(id);
-            succeed = true;
-        } catch (Exception e){ }
+        } catch (Exception e) {
+            id = -1l;
+        }
 
-        return succeed ? id : -1;
+        return id;
     }
 }
