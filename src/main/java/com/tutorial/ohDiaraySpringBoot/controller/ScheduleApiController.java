@@ -13,10 +13,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ScheduleApiController {
-    @Autowired
     private DesireService desireService;
-    @Autowired
     private JobService jobService;
+
+    @Autowired
+    public ScheduleApiController(
+            DesireService desireService,
+            JobService jobService){
+        this.desireService = desireService;
+        this.jobService = jobService;
+    }
+
 
     @GetMapping("/schedules")
     List<DesireWithDecadeJobDTO> all() {
@@ -35,7 +42,7 @@ public class ScheduleApiController {
 
     @PutMapping("/schedules/desire/{id}")
     DesireDTO updateDesire(@RequestBody DesireDTO dto, @PathVariable Long id) {
-       return desireService.update(dto, id);
+        return desireService.update(dto, id);
     }
 
     @DeleteMapping("/schedules/desire/{id}")

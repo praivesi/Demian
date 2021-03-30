@@ -1,15 +1,27 @@
 package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
+import com.tutorial.ohDiaraySpringBoot.service.DesireService;
+import com.tutorial.ohDiaraySpringBoot.service.JobService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class ScheduleApiControllerTest {
 
-    ScheduleApiController scheduleApiController = new ScheduleApiController();
+    ScheduleApiController scheduleApiController;
+
+    @BeforeEach
+    public void beforeEach() {
+        DesireService desireService = new DesireService();
+        JobService jobService = new JobService();
+
+        scheduleApiController = new ScheduleApiController(desireService, jobService);
+    }
+
 
     @Test
     public void testNewJob(){
@@ -30,21 +42,21 @@ public class ScheduleApiControllerTest {
         assertEquals(content, "Product is created successfully");
       */
 
-//        // given
-//        JobDTO recvJobDTO = new JobDTO();
-//        recvJobDTO.setParentId(1L);
-//        recvJobDTO.setJobType(1); // Year Type
-//        recvJobDTO.setTitle("testTitle");
-//        recvJobDTO.setContent("testContent");
-//        recvJobDTO.setFromTime(new GregorianCalendar(2021, Calendar.JANUARY, 1).getTime());
-//        recvJobDTO.setToTime(new GregorianCalendar(2022, Calendar.JANUARY, 1).getTime());
-//
-//        // when
-//        JobDTO savedJobDTO = scheduleApiController.newJob(recvJobDTO);
-//
-//        // then
-//        JobDTO dto = scheduleApiController.getJob(savedJobDTO.getId(), recvJobDTO.getJobType());
-//        Assertions.assertThat(dto.getTitle()).isEqualTo(recvJobDTO.getTitle());
+        // given
+        JobDTO recvJobDTO = new JobDTO();
+        recvJobDTO.setParentId(1L);
+        recvJobDTO.setJobType(1); // Year Type
+        recvJobDTO.setTitle("testTitle");
+        recvJobDTO.setContent("testContent");
+        recvJobDTO.setFromTime(new GregorianCalendar(2021, Calendar.JANUARY, 1).getTime());
+        recvJobDTO.setToTime(new GregorianCalendar(2022, Calendar.JANUARY, 1).getTime());
+
+        // when
+        JobDTO savedJobDTO = scheduleApiController.newJob(recvJobDTO);
+
+        // then
+        JobDTO dto = scheduleApiController.getJob(savedJobDTO.getId(), recvJobDTO.getJobType());
+        Assertions.assertThat(dto.getTitle()).isEqualTo(recvJobDTO.getTitle());
     }
 
 }
