@@ -6,33 +6,37 @@ import com.tutorial.ohDiaraySpringBoot.model.User;
 import com.tutorial.ohDiaraySpringBoot.repository.DesireRepository;
 import com.tutorial.ohDiaraySpringBoot.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 
-// TODO: Need inject necessary mock objects into individual methoods
-// TODO: Fix update_succeed_whenEntityNOTExistsInDB()
-
 @SpringBootTest
 @Transactional
+@ExtendWith(MockitoExtension.class)
 public class DesireServiceTest {
-    @Autowired
+//    @Autowired
     DesireService desireService;
 
-    @MockBean
+    @Mock
     UserRepository userRepository;
 
     @Mock
     DesireRepository desireRepository;
+
+    @BeforeEach
+    void setup(){
+        this.desireService = new DesireService(desireRepository, userRepository);
+    }
 
     @Test
     @DisplayName("Desire 저장하기")
@@ -42,11 +46,15 @@ public class DesireServiceTest {
         user.setId(1l);
         user.setUsername("test");
 
-        DesireDTO dto = new DesireDTO();
-        dto.setTitle("Test title");
-        dto.setContent("Test content");
+        Desire savedDesire = new Desire();
+        savedDesire.setId(1l);
+        savedDesire.setTitle("Test title");
+        savedDesire.setContent("Test content");
+
+        DesireDTO dto = DesireDTO.of(savedDesire);
 
         Mockito.when(userRepository.findByUsername(any())).thenReturn(user);
+        Mockito.when(desireRepository.save(any())).thenReturn(savedDesire);
 
         // when
         DesireDTO idAddedDTO = desireService.save(dto);
@@ -61,9 +69,10 @@ public class DesireServiceTest {
     @DisplayName("DB에 Entity가 있을 때 Desire 업데이트하기")
     public void update_succeed_whenEntityExistsInDB() {
         // given
+        String oldTitle = "already saved entity";
         Desire alreadySavedDesire = new Desire();
         alreadySavedDesire.setId(1l);
-        alreadySavedDesire.setTitle("already saved entity");
+        alreadySavedDesire.setTitle(oldTitle);
         Optional<Desire> maybeEntity = Optional.of(alreadySavedDesire);
         Mockito.when(desireRepository.findById(any())).thenReturn(maybeEntity);
 
@@ -75,7 +84,7 @@ public class DesireServiceTest {
 
         // then
         Assertions.assertEquals(resDTO.getId(), alreadySavedDesire.getId());
-        Assertions.assertNotEquals(resDTO.getTitle(), alreadySavedDesire.getTitle());
+        Assertions.assertNotEquals(resDTO.getTitle(), oldTitle);
     }
 
     @Test
