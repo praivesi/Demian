@@ -19,10 +19,17 @@ import java.util.Optional;
 
 @Service
 public class DesireService {
-    @Autowired
+//    @Autowired
     private DesireRepository desireRepository;
-    @Autowired
+//    @Autowired
     private UserRepository userRepository;
+
+    public DesireService(
+            DesireRepository desireRepository,
+            UserRepository userRepository){
+        this.desireRepository = desireRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<DesireWithDecadeJobDTO> GetAllDesires() {
         return null;
@@ -53,6 +60,7 @@ public class DesireService {
         Desire newDesire = new Desire(dto.getTitle(), dto.getContent(), 0l, dto.getFromTime(), dto.getToTime());
 
         // added temporary user
+        System.out.println("In Real : " + userRepository.hashCode());
         User user = userRepository.findByUsername("hsoh");
         newDesire.setUser(user);
 

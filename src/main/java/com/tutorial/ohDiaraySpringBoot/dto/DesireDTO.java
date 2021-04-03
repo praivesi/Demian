@@ -1,7 +1,10 @@
 package com.tutorial.ohDiaraySpringBoot.dto;
 
 import com.tutorial.ohDiaraySpringBoot.model.Desire;
+
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DesireDTO {
     private Long id;
@@ -59,7 +62,23 @@ public class DesireDTO {
         this.toTime = toTime;
     }
 
-    public static DesireDTO of(Desire desire)  {
+    public DesireDTO() {
+        this.title = "";
+        this.content = "";
+        this.sortNum = -1l;
+        this.fromTime = new GregorianCalendar(1980, Calendar.JANUARY, 1).getTime();
+        this.toTime = new GregorianCalendar(1980, Calendar.JANUARY, 2).getTime();
+    }
+
+    public DesireDTO(String title, String content, Long sortNum, Date fromTime, Date toTime) {
+        this.title = title;
+        this.content = content;
+        this.sortNum = sortNum;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+    }
+
+    public static DesireDTO of(Desire desire) {
         DesireDTO dto = new DesireDTO();
 
         dto.id = desire.getId();
