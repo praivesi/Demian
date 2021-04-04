@@ -4,7 +4,8 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>
+    <!--    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>-->
+    <link rel="stylesheet" type="text/css" href="decade_new.css" th:href="@{/css/decade_new.css}"/>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -16,7 +17,130 @@
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
 </head>
-<p>Hello world~!~!!!!!!!AAAAAAAAAAAAAAABBBBBBBBBBBBB</p>
 <body>
+<!-- Main Conatiner -->
+<div class="main-container">
+    <!-- Desire Container -->
+    <div class="desire-container main-item">
+        <div class="col-md-1 desire-item">
+            <div class="card">
+                <div class="card-header">
+                    Desire1
+                </div>
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary">Remove</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 desire-item">
+            <div class="card">
+                <div class="card-header">
+                    Desire2
+                </div>
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary">Remove</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 desire-item">
+            <div class="card">
+                <div class="card-header">
+                    Desire3
+                </div>
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary">Remove</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Job Container -->
+    <div class="job-container main-item">
+        <!-- Job Navigation Container -->
+        <div class="job-nav-container job-item">
+            <div class="row job-nav-item">
+                <p style="text-align:center;"> < </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> 2000~2009 </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> 2010~2019 </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> 2020~2029 </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> 2030~2039 </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> 2040~2049 </p>
+            </div>
+            <div class="row job-nav-item">
+                <p> > </p>
+            </div>
+        </div>
+        <!-- Job Content Container -->
+        <div class="job-content-container job-item">
+            <div class="row job-content-item row-container">
+                <div class="col-md-1 row-item">
+                    <p> </p>
+                </div>
+                <div class="col-md-1 row-item">
+                    <div class="card">
+                        <div class="card-header">
+                            Job1
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 row-item">
+                    <div class="card">
+                        <div class="card-header">
+                            Job2
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 row-item">
+                    <div class="card">
+                        <div class="card-header">
+                            Job3
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 row-item">
+                    <div class="card">
+                        <div class="card-header">
+                            Job4
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 row-item">
+                    <div class="card">
+                        <div class="card-header">
+                            Job5
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 row-item">
+                    <p> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-<script type="text/javaScript" th:src="@{/js/schedule.js}"></script>
+<!--<script type="text/javaScript" th:src="@{/js/schedule.js}"></script>-->
