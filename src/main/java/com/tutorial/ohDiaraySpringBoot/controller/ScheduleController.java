@@ -2,6 +2,7 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.tutorial.ohDiaraySpringBoot.dto.DecadeNewDTO;
 import com.tutorial.ohDiaraySpringBoot.model.*;
 import com.tutorial.ohDiaraySpringBoot.repository.*;
 import com.tutorial.ohDiaraySpringBoot.service.DecadeJobService;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/schedule")
@@ -49,6 +47,12 @@ public class ScheduleController {
 
     @GetMapping("/decade_new")
     public String decadeNew(Model model) throws JsonProcessingException{
+        Date startDate = new Date();
+        startDate.setYear(100);
+        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startDate);
+
+        model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+
         return "schedule/decade_new";
     }
 

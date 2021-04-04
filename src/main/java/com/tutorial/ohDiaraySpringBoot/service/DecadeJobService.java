@@ -1,6 +1,7 @@
 package com.tutorial.ohDiaraySpringBoot.service;
 
 import com.tutorial.ohDiaraySpringBoot.dto.DecadeJobDTO;
+import com.tutorial.ohDiaraySpringBoot.dto.DecadeNewDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.DesireDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.JobDTO;
 import com.tutorial.ohDiaraySpringBoot.model.DecadeJob;
@@ -12,7 +13,7 @@ import com.tutorial.ohDiaraySpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DecadeJobService {
@@ -24,6 +25,52 @@ public class DecadeJobService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public List<DecadeNewDTO> get(Date startDate) {
+        List<Desire> desires = desireRepository.findAll();
+        List<DecadeNewDTO> decadeNewDTOs = new ArrayList<>();
+
+        for (Desire desire : desires) {
+            DecadeNewDTO decadeNewDTO = new DecadeNewDTO();
+            decadeNewDTO.setDesireDTO(DesireDTO.of(desire));
+
+            List<DecadeJobDTO> decadeJobDTOs = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(startDate);
+
+                cal.add(Calendar.YEAR, 10 * i);
+                Date curStartDate = cal.getTime();
+
+                cal.add(Calendar.YEAR, 10);
+                cal.add(Calendar.SECOND, -1);
+                Date curEndDate = cal.getTime();
+
+                DecadeJob matchedJob = null;
+                for (DecadeJob decadeJob : desire.getDecadeJobs()) {
+                    if (curStartDate.getTime() <= decadeJob.getFromTime().getTime() &&
+                            decadeJob.getToTime().getTime() <= curEndDate.getTime()) {
+                        matchedJob = decadeJob;
+                        break;
+                    }
+                }
+
+                if (matchedJob == null) {
+                    DecadeJobDTO tmpDecadeJobDTO = new DecadeJobDTO();
+                    tmpDecadeJobDTO.setId(-1l);
+                    decadeJobDTOs.add(tmpDecadeJobDTO);
+                } else {
+                    decadeJobDTOs.add(DecadeJobDTO.of(matchedJob));
+                }
+            }
+
+            decadeNewDTO.setDecadeDTOsSortByTime(decadeJobDTOs);
+
+            decadeNewDTOs.add(decadeNewDTO);
+        }
+
+        return decadeNewDTOs;
+    }
 
     public DecadeJob savePrev(String username, DecadeJob decadeJob) {
         User user = userRepository.findByUsername(username);
