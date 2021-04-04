@@ -74,8 +74,8 @@ body, html {
 
 .job-content-container {
     display: flex;
-    justify-content: center;
-    align-items: stretch;
+    flex-flow: column;
+    align-items: center;
     width: 100%;
     background-color: beige;
     text-align: center;

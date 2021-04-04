@@ -22,43 +22,25 @@
 <div class="main-container">
     <!-- Desire Container -->
     <div class="desire-container main-item">
-        <div class="col-md-1 desire-item">
-            <div class="card">
-                <div class="card-header">
-                    Desire1
-                </div>
-                <div class="card-body">
-                    <a href="#" class="btn btn-primary">Remove</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 desire-item">
-            <div class="card">
-                <div class="card-header">
-                    Desire2
-                </div>
-                <div class="card-body">
-                    <a href="#" class="btn btn-primary">Remove</a>
+        <th:block th:each="dto : ${decadeNewDTOs}">
+            <div class="col-md-1 desire-item">
+                <div class="card">
+                    <div class="card-header">
+                        <span th:text="${dto.desireDTO.title}">Desire</span>
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Remove</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-1 desire-item">
-            <div class="card">
-                <div class="card-header">
-                    Desire3
-                </div>
-                <div class="card-body">
-                    <a href="#" class="btn btn-primary">Remove</a>
-                </div>
-            </div>
-        </div>
+        </th:block>
     </div>
     <!-- Job Container -->
     <div class="job-container main-item">
         <!-- Job Navigation Container -->
         <div class="job-nav-container job-item">
             <div class="row job-nav-item">
-                <p style="text-align:center;"> < </p>
+                <button> < </button>
             </div>
             <div class="row job-nav-item">
                 <p> 2000~2009 </p>
@@ -76,69 +58,33 @@
                 <p> 2040~2049 </p>
             </div>
             <div class="row job-nav-item">
-                <p> > </p>
+                <button> > </button>
             </div>
         </div>
         <!-- Job Content Container -->
         <div class="job-content-container job-item">
-            <div class="row job-content-item row-container">
-                <div class="col-md-1 row-item">
-                    <p> </p>
-                </div>
-                <div class="col-md-1 row-item">
-                    <div class="card">
-                        <div class="card-header">
-                            Job1
+            <th:block th:each="dto : ${decadeNewDTOs}">
+                <div class="row row-container job-content-item">
+                    <div class="col-md-1 row-item">
+                        <p></p>
+                    </div>
+                    <th:block th:each="decadeJob :${dto.decadeDTOsSortByTime}">
+                        <div class="col-md-1 row-item">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span th:text="${decadeJob.title}">DECADE JOB</span>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#" class="btn btn-primary">Remove</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
-                        </div>
+                    </th:block>
+                    <div class="col-md-1 row-item">
+                        <p></p>
                     </div>
                 </div>
-                <div class="col-md-1 row-item">
-                    <div class="card">
-                        <div class="card-header">
-                            Job2
-                        </div>
-                        <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 row-item">
-                    <div class="card">
-                        <div class="card-header">
-                            Job3
-                        </div>
-                        <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 row-item">
-                    <div class="card">
-                        <div class="card-header">
-                            Job4
-                        </div>
-                        <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 row-item">
-                    <div class="card">
-                        <div class="card-header">
-                            Job5
-                        </div>
-                        <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 row-item">
-                    <p> </p>
-                </div>
-            </div>
+            </th:block>
         </div>
     </div>
 </div>
