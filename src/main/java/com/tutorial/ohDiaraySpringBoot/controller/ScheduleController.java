@@ -47,6 +47,11 @@ public class ScheduleController {
     private DecadeJobValidator decadeJobValidator;
 
 
+    @GetMapping("/decade_new")
+    public String decadeNew(Model model) throws JsonProcessingException{
+        return "schedule/decade_new";
+    }
+
     @GetMapping("/decade")
     public String decade(Model model) throws JsonProcessingException {
         Map<Desire, List<DecadeJob>> scheduleMap = new HashMap<>();
