@@ -1,15 +1,15 @@
 $(document).ready(function(){
-//    $('#decade-left-arrow').on('click', function(){
-//        console.log("aaa");
-//        $.get("schedule/decade_new", {startDate: 2010});
-//    });
-
     $('#decade-left-arrow').on('click', function(){
-        var uri = "decade_new/set_start_year/" + 2010;
-        $.get(uri, function(data){
-            console.log(data);
-            $(document.documentElement).html(data);
-        });
-    });
-});
+        var uriProtocol = window.location.protocol + '//' + window.location.host;
+        var uri = uriProtocol + "/schedule/decade_new/set_start_year/" + (startYear - 10);
 
+        window.location.replace(uri);
+    });
+
+    $('#decade-right-arrow').on('click', function(){
+            var uriProtocol = window.location.protocol + '//' + window.location.host;
+            var uri = uriProtocol + "/schedule/decade_new/set_start_year/" + (startYear + 10);
+
+            window.location.replace(uri);
+        });
+});
