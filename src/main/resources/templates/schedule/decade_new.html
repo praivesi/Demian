@@ -7,15 +7,17 @@
     <!--    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>-->
     <link rel="stylesheet" type="text/css" href="decade_new.css" th:href="@{/css/decade_new.css}"/>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--            crossorigin="anonymous"></script>-->
+
 </head>
 <body>
 <!-- Main Conatiner -->
@@ -40,25 +42,18 @@
         <!-- Job Navigation Container -->
         <div class="job-nav-container job-item">
             <div class="row job-nav-item">
-                <button> < </button>
+                <button id="decade-left-arrow"> <</button>
             </div>
+            <th:block th:each="i : ${#numbers.sequence(0, 4)}"
+                      th:with="startYear=${#dates.year(startDate)}">
+                <div class="row job-nav-item">
+                    <p th:text="${startYear + 10 * i}"></p>
+                    <p> ~ </p>
+                    <p th:text="${startYear + 10 * (i + 1) - 1}"></p>
+                </div>
+            </th:block>
             <div class="row job-nav-item">
-                <p> 2000~2009 </p>
-            </div>
-            <div class="row job-nav-item">
-                <p> 2010~2019 </p>
-            </div>
-            <div class="row job-nav-item">
-                <p> 2020~2029 </p>
-            </div>
-            <div class="row job-nav-item">
-                <p> 2030~2039 </p>
-            </div>
-            <div class="row job-nav-item">
-                <p> 2040~2049 </p>
-            </div>
-            <div class="row job-nav-item">
-                <button> > </button>
+                <button id="decade-right-arrow"> ></button>
             </div>
         </div>
         <!-- Job Content Container -->
@@ -89,4 +84,4 @@
     </div>
 </div>
 </body>
-<!--<script type="text/javaScript" th:src="@{/js/schedule.js}"></script>-->
+<script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>

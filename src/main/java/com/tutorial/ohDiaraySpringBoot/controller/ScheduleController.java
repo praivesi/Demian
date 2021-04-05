@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -47,13 +48,43 @@ public class ScheduleController {
 
     @GetMapping("/decade_new")
     public String decadeNew(Model model) throws JsonProcessingException{
-        Date startDate = new Date();
-        startDate.setYear(100);
+//        Date startDate = new Date();
+        Date startDate = Calendar.getInstance().getTime();
+        startDate.setYear(startDate.getYear() - 20 - (startDate.getYear() % 10));
         List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startDate);
 
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+        model.addAttribute("startDate", startDate);
 
         return "schedule/decade_new";
+    }
+
+    @GetMapping("/decade_new/set_start_year/{startYear}")
+    public String decadeNewSetStartYear(Model model, @PathVariable int startYear)
+            throws JsonProcessingException{
+
+        return "redirect:/schedule/decade_new/" + startYear;
+//        Date startDate = new Date();
+//        startDate.setYear(startYear - 1900);
+//        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startDate);
+//
+//        model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+//        model.addAttribute("startDate", startDate);
+//
+//        return "/schedule/decade_new";
+    }
+
+    @GetMapping("/decade_new/{startYear}")
+    public String decadeNewWithTime(Model model, @PathVariable int startYear)
+            throws JsonProcessingException{
+        Date startDate = new Date();
+        startDate.setYear(startYear - 1900);
+        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startDate);
+
+        model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+        model.addAttribute("startDate", startDate);
+
+        return "/schedule/decade_new";
     }
 
     @GetMapping("/decade")
