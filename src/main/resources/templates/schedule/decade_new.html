@@ -20,27 +20,34 @@
 
 </head>
 <body>
-<!-- Main Conatiner -->
+<!-- Main Container -->
 <div class="main-container">
-    <!-- Desire Container -->
-    <div class="desire-container main-item">
-        <th:block th:each="dto : ${decadeNewDTOs}">
-            <div class="col-md-1 desire-item">
-                <div class="card">
-                    <div class="card-header">
-                        <span th:text="${dto.desireDTO.title}">Desire</span>
-                    </div>
-                    <div class="card-body">
-                        <a href="#" class="btn btn-primary">Remove</a>
+    <div class="left-container main-item">
+        <!-- Edit Button Container -->
+        <div class="edit-btn-container left-item">
+            <button>목표 수정</button>
+            <button>할일 수정</button>
+        </div>
+        <!-- Desire Container -->
+        <div class="desire-container left-item">
+            <th:block th:each="dto : ${decadeNewDTOs}">
+                <div class="desire-item">
+                    <div class="card">
+                        <div class="card-header">
+                            <span th:text="${dto.desireDTO.title}">Desire</span>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Remove</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </th:block>
+            </th:block>
+        </div>
     </div>
     <!-- Job Container -->
     <div class="job-container main-item">
         <!-- Job Navigation Container -->
-        <div class="job-nav-container job-item">
+        <div class="job-nav-container job-item" style="height=200px;">
             <div class="job-nav-item">
                 <button id="decade-left-arrow"> <</button>
             </div>
