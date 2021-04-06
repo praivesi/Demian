@@ -49,7 +49,6 @@ public class ScheduleController {
     @GetMapping("/decade_new")
     public String decadeNew(Model model) throws JsonProcessingException{
         Calendar startCal = new GregorianCalendar();
-        startCal.setTime(new Date());
         startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 20 - startCal.get(Calendar.YEAR) % 10);
 
         List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime());
@@ -63,12 +62,13 @@ public class ScheduleController {
     @GetMapping("/decade_new/{startYear}")
     public String decadeNewWithTime(Model model, @PathVariable int startYear)
             throws JsonProcessingException{
-        Date startDate = new Date();
-        startDate.setYear(startYear - 1900);
-        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startDate);
+        Calendar startCal = new GregorianCalendar();
+        startCal.set(Calendar.YEAR, startYear);
+
+        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime());
 
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
-        model.addAttribute("startDate", startDate);
+        model.addAttribute("startDate", startCal.getTime());
 
         return "/schedule/decade_new";
     }
