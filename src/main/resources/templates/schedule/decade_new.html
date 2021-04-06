@@ -4,7 +4,6 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"/>
-    <!--    <link rel="stylesheet" type="text/css" href="schedule.css" th:href="@{/css/schedule.css}"/>-->
     <link rel="stylesheet" type="text/css" href="decade_new.css" th:href="@{/css/decade_new.css}"/>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -14,9 +13,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
-<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
-<!--            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--            crossorigin="anonymous"></script>-->
+    <script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>
+    <script th:inline="javascript">
+        var startYear =[[${#dates.year(startDate)}]];
+    </script>
 
 </head>
 <body>
@@ -41,18 +41,18 @@
     <div class="job-container main-item">
         <!-- Job Navigation Container -->
         <div class="job-nav-container job-item">
-            <div class="row job-nav-item">
+            <div class="job-nav-item">
                 <button id="decade-left-arrow"> <</button>
             </div>
             <th:block th:each="i : ${#numbers.sequence(0, 4)}"
                       th:with="startYear=${#dates.year(startDate)}">
-                <div class="row job-nav-item">
+                <div class="job-nav-item">
                     <p th:text="${startYear + 10 * i}"></p>
                     <p> ~ </p>
                     <p th:text="${startYear + 10 * (i + 1) - 1}"></p>
                 </div>
             </th:block>
-            <div class="row job-nav-item">
+            <div class="job-nav-item">
                 <button id="decade-right-arrow"> ></button>
             </div>
         </div>
@@ -84,7 +84,3 @@
     </div>
 </div>
 </body>
-<script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>
-<script th:inline="javascript">
-    var startYear =[[${#dates.year(startDate)}]];
-</script>
