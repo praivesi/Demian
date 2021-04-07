@@ -32,4 +32,12 @@ $(document).ready(function(){
 
         window.location.replace(uri);
     });
+
+    $('#desire-add-btn').on('click', function(){
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/decade_new/desireForm');
+    });
+
+    $('#job-add-btn').on('click', function(){
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/decade_new/jobForm');
+    });
 });

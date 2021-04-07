@@ -148,3 +148,11 @@ body, html {
     background-color: skyblue;
     border: 1px dotted black;
 }
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

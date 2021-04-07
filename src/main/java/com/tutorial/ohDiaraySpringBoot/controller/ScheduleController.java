@@ -73,6 +73,16 @@ public class ScheduleController {
         return "/schedule/decade_new";
     }
 
+    @GetMapping("/decade_new/desireForm")
+    public String desireForm(Model model) throws JsonProcessingException{
+        return "/schedule/desire_form";
+    }
+
+    @GetMapping("/decade_new/jobForm")
+    public String jobForm(Model model) throws JsonProcessingException{
+        return "/schedule/job_form";
+    }
+
     @GetMapping("/decade")
     public String decade(Model model) throws JsonProcessingException {
         Map<Desire, List<DecadeJob>> scheduleMap = new HashMap<>();

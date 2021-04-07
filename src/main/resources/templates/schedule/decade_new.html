@@ -25,8 +25,8 @@
     <div class="left-container main-item">
         <!-- Edit Button Container -->
         <div class="edit-btn-container left-item">
-            <button>목표 수정</button>
-            <button>할일 수정</button>
+            <button id="desire-add-btn">목표 추가</button>
+            <button id="job-add-btn">할일 추가</button>
         </div>
         <!-- Desire Container -->
         <div class="desire-container left-item">
@@ -37,7 +37,8 @@
                             <span th:text="${dto.desireDTO.title}">Desire</span>
                         </div>
                         <div class="card-body">
-                            <a href="#" class="btn btn-primary">Remove</a>
+                            <a href="#" class="btn btn-primary card-item">수정</a>
+                            <a href="#" class="btn btn-primary card-item">삭제</a>
                         </div>
                     </div>
                 </div>
@@ -76,8 +77,9 @@
                                 <div class="card-header">
                                     <span th:text="${decadeJob.title}">DECADE JOB</span>
                                 </div>
-                                <div class="card-body">
-                                    <a href="#" class="btn btn-primary">Remove</a>
+                                <div th:if="${decadeJob.title != null}" class="card-body">
+                                    <a href="#" class="btn btn-primary card-item">수정</a>
+                                    <a href="#" class="btn btn-primary card-item">삭제</a>
                                 </div>
                             </div>
                         </div>
