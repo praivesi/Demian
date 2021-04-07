@@ -34,10 +34,54 @@ $(document).ready(function(){
     });
 
     $('#desire-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/decade_new/desireForm');
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/desire/desireForm');
+    });
+
+//    function deleteDesire(Long id){
+//        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
+//            var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
+//            console.log('Delete URI : ' + deleteURI);
+//
+//            $.ajax({
+//                url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
+//                type: 'DELETE',
+//                success: function(result){
+//                    console.log('Delete desire succeed')
+//                }
+//            });
+//    }
+
+    $('#desire-delete-btn').on('click', function(){
+        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
+        var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
+        console.log('Delete URI : ' + deleteURI);
+
+        $.ajax({
+            url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
+            type: 'DELETE',
+            success: function(result){
+                console.log('Delete desire succeed')
+            }
+        });
     });
 
     $('#job-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/decade_new/jobForm');
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/desire/jobForm');
     });
 });
+
+// TODO: Fix Error occurred from decade_new.html
+// Uncaught ReferenceError: deleteDesire is not defined
+function deleteDesire(Long id){
+        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
+            var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
+            console.log('Delete URI : ' + deleteURI);
+
+            $.ajax({
+                url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
+                type: 'DELETE',
+                success: function(result){
+                    console.log('Delete desire succeed')
+                }
+            });
+    }

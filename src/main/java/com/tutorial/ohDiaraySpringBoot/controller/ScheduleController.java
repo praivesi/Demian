@@ -74,7 +74,7 @@ public class ScheduleController {
         return "/schedule/decade_new";
     }
 
-    @GetMapping("/decade_new/desireForm")
+    @GetMapping("/desire/desireForm")
     public String desireForm(Model model, @RequestParam(required = false) Long id) {
         if (id == null) {
             model.addAttribute("desireDTO", new DesireDTO());
@@ -85,7 +85,7 @@ public class ScheduleController {
         return "/schedule/desire_form";
     }
 
-    @PostMapping("/decade_new/desireForm")
+    @PostMapping("/desire/desireForm")
     public String postDesireForm(@Valid DesireDTO desireDTO, BindingResult bindingResult, Authentication authentication) {
 //        if (bindingResult.hasErrors()) {
 //            return "schedule/decade_new";
@@ -97,6 +97,13 @@ public class ScheduleController {
         recvDesire.setUser(user);
 
         desireRepository.save(recvDesire);
+
+        return "redirect:/schedule/decade_new";
+    }
+
+    @DeleteMapping("/desire/{id}")
+    public String deleteDesire(Model model, @PathVariable long id){
+        desireRepository.deleteById(id);
 
         return "redirect:/schedule/decade_new";
     }

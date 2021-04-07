@@ -37,8 +37,10 @@
                             <span th:text="${dto.desireDTO.title}">Desire</span>
                         </div>
                         <div class="card-body">
-                            <a href="#" class="btn btn-primary card-item">수정</a>
-                            <a href="#" class="btn btn-primary card-item">삭제</a>
+                            <a href="#" class="btn btn-primary card-item"
+                               th:href="@{/schedule/desire/desireForm(id=${dto.desireDTO.id})}">수정</a>
+<!--                            <button class="btn btn-primary card-item" id="desire-delete-btn" desire-id="${dto.desireDTO.id}">삭제</button>-->
+                            <button id="desire-delete-btn" th:onclick="|deleteDesire(${dto.desireDTO.id})|">삭제</button>
                         </div>
                     </div>
                 </div>
