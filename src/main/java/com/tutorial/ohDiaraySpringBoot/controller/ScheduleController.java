@@ -2,6 +2,7 @@ package com.tutorial.ohDiaraySpringBoot.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.tutorial.ohDiaraySpringBoot.dto.DecadeJobDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.DecadeNewDTO;
 import com.tutorial.ohDiaraySpringBoot.dto.DesireDTO;
 import com.tutorial.ohDiaraySpringBoot.model.*;
@@ -109,8 +110,15 @@ public class ScheduleController {
     }
 
     @GetMapping("/decade_new/jobForm")
-    public String jobForm(Model model) throws JsonProcessingException {
-        return "/schedule/job_form";
+    public String jobForm(Model model, @RequestParam(required = false) Long id){
+        if (id == null) {
+            model.addAttribute("decadeJobDTO", new DecadeJobDTO());
+        } else {
+            DecadeJob decadeJob = decadeJobRepository.findById(id).orElse(null);
+            model.addAttribute("decadeJobDTO", DecadeJobDTO.of(decadeJob));
+        }
+
+        return "/schedule/decade_job_form";
     }
 
     @GetMapping("/decade")
