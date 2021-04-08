@@ -24,22 +24,16 @@ public class Desire {
     private String content;
     @Column(name = "sortNum")
     private Long sortNum;
-    @Column(name = "from_time")
-    private Date fromTime;
-    @Column(name = "to_time")
-    private Date toTime;
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
     private List<DecadeJob> decadeJobs = new ArrayList<>();
 
     public Desire(){}
 
-    public Desire(String _title, String _content, Long _sortNum, Date _fromTime, Date _toTime){
+    public Desire(String _title, String _content, Long _sortNum){
         this.title = _title;
         this.content = _content;
         this.sortNum = _sortNum;
-        this.fromTime = _fromTime;
-        this.toTime = _toTime;
     }
 
     @ManyToOne
