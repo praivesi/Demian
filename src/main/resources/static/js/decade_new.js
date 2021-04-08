@@ -5,19 +5,8 @@ $(document).ready(function(){
     jobNavContainerHeight = $('.job-nav-container').height();
     $('.edit-btn-container').height(jobNavContainerHeight);
 
-//    $('.edit-btn-container').height($('.job-nav-container').height() + 1);
-//    $('.edit-btn-container').css('height', $('job-nav-container').height() + 'px !important');
     console.log("AFTER edit-btn-container height => " + $('.edit-btn-container').height());
     console.log("job-nav-container height => " + $('.job-nav-container').height());
-
-//    console.log("BEFORE edit-btn-container-id height => " + $('#edit-btn-container-id').height());
-//    console.log("job-nav-container height => " + $('.job-nav-container').height());
-//    $('#edit-btn-container-id').height($('.job-nav-container').height());
-//    console.log("AFTER edit-btn-container-id height => " + $('#edit-btn-container-id').height());
-//    console.log("job-nav-container height => " + $('.job-nav-container').height());
-
-//    $('.desire-container').css('margin-top', $('.job-nav-container').height() + 'px');
-//    $('.desire-container').height($('.desire-container').height() - $('.job-nav-container').height());
 
     $('#decade-left-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
@@ -37,30 +26,17 @@ $(document).ready(function(){
         window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/desire/desireForm');
     });
 
-//    function deleteDesire(Long id){
-//        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
-//            var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
-//            console.log('Delete URI : ' + deleteURI);
-//
-//            $.ajax({
-//                url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
-//                type: 'DELETE',
-//                success: function(result){
-//                    console.log('Delete desire succeed')
-//                }
-//            });
-//    }
-
-    $('#desire-delete-btn').on('click', function(){
-        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
-        var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
-        console.log('Delete URI : ' + deleteURI);
+    $('.desire-delete-btn').on('click', function(){
+        var rootURL = window.location.protocol + '//' + window.location.host;
+        var deleteURL =  rootURL + '/api/schedules/desire/' + $(this).val();
+        console.log('Delete URL : ' + deleteURL);
 
         $.ajax({
-            url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
+            url: deleteURL,
             type: 'DELETE',
             success: function(result){
-                console.log('Delete desire succeed')
+                console.log('Delete desire succeed');
+                window.location.reload();
             }
         });
     });
@@ -70,18 +46,3 @@ $(document).ready(function(){
     });
 });
 
-// TODO: Fix Error occurred from decade_new.html
-// Uncaught ReferenceError: deleteDesire is not defined
-function deleteDesire(Long id){
-        console.log('delete function clicked; desire id is ' + $(this).data('desire-id'));
-            var deleteURI =  window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id');
-            console.log('Delete URI : ' + deleteURI);
-
-            $.ajax({
-                url: window.location.protocol + '//' + window.location.host + '/api/schedules/desires/' + $(this).data('desire-id'),
-                type: 'DELETE',
-                success: function(result){
-                    console.log('Delete desire succeed')
-                }
-            });
-    }
