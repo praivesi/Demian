@@ -50,6 +50,9 @@ public class ScheduleApiController {
         return desireService.delete(id);
     }
 
+    @DeleteMapping("/schedules/decade_job/{id}")
+    Long deleteDecadeJob(@PathVariable Long id){return jobService.delete(id, 0);}
+
     @PostMapping("/schedules/job")
     JobDTO newJob(@RequestBody JobDTO jobDTO) {
         // 0 - Decade, 1 - Year, 2 - Month, 3 - Week, 4 - Day

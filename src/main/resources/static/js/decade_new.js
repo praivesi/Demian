@@ -47,5 +47,20 @@ $(document).ready(function(){
         window.location.replace(window.location.protocol + '//' + window.location.host +
             '/schedule/decade_new/jobForm?desireId=' + $(this).val());
     });
+
+    $('.decade-job-delete-btn').on('click', function(){
+        var rootURL = window.location.protocol + '//' + window.location.host;
+        var deleteURL =  rootURL + '/api/schedules/decade_job/' + $(this).val();
+        console.log('Delete URL : ' + deleteURL);
+
+        $.ajax({
+            url: deleteURL,
+            type: 'DELETE',
+            success: function(result){
+                console.log('Delete desire succeed');
+                window.location.reload();
+            }
+        });
+    });
 });
 

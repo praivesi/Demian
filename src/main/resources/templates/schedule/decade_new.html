@@ -78,8 +78,9 @@
                                     <span th:text="${decadeJob.title}">DECADE JOB</span>
                                 </div>
                                 <div th:if="${decadeJob.title != null}" class="card-body">
-                                    <a href="#" class="btn btn-primary card-item">수정</a>
-                                    <a href="#" class="btn btn-primary card-item">삭제</a>
+                                    <a href="#" class="btn btn-primary card-item"
+                                       th:href="@{/schedule/decade_new/jobForm(desireId=${dto.desireDTO.id}, jobId=${decadeJob.id})}">수정</a>
+                                    <button class="decade-job-delete-btn btn btn-primary" th:value="${decadeJob.id}">삭제</button>
                                 </div>
                             </div>
                         </div>
