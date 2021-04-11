@@ -45,7 +45,7 @@ public class DesireService {
 
         // [210228] Dummy data for test
         desire.setSortNum(10l);
-        desire.setDecadeJobs(new ArrayList<DecadeJob>());
+        desire.setDecades(new ArrayList<DecadeJob>());
 
         return desireRepository.save(desire);
     }

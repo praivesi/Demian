@@ -22,17 +22,17 @@ public class DayJob {
     private Date toTime;
 
     @ManyToOne
-    @JoinColumn(name = "week_job_id")
+    @JoinColumn(name = "desire_id")
     @JsonIgnore
-    private WeekJob weekJob;
+    private Desire desire;
 
     public DayJob(){}
 
-    public DayJob(String _title, String _content, Date _from, Date _to, WeekJob _weekJob) {
+    public DayJob(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;
         this.toTime = _to;
-        this.weekJob = _weekJob;
+        this.desire = _desire;
     }
 }

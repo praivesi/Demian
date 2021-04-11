@@ -25,7 +25,19 @@ public class Desire {
     private Long sortNum;
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<DecadeJob> decadeJobs = new ArrayList<>();
+    private List<DecadeJob> decades = new ArrayList<>();
+
+    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
+    private List<YearJob> years = new ArrayList<>();
+
+    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
+    private List<MonthJob> months = new ArrayList<>();
+
+    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
+    private List<WeekJob> weeks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
+    private List<DayJob> days = new ArrayList<>();
 
     public Desire(){}
 

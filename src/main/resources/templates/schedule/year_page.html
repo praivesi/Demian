@@ -22,23 +22,23 @@
     <div class="left-container main-item">
         <!-- Edit Button Container -->
         <div class="edit-btn-container left-item">
-            <button class="btn btn-primary">Decade</button>
+            <button class="btn btn-primary">Year</button>
             <button class="desire-add-btn btn btn-primary">목표 추가</button>
         </div>
         <!-- Desire Container -->
         <div class="desire-container left-item">
-            <th:block th:each="dto : ${decadeNewDTOs}">
+            <th:block th:each="dto : ${yearPageDTOs}">
                 <div class="desire-item">
                     <div class="card">
                         <div class="card-header">
-                            <span th:text="${dto.desireDTO.title}">Desire</span>
+                            <span th:text="${dto.desire.title}">Desire</span>
                         </div>
                         <div class="card-body">
                             <div class="card-item">
                             <a href="#" class="btn btn-primary "
-                               th:href="@{/desires/form(id=${dto.desireDTO.id})}">수정</a>
-                            <button class="desire-delete-btn btn btn-primary" th:value="${dto.desireDTO.id}">삭제</button>
-                            <button class="decade-add-btn btn btn-primary" th:value="${dto.desireDTO.id}">할일 추가</button>
+                               th:href="@{/desires/form(id=${dto.desire.id})}">수정</a>
+                            <button class="desire-delete-btn btn btn-primary" th:value="${dto.desire.id}">삭제</button>
+                            <button class="year-add-btn btn btn-primary" th:value="${dto.desire.id}">할일 추가</button>
                             </div>
                         </div>
                     </div>
@@ -58,37 +58,35 @@
         <!-- Job Navigation Container -->
         <div class="job-nav-container job-item" style="height=200px;">
             <div class="job-nav-item">
-                <button class="decade-left-arrow"> <</button>
+                <button id="year-left-arrow"> <</button>
             </div>
             <th:block th:each="i : ${#numbers.sequence(0, 4)}"
                       th:with="startYear=${#dates.year(startDate)}">
                 <div class="job-nav-item">
-                    <p th:text="${startYear + 10 * i}"></p>
-                    <p> ~ </p>
-                    <p th:text="${startYear + 10 * (i + 1) - 1}"></p>
+                    <p th:text="${startYear + i}"></p>
                 </div>
             </th:block>
             <div class="job-nav-item">
-                <button class="decade-right-arrow"> ></button>
+                <button id="year-right-arrow"> ></button>
             </div>
         </div>
         <!-- Job Content Container -->
         <div class="job-content-container job-item">
-            <th:block th:each="dto : ${decadeNewDTOs}">
+            <th:block th:each="dto : ${yearPageDTOs}">
                 <div class="row row-container job-content-item">
                     <div class="col-md-1 row-item">
                         <p></p>
                     </div>
-                    <th:block th:each="decadeJob :${dto.decadeDTOsSortByTime}">
+                    <th:block th:each="year :${dto.years}">
                         <div class="col-md-1 row-item">
                             <div class="card">
                                 <div class="card-header">
-                                    <span th:text="${decadeJob.title}">DECADE JOB</span>
+                                    <span th:text="${year.title}">YEAR JOB</span>
                                 </div>
-                                <div th:if="${decadeJob.title != null}" class="card-body">
+                                <div th:if="${year.title != null}" class="card-body">
                                     <a href="#" class="btn btn-primary card-item"
-                                       th:href="@{/decades/form(desireId=${dto.desireDTO.id}, jobId=${decadeJob.id})}">수정</a>
-                                    <button class="decade-delete-btn btn btn-primary" th:value="${decadeJob.id}">삭제</button>
+                                       th:href="@{/years/form(desireId=${dto.desire.id}, jobId=${year.id})}">수정</a>
+                                    <button class="year-delete-btn btn btn-primary" th:value="${year.id}">삭제</button>
                                 </div>
                             </div>
                         </div>

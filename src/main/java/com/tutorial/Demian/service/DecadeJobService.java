@@ -47,7 +47,7 @@ public class DecadeJobService {
                 Date curEndDate = cal.getTime();
 
                 DecadeJob matchedJob = null;
-                for (DecadeJob decadeJob : desire.getDecadeJobs()) {
+                for (DecadeJob decadeJob : desire.getDecades()) {
                     if (curStartDate.getTime() <= decadeJob.getFromTime().getTime() &&
                             decadeJob.getToTime().getTime() <= curEndDate.getTime()) {
                         matchedJob = decadeJob;

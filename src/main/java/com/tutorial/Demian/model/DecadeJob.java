@@ -33,9 +33,6 @@ public class DecadeJob {
     @JsonIgnore
     private Desire desire;
 
-    @OneToMany(mappedBy = "decadeJob", fetch = FetchType.LAZY)
-    private List<YearJob> yearJobs = new ArrayList<>();
-
     public DecadeJob(){
 
     }

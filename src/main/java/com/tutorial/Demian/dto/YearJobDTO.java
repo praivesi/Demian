@@ -1,63 +1,40 @@
 package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.YearJob;
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class YearJobDTO {
     private Long id;
+    private Long desireId;
     private String title;
     private String content;
-    private Date from;
-    private Date to;
+    private Date fromTime;
+    private Date toTime;
 
-    public Long getId() {
-        return id;
-    }
+    public YearJob getEntity(){
+        YearJob entity = new YearJob();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+        entity.setId(this.id);
+        entity.setTitle(this.title);
+        entity.setContent(this.content);
+        entity.setFromTime(this.fromTime);
+        entity.setToTime(this.toTime);
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getFrom() {
-        return from;
-    }
-
-    public void setFrom(Date from) {
-        this.from = from;
-    }
-
-    public Date getTo() {
-        return to;
-    }
-
-    public void setTo(Date to) {
-        this.to = to;
+        return entity;
     }
 
     public static YearJobDTO of(YearJob year){
         YearJobDTO dto = new YearJobDTO();
 
         dto.id = year.getId();
+        dto.desireId = year.getDesire().getId();
         dto.title = year.getTitle();
         dto.content = year.getContent();
-        dto.from = year.getFromTime();
-        dto.to = year.getToTime();
+        dto.fromTime = year.getFromTime();
+        dto.toTime = year.getToTime();
 
         return dto;
     }

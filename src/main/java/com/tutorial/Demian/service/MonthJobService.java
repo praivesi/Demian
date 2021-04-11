@@ -1,10 +1,10 @@
 package com.tutorial.Demian.service;
 
 import com.tutorial.Demian.dto.JobDTO;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthJob;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.MonthJobRepository;
-import com.tutorial.Demian.repository.YearJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +13,15 @@ import java.util.Optional;
 @Service
 public class MonthJobService {
     @Autowired
-    private YearJobRepository yearJobRepository;
+    private DesireRepository desireRepository;
     @Autowired
     private MonthJobRepository monthJobRepository;
+
 
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 2) return null;
 
-        Optional<YearJob> maybeParentJob = yearJobRepository.findById(jobDTO.getParentId());
+        Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
             MonthJob newMonthJob = new MonthJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
             MonthJob entity = monthJobRepository.save(newMonthJob);
@@ -65,7 +66,7 @@ public class MonthJobService {
             dto.setContent(entity.getContent());
             dto.setFromTime(entity.getFromTime());
             dto.setToTime(entity.getToTime());
-            dto.setParentId(entity.getYearJob().getId());
+            dto.setParentId(entity.getDesire().getId());
         }
 
         return dto;

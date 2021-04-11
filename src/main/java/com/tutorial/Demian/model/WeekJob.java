@@ -24,20 +24,17 @@ public class WeekJob {
     private Date toTime;
 
     @ManyToOne
-    @JoinColumn(name = "month_job_id")
+    @JoinColumn(name = "desire_id")
     @JsonIgnore
-    private MonthJob monthJob;
-
-    @OneToMany(mappedBy = "weekJob", fetch = FetchType.LAZY)
-    private List<DayJob> dayJobs = new ArrayList<>();
+    private Desire desire;
 
     public WeekJob(){}
 
-    public WeekJob(String _title, String _content, Date _from, Date _to, MonthJob _monthJob) {
+    public WeekJob(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;
         this.toTime = _to;
-        this.monthJob = _monthJob;
+        this.desire = _desire;
     }
 }

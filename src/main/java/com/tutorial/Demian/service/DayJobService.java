@@ -2,9 +2,9 @@ package com.tutorial.Demian.service;
 
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DayJob;
-import com.tutorial.Demian.model.WeekJob;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.repository.DayJobRepository;
-import com.tutorial.Demian.repository.WeekJobRepository;
+import com.tutorial.Demian.repository.DesireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +13,14 @@ import java.util.Optional;
 @Service
 public class DayJobService {
     @Autowired
-    private WeekJobRepository weekJobRepository;
+    private DesireRepository desireRepository;
     @Autowired
     private DayJobRepository dayJobRepository;
 
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 4) return null;
 
-        Optional<WeekJob> maybeParentJob = weekJobRepository.findById(jobDTO.getParentId());
+        Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
             DayJob newDayJob = new DayJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
             DayJob entity = dayJobRepository.save(newDayJob);
@@ -65,7 +65,7 @@ public class DayJobService {
             dto.setContent(entity.getContent());
             dto.setFromTime(entity.getFromTime());
             dto.setToTime(entity.getToTime());
-            dto.setParentId(entity.getWeekJob().getId());
+            dto.setParentId(entity.getDesire().getId());
         }
 
         return dto;
