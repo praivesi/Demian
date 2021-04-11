@@ -10,20 +10,20 @@ $(document).ready(function(){
 
     $('#decade-left-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
-        var uri = uriProtocol + "/schedule/decade_new/" + (startYear - 10);
+        var uri = uriProtocol + "/schedules/decade/" + (startYear - 10);
 
         window.location.replace(uri);
     });
 
     $('#decade-right-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
-        var uri = uriProtocol + "/schedule/decade_new/" + (startYear + 10);
+        var uri = uriProtocol + "/schedules/decade/" + (startYear + 10);
 
         window.location.replace(uri);
     });
 
     $('#desire-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/desire/desireForm');
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedules/decade/desireForm');
     });
 
     $('.desire-delete-btn').on('click', function(){
@@ -45,7 +45,7 @@ $(document).ready(function(){
         console.log("on job-add-btn click value => " + $(this).val());
 
         window.location.replace(window.location.protocol + '//' + window.location.host +
-            '/schedule/decade_new/jobForm?desireId=' + $(this).val());
+            '/schedules/decade/jobForm?desireId=' + $(this).val());
     });
 
     $('.decade-job-delete-btn').on('click', function(){
