@@ -22,8 +22,7 @@
     <div class="left-container main-item">
         <!-- Edit Button Container -->
         <div class="edit-btn-container left-item">
-            <button id="desire-add-btn">목표 추가</button>
-            <button id="job-add-btn">할일 추가</button>
+            <button class="btn btn-primary" id="desire-add-btn">목표 추가</button>
         </div>
         <!-- Desire Container -->
         <div class="desire-container left-item">
@@ -34,9 +33,12 @@
                             <span th:text="${dto.desireDTO.title}">Desire</span>
                         </div>
                         <div class="card-body">
-                            <a href="#" class="btn btn-primary card-item"
+                            <div class="card-item">
+                            <a href="#" class="btn btn-primary "
                                th:href="@{/schedule/desire/desireForm(id=${dto.desireDTO.id})}">수정</a>
-                            <button class="desire-delete-btn" th:value="${dto.desireDTO.id}">삭제</button>
+                            <button class="desire-delete-btn btn btn-primary" th:value="${dto.desireDTO.id}">삭제</button>
+                            <button class="job-add-btn btn btn-primary">할일 추가</button>
+                            </div>
                         </div>
                     </div>
                 </div>
