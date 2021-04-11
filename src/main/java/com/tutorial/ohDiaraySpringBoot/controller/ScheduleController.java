@@ -10,7 +10,7 @@ import com.tutorial.ohDiaraySpringBoot.repository.*;
 import com.tutorial.ohDiaraySpringBoot.service.DecadeJobService;
 import com.tutorial.ohDiaraySpringBoot.service.DesireService;
 import com.tutorial.ohDiaraySpringBoot.validator.DecadeJobValidator;
-import org.hibernate.validator.constraints.URL;
+import com.tutorial.ohDiaraySpringBoot.validator.DesireValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -46,6 +46,9 @@ public class ScheduleController {
 
     @Autowired
     private DecadeJobValidator decadeJobValidator;
+
+    @Autowired
+    private DesireValidator desireValidator;
 
 
     @GetMapping("/decade_new")
@@ -88,9 +91,11 @@ public class ScheduleController {
 
     @PostMapping("/desire/desireForm")
     public String postDesireForm(@Valid DesireDTO desireDTO, BindingResult bindingResult, Authentication authentication) {
-//        if (bindingResult.hasErrors()) {
-//            return "schedule/decade_new";
-//        }
+        desireValidator.validate(desireDTO, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "/schedule/desire_form";
+        }
 
         Desire recvDesire = desireDTO.getEntity();
 
@@ -103,14 +108,14 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/desire/{id}")
-    public String deleteDesire(Model model, @PathVariable long id){
+    public String deleteDesire(Model model, @PathVariable long id) {
         desireRepository.deleteById(id);
 
         return "redirect:/schedule/decade_new";
     }
 
     @GetMapping("/decade_new/jobForm")
-    public String jobForm(Model model, @RequestParam(required = false) Long id){
+    public String jobForm(Model model, @RequestParam(required = false) Long id) {
         if (id == null) {
             model.addAttribute("decadeJobDTO", new DecadeJobDTO());
         } else {
