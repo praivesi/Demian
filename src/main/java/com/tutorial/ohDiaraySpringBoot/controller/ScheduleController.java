@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -115,15 +116,50 @@ public class ScheduleController {
     }
 
     @GetMapping("/decade_new/jobForm")
-    public String jobForm(Model model, @RequestParam(required = false) Long id) {
-        if (id == null) {
-            model.addAttribute("decadeJobDTO", new DecadeJobDTO());
+    public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
+        Optional<Desire> mayDesire = desireRepository.findById(desireId);
+
+        if (!mayDesire.isPresent()) {
+            // TODO: DO more reasonable exception handling
+            return "redirect:/schedule/decade_new";
+        }
+
+        if (jobId == null) {
+            DecadeJobDTO dto = new DecadeJobDTO();
+            dto.setDesireId(desireId);
+            model.addAttribute("decadeJobDTO", dto);
         } else {
-            DecadeJob decadeJob = decadeJobRepository.findById(id).orElse(null);
+            DecadeJob decadeJob = decadeJobRepository.findById(jobId).orElse(null);
             model.addAttribute("decadeJobDTO", DecadeJobDTO.of(decadeJob));
         }
 
+        model.addAttribute("desireDTO", mayDesire.get());
+
         return "/schedule/decade_job_form";
+    }
+
+    @PostMapping("/decade_new/jobForm")
+    public String postDecadeJobForm(Model model, @Valid DecadeJobDTO decadeJobDTO, BindingResult bindingResult,
+                                    Authentication authentication) {
+        Optional<Desire> mayDesire = desireRepository.findById(decadeJobDTO.getDesireId());
+        if (!mayDesire.isPresent()) {
+            // TODO: DO more reasonable exception handling
+            return "redirect:/schedule/decade_new";
+        }
+
+        model.addAttribute("desireDTO", mayDesire.get());
+
+        decadeJobValidator.validate(decadeJobDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/schedule/decade_job_form";
+        }
+
+        DecadeJob decadeJob = decadeJobDTO.getEntity();
+        decadeJob.setDesire(mayDesire.get());
+
+        decadeJobRepository.save(decadeJob);
+
+        return "redirect:/schedule/decade_new";
     }
 
     @GetMapping("/decade")

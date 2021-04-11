@@ -42,7 +42,10 @@ $(document).ready(function(){
     });
 
     $('.job-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/schedule/decade_new/jobForm');
+        console.log("on job-add-btn click value => " + $(this).val());
+
+        window.location.replace(window.location.protocol + '//' + window.location.host +
+            '/schedule/decade_new/jobForm?desireId=' + $(this).val());
     });
 });
 

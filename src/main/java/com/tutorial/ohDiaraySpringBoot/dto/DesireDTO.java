@@ -3,9 +3,7 @@ package com.tutorial.ohDiaraySpringBoot.dto;
 import com.tutorial.ohDiaraySpringBoot.model.Desire;
 import lombok.Data;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Data
 public class DesireDTO {
