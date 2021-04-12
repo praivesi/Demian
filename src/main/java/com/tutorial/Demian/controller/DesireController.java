@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,19 +25,22 @@ public class DesireController {
     @Autowired
     private DesireValidator desireValidator;
 
-    @GetMapping("/form")
-    public String getDesireForm(Model model, @RequestParam(required = false) Long id) {
+    @GetMapping("/form/{jobType}")
+    public String getDesireForm(Model model, @PathVariable int jobType, @RequestParam(required = false) Long id) {
         if (id == null) {
             model.addAttribute("desireDTO", new DesireDTO());
         } else {
             Desire desire = desireRepository.findById(id).orElse(null);
             model.addAttribute("desireDTO", DesireDTO.of(desire));
         }
+
+        model.addAttribute("jobType", jobType);
+
         return "/schedule/desire_form";
     }
 
-    @PostMapping("/form")
-    public String postDesireForm(@Valid DesireDTO desireDTO, BindingResult bindingResult, Authentication authentication) {
+    @PostMapping("/form/{jobType}")
+    public String postDesireForm(@Valid DesireDTO desireDTO, @PathVariable int jobType, BindingResult bindingResult, Authentication authentication) {
         desireValidator.validate(desireDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -53,7 +53,26 @@ public class DesireController {
         recvDesire.setUser(user);
 
         desireRepository.save(recvDesire);
+        String retPath = "";
 
-        return "redirect:/decades/page";
+        switch (jobType){
+            case 0:
+                retPath = "redirect:/decades/page";
+                break;
+            case 1:
+                retPath = "redirect:/years/page";
+                break;
+            case 2:
+                retPath = "redirect:/months/page";
+                break;
+            case 3:
+                retPath = "redirect:/weeks/page";
+                break;
+            case 4:
+                retPath = "redirect:/days/page";
+                break;
+        }
+
+        return retPath;
     }
 }

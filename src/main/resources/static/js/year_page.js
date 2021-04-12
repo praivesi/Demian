@@ -3,7 +3,7 @@ $(document).ready(function(){
     $('.edit-btn-container').height(jobNavContainerHeight);
 
     $('.desire-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form');
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form/1');
     });
 
     $('.desire-delete-btn').on('click', function(){

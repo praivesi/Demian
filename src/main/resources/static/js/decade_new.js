@@ -9,7 +9,7 @@ $(document).ready(function(){
     console.log("job-nav-container height => " + $('.job-nav-container').height());
 
     $('.desire-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form');
+        window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form/0');
     });
 
     $('.desire-delete-btn').on('click', function(){
@@ -60,39 +60,5 @@ $(document).ready(function(){
             }
         });
     });
-
-    $('.year-left-arrow').on('click', function(){
-                var uriProtocol = window.location.protocol + '//' + window.location.host;
-                var uri = uriProtocol + "/years/page/" + (startYear - 1);
-
-                window.location.replace(uri);
-            });
-
-        $('.year-right-arrow').on('click', function(){
-            var uriProtocol = window.location.protocol + '//' + window.location.host;
-            var uri = uriProtocol + "/years/page/" + (startYear + 1);
-
-            window.location.replace(uri);
-        });
-
-        $('.year-add-btn').on('click', function(){
-            window.location.replace(window.location.protocol + '//' + window.location.host +
-                '/years/form?desireId=' + $(this).val());
-        });
-
-        $('.year-delete-btn').on('click', function(){
-            var rootURL = window.location.protocol + '//' + window.location.host;
-            var deleteURL =  rootURL + '/api/schedules/year_job/' + $(this).val();
-            console.log('Delete URL : ' + deleteURL);
-
-            $.ajax({
-                url: deleteURL,
-                type: 'DELETE',
-                success: function(result){
-                    console.log('Delete year job succeed');
-                    window.location.reload();
-                }
-            });
-        });
 });
 
