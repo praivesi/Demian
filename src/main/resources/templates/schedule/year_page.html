@@ -10,7 +10,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
-    <script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>
+    <script type="text/javaScript" th:src="@{/js/year_page.js}"></script>
     <script th:inline="javascript">
         var startYear =[[${#dates.year(startDate)}]];
     </script>
@@ -58,7 +58,7 @@
         <!-- Job Navigation Container -->
         <div class="job-nav-container job-item" style="height=200px;">
             <div class="job-nav-item">
-                <button id="year-left-arrow"> <</button>
+                <button class="year-left-arrow"> <</button>
             </div>
             <th:block th:each="i : ${#numbers.sequence(0, 4)}"
                       th:with="startYear=${#dates.year(startDate)}">
@@ -67,7 +67,7 @@
                 </div>
             </th:block>
             <div class="job-nav-item">
-                <button id="year-right-arrow"> ></button>
+                <button class="year-right-arrow"> ></button>
             </div>
         </div>
         <!-- Job Content Container -->

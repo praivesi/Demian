@@ -1,54 +1,20 @@
 package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.MonthJob;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
+@Data
 public class MonthJobDTO {
     private Long id;
     private String title;
     private String content;
-    private Date from;
-    private Date to;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getFrom() {
-        return from;
-    }
-
-    public void setFrom(Date from) {
-        this.from = from;
-    }
-
-    public Date getTo() {
-        return to;
-    }
-
-    public void setTo(Date to) {
-        this.to = to;
-    }
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date fromTime;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date toTime;
 
     public static MonthJobDTO of(MonthJob month) {
         MonthJobDTO dto = new MonthJobDTO();
@@ -56,8 +22,8 @@ public class MonthJobDTO {
         dto.id = month.getId();
         dto.title = month.getTitle();
         dto.content = month.getContent();
-        dto.from = month.getFromTime();
-        dto.to = month.getToTime();
+        dto.fromTime = month.getFromTime();
+        dto.toTime = month.getToTime();
 
         return dto;
     }

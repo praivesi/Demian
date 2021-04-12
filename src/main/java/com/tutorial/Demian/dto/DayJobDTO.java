@@ -1,54 +1,20 @@
 package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.DayJob;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
+@Data
 public class DayJobDTO {
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getFrom() {
-        return from;
-    }
-
-    public void setFrom(Date from) {
-        this.from = from;
-    }
-
-    public Date getTo() {
-        return to;
-    }
-
-    public void setTo(Date to) {
-        this.to = to;
-    }
-
     private Long id;
     private String title;
     private String content;
-    private Date from;
-    private Date to;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date fromTime;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date toTime;
 
     public static DayJobDTO of(DayJob day) {
         DayJobDTO dto = new DayJobDTO();
@@ -56,8 +22,8 @@ public class DayJobDTO {
         dto.id = day.getId();
         dto.title = day.getTitle();
         dto.content = day.getContent();
-        dto.from = day.getFromTime();
-        dto.to = day.getToTime();
+        dto.fromTime = day.getFromTime();
+        dto.toTime = day.getToTime();
 
         return dto;
     }

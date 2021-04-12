@@ -2,6 +2,7 @@ package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.YearJob;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -11,7 +12,10 @@ public class YearJobDTO {
     private Long desireId;
     private String title;
     private String content;
+
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fromTime;
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
     public YearJob getEntity(){
