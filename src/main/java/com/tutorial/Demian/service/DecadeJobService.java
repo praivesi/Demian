@@ -40,6 +40,11 @@ public class DecadeJobService {
                 cal.setTime(startDate);
 
                 cal.add(Calendar.YEAR, 10 * i);
+                cal.set(Calendar.MONTH, 0);
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.set(Calendar.HOUR, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 1);
                 Date curStartDate = cal.getTime();
 
                 cal.add(Calendar.YEAR, 10);
