@@ -22,10 +22,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/months")
@@ -42,26 +41,50 @@ public class MonthJobController {
     @GetMapping("/page")
     public String month(Model model) {
         Calendar startCal = new GregorianCalendar();
-        startCal.set(Calendar.YEAR, startCal.get(Calendar.MONTH) - 2);
+        startCal.set(Calendar.MONTH, startCal.get(Calendar.MONTH) - 2);
+        int startYear = startCal.get(Calendar.YEAR);
+        int startMonth = startCal.get(Calendar.MONTH);
 
         List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar tmpCal = (Calendar) startCal.clone();
+
+        for (int i = 0; i < 6; i++) {
+            tmpCal.add(Calendar.MONTH, 1);
+            timeHeaders.add(new SimpleDateFormat("yyyy-MM").format(tmpCal.getTime()));
+        }
+
         model.addAttribute("monthPageDTOs", monthPageDTOs);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("timeHeaders", timeHeaders);
+        model.addAttribute("startYear", startYear);
+        model.addAttribute("startMonth", startMonth);
 
         return "/schedule/month_page";
     }
 
     @GetMapping("/page/{startYear}/{startMonth}")
-    public String yearWithStartYear(Model model, @PathVariable int startYear, @PathVariable int startMonth) {
+    public String monthWithStartMonth(Model model, @PathVariable int startYear, @PathVariable int startMonth) {
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startYear);
         startCal.set(Calendar.MONTH, startMonth);
 
         List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar tmpCal = (Calendar) startCal.clone();
+
+        for (int i = 0; i < 6; i++) {
+            tmpCal.add(Calendar.MONTH, 1);
+            timeHeaders.add(dateFormat.format(tmpCal.getTime()));
+        }
+
         model.addAttribute("monthPageDTOs", monthPageDTOs);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("timeHeaders", timeHeaders);
+        model.addAttribute("startYear", startYear);
+        model.addAttribute("startMonth", startMonth);
 
         return "/schedule/month_page";
     }
@@ -72,7 +95,7 @@ public class MonthJobController {
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
-            return "redirect:/years/page";
+            return "redirect:/months/page";
         }
 
         if (jobId == null) {
@@ -86,12 +109,12 @@ public class MonthJobController {
 
         model.addAttribute("desire", mayDesire.get());
 
-        return "schedule/year_form";
+        return "schedule/month_form";
     }
 
     @PostMapping("/form")
     public String postJobForm(Model model, @Valid MonthJobDTO monthJobDTO, BindingResult bindingResult,
-                                    Authentication authentication) {
+                              Authentication authentication) {
         Optional<Desire> mayDesire = desireRepository.findById(monthJobDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling

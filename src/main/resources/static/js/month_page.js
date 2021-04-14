@@ -23,14 +23,30 @@ $(document).ready(function(){
 
     $('.month-left-arrow').on('click', function(){
             var uriProtocol = window.location.protocol + '//' + window.location.host;
-            var uri = uriProtocol + "/months/page/" + (startYear - 1);
+
+            if (startMonth == 0){
+                startYear--;
+                startMonth = 11;
+            } else {
+                startMonth--;
+            }
+
+            var uri = uriProtocol + "/months/page/" + startYear + "/" + startMonth;
 
             window.location.replace(uri);
         });
 
     $('.month-right-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
-        var uri = uriProtocol + "/months/page/" + (startYear + 1);
+
+        if (startMonth == 11){
+            startYear++;
+            startMonth = 0;
+        } else {
+            startMonth++;
+        }
+
+        var uri = uriProtocol + "/months/page/" + startYear + "/" + startMonth;
 
         window.location.replace(uri);
     });

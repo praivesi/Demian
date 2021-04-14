@@ -34,10 +34,15 @@ public class MonthJobService {
                 cal.setTime(startDate);
 
                 cal.add(Calendar.MONTH, 1 * i);
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.set(Calendar.HOUR, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 1);
                 Date curStartDate = cal.getTime();
 
                 cal.add(Calendar.MONTH, 1);
                 cal.add(Calendar.SECOND, -1);
+
                 Date curEndDate = cal.getTime();
 
                 MonthJob matchedMonth = null;

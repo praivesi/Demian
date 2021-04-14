@@ -12,8 +12,8 @@
             crossorigin="anonymous"></script>
     <script type="text/javaScript" th:src="@{/js/month_page.js}"></script>
     <script th:inline="javascript">
-        var startDate =[[${startDate}]];
-
+        var startYear = [[${startYear}]];
+        var startMonth = [[${startMonth}]];
     </script>
 
 </head>
@@ -60,12 +60,13 @@
             <div class="job-nav-item">
                 <button class="month-left-arrow"> <</button>
             </div>
-            <th:block th:each="i : ${#numbers.sequence(0, 5)}">
-                <!--                      th:with="util=${T(org.apache.commons.lang3.time.DateUtils)},-->
-                <!--                                curDate=${util.addMonths(startDate, i)}">-->
+            <th:block th:each="timeHeader : ${timeHeaders}">
+<!--                      th:with="util=${T(org.apache.commons.lang3.time.DateUtils)}, curDate=${util.addMonths(startDate, i)}">-->
+
                 <div class="job-nav-item">
                     <!--                    <p th:text="${#dates.format(curDate, 'yyyy-MM')}"></p>-->
-                    <p th:text="${#dates.format(startDate, 'yyyy-MM')}"></p>
+<!--                    <p th:text="${#dates.format(startDate, 'yyyy-MM')}"></p>-->
+                    <p th:text="${timeHeader}"></p>
                 </div>
             </th:block>
             <div class="job-nav-item">
@@ -83,7 +84,7 @@
                         <div class="col-md-1 row-item">
                             <div class="card">
                                 <div class="card-header">
-                                    <span th:text="${month.title}">YEAR JOB</span>
+                                    <span th:text="${month.title}">MONTH JOB</span>
                                 </div>
                                 <div th:if="${month.title != null}" class="card-body">
                                     <a href="#" class="btn btn-primary card-item"
