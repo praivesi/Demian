@@ -1,0 +1,116 @@
+package com.tutorial.Demian.controller;
+
+import com.tutorial.Demian.dto.MonthJobDTO;
+import com.tutorial.Demian.dto.MonthPageDTO;
+import com.tutorial.Demian.dto.YearJobDTO;
+import com.tutorial.Demian.dto.YearPageDTO;
+import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.MonthJob;
+import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.repository.DesireRepository;
+import com.tutorial.Demian.repository.MonthJobRepository;
+import com.tutorial.Demian.repository.YearJobRepository;
+import com.tutorial.Demian.service.MonthJobService;
+import com.tutorial.Demian.service.YearJobService;
+import com.tutorial.Demian.validator.MonthJobValidator;
+import com.tutorial.Demian.validator.YearJobValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+@RequestMapping("/months")
+public class MonthJobController {
+    @Autowired
+    private DesireRepository desireRepository;
+    @Autowired
+    private MonthJobRepository monthJobRepository;
+    @Autowired
+    private MonthJobService monthJobService;
+    @Autowired
+    private MonthJobValidator monthJobValidator;
+
+    @GetMapping("/page")
+    public String month(Model model) {
+        Calendar startCal = new GregorianCalendar();
+        startCal.set(Calendar.YEAR, startCal.get(Calendar.MONTH) - 2);
+
+        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
+
+        model.addAttribute("monthPageDTOs", monthPageDTOs);
+        model.addAttribute("startDate", startCal.getTime());
+
+        return "/schedule/month_page";
+    }
+
+    @GetMapping("/page/{startYear}/{startMonth}")
+    public String yearWithStartYear(Model model, @PathVariable int startYear, @PathVariable int startMonth) {
+        Calendar startCal = new GregorianCalendar();
+        startCal.set(Calendar.YEAR, startYear);
+        startCal.set(Calendar.MONTH, startMonth);
+
+        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
+
+        model.addAttribute("monthPageDTOs", monthPageDTOs);
+        model.addAttribute("startDate", startCal.getTime());
+
+        return "/schedule/month_page";
+    }
+
+    @GetMapping("/form")
+    public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
+        Optional<Desire> mayDesire = desireRepository.findById(desireId);
+
+        if (!mayDesire.isPresent()) {
+            // TODO: DO more reasonable exception handling
+            return "redirect:/years/page";
+        }
+
+        if (jobId == null) {
+            MonthJobDTO monthDTO = new MonthJobDTO();
+            monthDTO.setDesireId(desireId);
+            model.addAttribute("monthJobDTO", monthDTO);
+        } else {
+            MonthJob month = monthJobRepository.findById(jobId).orElse(null);
+            model.addAttribute("monthJobDTO", MonthJobDTO.of(month));
+        }
+
+        model.addAttribute("desire", mayDesire.get());
+
+        return "schedule/year_form";
+    }
+
+    @PostMapping("/form")
+    public String postJobForm(Model model, @Valid MonthJobDTO monthJobDTO, BindingResult bindingResult,
+                                    Authentication authentication) {
+        Optional<Desire> mayDesire = desireRepository.findById(monthJobDTO.getDesireId());
+        if (!mayDesire.isPresent()) {
+            // TODO: DO more reasonable exception handling
+            return "redirect:/months/page";
+        }
+
+        model.addAttribute("desire", mayDesire.get());
+        model.addAttribute("monthJobDTO", monthJobDTO);
+
+        monthJobValidator.validate(monthJobDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/schedule/month_form";
+        }
+
+        MonthJob entity = monthJobDTO.getEntity();
+        entity.setDesire(mayDesire.get());
+
+        monthJobRepository.save(entity);
+
+        return "redirect:/months/page";
+    }
+}

@@ -1,6 +1,9 @@
 package com.tutorial.Demian.service;
 
+import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
+import com.tutorial.Demian.dto.MonthJobDTO;
+import com.tutorial.Demian.dto.MonthPageDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthJob;
 import com.tutorial.Demian.repository.DesireRepository;
@@ -8,7 +11,7 @@ import com.tutorial.Demian.repository.MonthJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MonthJobService {
@@ -17,6 +20,50 @@ public class MonthJobService {
     @Autowired
     private MonthJobRepository monthJobRepository;
 
+    public List<MonthPageDTO> get(Date startDate) {
+        List<Desire> desires = desireRepository.findAll();
+        List<MonthPageDTO> monthPages = new ArrayList<>();
+
+        for (Desire desire : desires) {
+            MonthPageDTO monthPage = new MonthPageDTO();
+            monthPage.setDesire(DesireDTO.of(desire));
+
+            List<MonthJobDTO> months = new ArrayList<>();
+            for (int i = 0; i < 6; i++) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(startDate);
+
+                cal.add(Calendar.MONTH, 1 * i);
+                Date curStartDate = cal.getTime();
+
+                cal.add(Calendar.MONTH, 1);
+                cal.add(Calendar.SECOND, -1);
+                Date curEndDate = cal.getTime();
+
+                MonthJob matchedMonth = null;
+                for (MonthJob month : desire.getMonths()) {
+                    if (curStartDate.getTime() <= month.getFromTime().getTime() &&
+                            month.getToTime().getTime() <= curEndDate.getTime()) {
+                        matchedMonth = month;
+                        break;
+                    }
+                }
+
+                if (matchedMonth == null) {
+                    MonthJobDTO tmpMonthJobDTO = new MonthJobDTO();
+                    tmpMonthJobDTO.setId(-1l);
+                    months.add(tmpMonthJobDTO);
+                } else {
+                    months.add(MonthJobDTO.of(matchedMonth));
+                }
+            }
+
+            monthPage.setMonths(months);
+            monthPages.add(monthPage);
+        }
+
+        return monthPages;
+    }
 
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 2) return null;
