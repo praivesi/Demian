@@ -29,7 +29,7 @@ public class AccountController {
     public String register(User user){
         userService.save(user);
 
-        return "redirect:/";
+        return "redirect:/decades/page";
     }
 
 }

@@ -6,9 +6,11 @@ import com.tutorial.Demian.dto.YearJobDTO;
 import com.tutorial.Demian.dto.YearPageDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthJob;
+import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearJob;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.MonthJobRepository;
+import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.repository.YearJobRepository;
 import com.tutorial.Demian.service.MonthJobService;
 import com.tutorial.Demian.service.YearJobService;
@@ -30,6 +32,8 @@ import java.util.*;
 @RequestMapping("/months")
 public class MonthJobController {
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private DesireRepository desireRepository;
     @Autowired
     private MonthJobRepository monthJobRepository;
@@ -39,13 +43,16 @@ public class MonthJobController {
     private MonthJobValidator monthJobValidator;
 
     @GetMapping("/page")
-    public String month(Model model) {
+    public String month(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.MONTH, startCal.get(Calendar.MONTH) - 2);
         int startYear = startCal.get(Calendar.YEAR);
         int startMonth = startCal.get(Calendar.MONTH);
 
-        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
+        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime(), user.getId());
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         List<String> timeHeaders = new ArrayList<>();
@@ -65,12 +72,16 @@ public class MonthJobController {
     }
 
     @GetMapping("/page/{startYear}/{startMonth}")
-    public String monthWithStartMonth(Model model, @PathVariable int startYear, @PathVariable int startMonth) {
+    public String monthWithStartMonth(Model model, @PathVariable int startYear, @PathVariable int startMonth,
+                                      Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startYear);
         startCal.set(Calendar.MONTH, startMonth);
 
-        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime());
+        List<MonthPageDTO> monthPageDTOs = monthJobService.get(startCal.getTime(), user.getId());
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
         List<String> timeHeaders = new ArrayList<>();

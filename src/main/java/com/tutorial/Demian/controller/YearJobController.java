@@ -6,9 +6,12 @@ import com.tutorial.Demian.dto.YearJobDTO;
 import com.tutorial.Demian.dto.YearPageDTO;
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearJob;
 import com.tutorial.Demian.repository.DesireRepository;
+import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.repository.YearJobRepository;
+import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.YearJobService;
 import com.tutorial.Demian.validator.YearJobValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +33,25 @@ public class YearJobController {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
+    private DesireService desireService;
+    @Autowired
     private YearJobRepository yearJobRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private YearJobService yearJobService;
     @Autowired
     private YearJobValidator yearJobValidator;
 
     @GetMapping("/page")
-    public String year(Model model) {
+    public String year(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 2);
 
-        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime());
+        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
 
         model.addAttribute("yearPageDTOs", yearPageDTOs);
         model.addAttribute("startDate", startCal.getTime());
@@ -50,11 +60,14 @@ public class YearJobController {
     }
 
     @GetMapping("/page/{startYear}")
-    public String yearWithStartYear(Model model, @PathVariable int startYear) {
+    public String yearWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startYear);
 
-        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime());
+        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
 
         model.addAttribute("yearPageDTOs", yearPageDTOs);
         model.addAttribute("startDate", startCal.getTime());

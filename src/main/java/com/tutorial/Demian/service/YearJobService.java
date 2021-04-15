@@ -18,10 +18,13 @@ public class YearJobService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
+    private DesireService desireService;
+    @Autowired
     private YearJobRepository yearJobRepository;
 
-    public List<YearPageDTO> get(Date startDate) {
-        List<Desire> desires = desireRepository.findAll();
+    public List<YearPageDTO> get(Date startDate, Long userId) {
+//        List<Desire> desires = desireRepository.findAll();
+        List<Desire> desires = desireService.getCurrentUserDesires(userId);
         List<YearPageDTO> yearPages = new ArrayList<>();
 
         for (Desire desire : desires) {

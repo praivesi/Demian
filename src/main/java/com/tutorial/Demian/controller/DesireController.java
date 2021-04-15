@@ -49,7 +49,8 @@ public class DesireController {
 
         Desire recvDesire = desireDTO.getEntity();
 
-        User user = userRepository.findByUsername("hsoh");
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
         recvDesire.setUser(user);
 
         desireRepository.save(recvDesire);

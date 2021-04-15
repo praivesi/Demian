@@ -7,6 +7,7 @@ import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class DesireService {
 //        }
 //
 //        return response;
+    }
+
+    public List<Desire> getCurrentUserDesires(Long userId){
+        return desireRepository.findByUserId(userId);
     }
 
     public Desire savePrev(String username, Desire desire) {

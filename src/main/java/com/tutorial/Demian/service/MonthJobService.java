@@ -20,8 +20,8 @@ public class MonthJobService {
     @Autowired
     private MonthJobRepository monthJobRepository;
 
-    public List<MonthPageDTO> get(Date startDate) {
-        List<Desire> desires = desireRepository.findAll();
+    public List<MonthPageDTO> get(Date startDate, Long userId) {
+        List<Desire> desires = desireRepository.findByUserId(userId);
         List<MonthPageDTO> monthPages = new ArrayList<>();
 
         for (Desire desire : desires) {

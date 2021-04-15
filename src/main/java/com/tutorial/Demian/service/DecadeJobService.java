@@ -21,13 +21,17 @@ public class DecadeJobService {
     private DesireRepository desireRepository;
 
     @Autowired
+    private DesireService desireService;
+
+    @Autowired
     private DecadeJobRepository decadeJobRepository;
+
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<DecadeNewDTO> get(Date startDate) {
-        List<Desire> desires = desireRepository.findAll();
+    public List<DecadeNewDTO> get(Date startDate, Long userId) {
+        List<Desire> desires = desireService.getCurrentUserDesires(userId);
         List<DecadeNewDTO> decadeNewDTOs = new ArrayList<>();
 
         for (Desire desire : desires) {

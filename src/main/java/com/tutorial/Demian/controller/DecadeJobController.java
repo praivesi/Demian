@@ -4,8 +4,10 @@ import com.tutorial.Demian.dto.DecadeJobDTO;
 import com.tutorial.Demian.dto.DecadeNewDTO;
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DecadeJobRepository;
 import com.tutorial.Demian.repository.DesireRepository;
+import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.service.DecadeJobService;
 import com.tutorial.Demian.validator.DecadeJobValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import java.util.Optional;
 @RequestMapping("/decades")
 public class DecadeJobController {
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private DesireRepository desireRepository;
     @Autowired
     private DecadeJobRepository decadeJobRepository;
@@ -34,11 +38,15 @@ public class DecadeJobController {
     private DecadeJobService decadeJobService;
 
     @GetMapping("/page")
-    public String decade(Model model) {
+    public String decade(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 20 - startCal.get(Calendar.YEAR) % 10);
 
-        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime());
+
+        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
 
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
         model.addAttribute("startDate", startCal.getTime());
@@ -47,11 +55,14 @@ public class DecadeJobController {
     }
 
     @GetMapping("/page/{startYear}")
-    public String decadeWithStartYear(Model model, @PathVariable int startYear) {
+    public String decadeWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startYear);
 
-        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime());
+        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
 
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
         model.addAttribute("startDate", startCal.getTime());

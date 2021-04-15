@@ -10,4 +10,6 @@ public interface DesireRepository extends JpaRepository<Desire, Long> {
 //    @EntityGraph(attributePaths = {"decades", "years", "months", "weeks", "days"})
     @EntityGraph(attributePaths = {"decades"})
     List<Desire> findAll();
+
+    List<Desire> findByUserId(Long userId);
 }

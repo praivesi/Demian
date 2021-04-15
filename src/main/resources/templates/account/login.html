@@ -56,16 +56,15 @@
         <div th:if="${param.logout}" class="alert alert-primary" role="alert">
             You have been logged out.
         </div>
-        <label for="username" class="visually-hidden">Username</label>
         <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+        <input type="password" id="inputPassword" name="password" class="form-control mt-2" placeholder="Password" required>
         <!-- <div class="checkbox mb-3">
             <label>
               <input type="checkbox" value="remember-me"> Remember me
             </label>
           </div> -->
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
+        <a class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/account/register}">Sign up</a>
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
     </form>
     <!-- Optional JavaScript -->

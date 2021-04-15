@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
@@ -13,87 +13,99 @@
     <script type="text/javaScript" th:src="@{/js/year_page.js}"></script>
     <script th:inline="javascript">
         var startYear =[[${#dates.year(startDate)}]];
+
     </script>
 
 </head>
 <body>
-<!-- Main Container -->
-<div class="main-container">
-    <div class="left-container main-item">
-        <!-- Edit Button Container -->
-        <div class="edit-btn-container left-item">
-            <button class="btn btn-primary">Year</button>
-            <button class="desire-add-btn btn btn-primary">목표 추가</button>
-        </div>
-        <!-- Desire Container -->
-        <div class="desire-container left-item">
-            <th:block th:each="dto : ${yearPageDTOs}">
-                <div class="desire-item">
-                    <div class="card">
-                        <div class="card-header">
-                            <span th:text="${dto.desire.title}">Desire</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-item">
-                            <a href="#" class="btn btn-primary "
-                               th:href="@{/desires/form/1(id=${dto.desire.id})}">수정</a>
-                            <button class="desire-delete-btn btn btn-primary" th:value="${dto.desire.id}">삭제</button>
-                            <button class="year-add-btn btn btn-primary" th:value="${dto.desire.id}">할일 추가</button>
+<div class="header-container">
+    <form class="login-btn-container header-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
+          th:action="@{/logout}" method="POST">
+        <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
+        <span class="login-btn-item text-white mx-2" sec:authentication="principal.authorities">권한</span>
+        <button class="login-btn-item btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="left-container main-item">
+            <!-- Edit Button Container -->
+            <div class="edit-btn-container left-item">
+                <button class="btn btn-primary">Year</button>
+                <button class="desire-add-btn btn btn-primary">목표 추가</button>
+            </div>
+            <!-- Desire Container -->
+            <div class="desire-container left-item">
+                <th:block th:each="dto : ${yearPageDTOs}">
+                    <div class="desire-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <span th:text="${dto.desire.title}">Desire</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-item">
+                                    <a href="#" class="btn btn-primary "
+                                       th:href="@{/desires/form/1(id=${dto.desire.id})}">수정</a>
+                                    <button class="desire-delete-btn btn btn-primary" th:value="${dto.desire.id}">삭제
+                                    </button>
+                                    <button class="year-add-btn btn btn-primary" th:value="${dto.desire.id}">할일 추가
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th:block>
-        </div>
-        <div class="left-item">
-            <a class="btn btn-primary" th:href="@{/decades/page}">D</a>
-            <a class="btn btn-primary" th:href="@{/years/page}">Y</a>
-            <a class="btn btn-primary" th:href="@{/months/page}">M</a>
-        </div>
-    </div>
-    <!-- Job Container -->
-    <div class="job-container main-item">
-        <!-- Job Navigation Container -->
-        <div class="job-nav-container job-item" style="height=200px;">
-            <div class="job-nav-item">
-                <button class="year-left-arrow"> <</button>
+                </th:block>
             </div>
-            <th:block th:each="i : ${#numbers.sequence(0, 4)}"
-                      th:with="startYear=${#dates.year(startDate)}">
+            <div class="left-item">
+                <a class="btn btn-primary" th:href="@{/decades/page}">D</a>
+                <a class="btn btn-primary" th:href="@{/years/page}">Y</a>
+                <a class="btn btn-primary" th:href="@{/months/page}">M</a>
+            </div>
+        </div>
+        <!-- Job Container -->
+        <div class="job-container main-item">
+            <!-- Job Navigation Container -->
+            <div class="job-nav-container job-item" style="height=200px;">
                 <div class="job-nav-item">
-                    <p th:text="${startYear + i}"></p>
+                    <button class="year-left-arrow"> <</button>
                 </div>
-            </th:block>
-            <div class="job-nav-item">
-                <button class="year-right-arrow"> ></button>
-            </div>
-        </div>
-        <!-- Job Content Container -->
-        <div class="job-content-container job-item">
-            <th:block th:each="dto : ${yearPageDTOs}">
-                <div class="row row-container job-content-item">
-                    <div class="col-md-1 row-item">
-                        <p></p>
+                <th:block th:each="i : ${#numbers.sequence(0, 4)}"
+                          th:with="startYear=${#dates.year(startDate)}">
+                    <div class="job-nav-item">
+                        <p th:text="${startYear + i}"></p>
                     </div>
-                    <th:block th:each="year :${dto.years}">
+                </th:block>
+                <div class="job-nav-item">
+                    <button class="year-right-arrow"> ></button>
+                </div>
+            </div>
+            <!-- Job Content Container -->
+            <div class="job-content-container job-item">
+                <th:block th:each="dto : ${yearPageDTOs}">
+                    <div class="row row-container job-content-item">
                         <div class="col-md-1 row-item">
-                            <div class="card">
-                                <div class="card-header">
-                                    <span th:text="${year.title}">YEAR JOB</span>
-                                </div>
-                                <div th:if="${year.title != null}" class="card-body">
-                                    <a href="#" class="btn btn-primary card-item"
-                                       th:href="@{/years/form(desireId=${dto.desire.id}, jobId=${year.id})}">수정</a>
-                                    <button class="year-delete-btn btn btn-primary" th:value="${year.id}">삭제</button>
+                            <p></p>
+                        </div>
+                        <th:block th:each="year :${dto.years}">
+                            <div class="col-md-1 row-item">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span th:text="${year.title}">YEAR JOB</span>
+                                    </div>
+                                    <div th:if="${year.title != null}" class="card-body">
+                                        <a href="#" class="btn btn-primary card-item"
+                                           th:href="@{/years/form(desireId=${dto.desire.id}, jobId=${year.id})}">수정</a>
+                                        <button class="year-delete-btn btn btn-primary" th:value="${year.id}">삭제
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </th:block>
+                        <div class="col-md-1 row-item">
+                            <p></p>
                         </div>
-                    </th:block>
-                    <div class="col-md-1 row-item">
-                        <p></p>
                     </div>
-                </div>
-            </th:block>
+                </th:block>
+            </div>
         </div>
     </div>
 </div>
