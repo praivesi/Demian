@@ -20,14 +20,14 @@
 <div class="header-container fullscreen">
     <div class="login-btn-container header-item">
         <div class="login-btn-item-front">
-            <a class="btn btn-primary" th:href="@{/decades/page}">10Y</a>
-            <a class="btn btn-primary" th:href="@{/years/page}">1Y</a>
-            <a class="btn btn-primary" th:href="@{/months/page}">1M</a>
+            <a class="btn" th:href="@{/decades/page}">10Y</a>
+            <a class="btn" th:href="@{/years/page}">1Y</a>
+            <a class="btn" th:href="@{/months/page}">1M</a>
         </div>
         <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
         <form class="login-btn-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
               th:action="@{/logout}" method="POST">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">로그아웃</button>
         </form>
     </div>
     <!-- Main Container -->
@@ -36,7 +36,7 @@
             <!-- Edit Button Container -->
             <div class="edit-btn-container left-item">
                 <p class="edit-btn-item"> 1달 계획 </p>
-                <button class="edit-btn-item desire-add-btn btn btn-primary">목표 추가</button>
+                <button class="edit-btn-item desire-add-btn btn btn-light">목표 추가</button>
             </div>
             <!-- Desire Container -->
             <div class="desire-container left-item">
@@ -48,11 +48,11 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-item">
-                                    <a href="#" class="btn btn-primary "
+                                    <a href="#" class="btn"
                                        th:href="@{/desires/form/2(id=${dto.desire.id})}">수정</a>
-                                    <button class="desire-delete-btn btn btn-primary" th:value="${dto.desire.id}">삭제
+                                    <button class="desire-delete-btn btn btn-light" th:value="${dto.desire.id}">삭제
                                     </button>
-                                    <button class="month-add-btn btn btn-primary" th:value="${dto.desire.id}">할일 추가
+                                    <button class="month-add-btn btn btn-light" th:value="${dto.desire.id}">할일 추가
                                     </button>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
             <!-- Job Navigation Container -->
             <div class="job-nav-container job-item" style="height=200px;">
                 <div class="move-arrow-div">
-                    <button class="month-left-arrow move-arrow"> < </button>
+                    <button class="month-left-arrow move-arrow btn btn-light"><</button>
                 </div>
                 <th:block th:each="timeHeader : ${timeHeaders}">
                     <div class="job-nav-item">
@@ -74,7 +74,7 @@
                     </div>
                 </th:block>
                 <div class="move-arrow-div">
-                    <button class="month-right-arrow move-arrow"> > </button>
+                    <button class="month-right-arrow move-arrow btn btn-light">></button>
                 </div>
             </div>
             <!-- Job Content Container -->
@@ -91,9 +91,9 @@
                                         <span th:text="${month.title}">MONTH JOB</span>
                                     </div>
                                     <div th:if="${month.title != null}" class="card-body">
-                                        <a href="#" class="btn btn-primary card-item"
+                                        <a href="#" class="btn card-item"
                                            th:href="@{/months/form(desireId=${dto.desire.id}, jobId=${month.id})}">수정</a>
-                                        <button class="month-delete-btn btn btn-primary" th:value="${month.id}">삭제
+                                        <button class="month-delete-btn btn btn-light" th:value="${month.id}">삭제
                                         </button>
                                     </div>
                                 </div>
