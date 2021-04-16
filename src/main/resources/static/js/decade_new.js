@@ -1,7 +1,4 @@
 $(document).ready(function(){
-    jobNavContainerHeight = $('.job-nav-container').height();
-    $('.edit-btn-container').height(jobNavContainerHeight);
-
     $('.desire-add-btn').on('click', function(){
         window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form/0');
     });

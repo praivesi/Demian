@@ -18,20 +18,27 @@
 
 </head>
 <body>
-<div class="header-container">
-    <form class="login-btn-container header-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
-          th:action="@{/logout}" method="POST">
+<div class="header-container fullscreen">
+    <div class="login-btn-container header-item">
+        <div class="login-btn-item-front">
+            <a class="btn btn-primary" th:href="@{/decades/page}">D</a>
+            <a class="btn btn-primary" th:href="@{/years/page}">Y</a>
+            <a class="btn btn-primary" th:href="@{/months/page}">M</a>
+        </div>
         <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
         <span class="login-btn-item text-white mx-2" sec:authentication="principal.authorities">권한</span>
-        <button class="login-btn-item btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
-    </form>
+        <form class="login-btn-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
+              th:action="@{/logout}" method="POST">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </div>
     <!-- Main Container -->
     <div class="main-container">
         <div class="left-container main-item">
             <!-- Edit Button Container -->
             <div class="edit-btn-container left-item">
-                <button class="btn btn-primary">Year</button>
-                <button class="desire-add-btn btn btn-primary">목표 추가</button>
+                <button class="edit-btn-item btn btn-primary">Year</button>
+                <button class="edit-btn-item desire-add-btn btn btn-primary">목표 추가</button>
             </div>
             <!-- Desire Container -->
             <div class="desire-container left-item">
@@ -55,18 +62,13 @@
                     </div>
                 </th:block>
             </div>
-            <div class="left-item">
-                <a class="btn btn-primary" th:href="@{/decades/page}">D</a>
-                <a class="btn btn-primary" th:href="@{/years/page}">Y</a>
-                <a class="btn btn-primary" th:href="@{/months/page}">M</a>
-            </div>
         </div>
         <!-- Job Container -->
         <div class="job-container main-item">
             <!-- Job Navigation Container -->
             <div class="job-nav-container job-item" style="height=200px;">
-                <div class="job-nav-item">
-                    <button class="year-left-arrow"> <</button>
+                <div class="move-arrow-div">
+                    <button class="year-left-arrow move-arrow"> < </button>
                 </div>
                 <th:block th:each="i : ${#numbers.sequence(0, 4)}"
                           th:with="startYear=${#dates.year(startDate)}">
@@ -74,19 +76,19 @@
                         <p th:text="${startYear + i}"></p>
                     </div>
                 </th:block>
-                <div class="job-nav-item">
-                    <button class="year-right-arrow"> ></button>
+                <div class="move-arrow-div">
+                    <button class="year-right-arrow move-arrow"> > </button>
                 </div>
             </div>
             <!-- Job Content Container -->
             <div class="job-content-container job-item">
                 <th:block th:each="dto : ${yearPageDTOs}">
                     <div class="row row-container job-content-item">
-                        <div class="col-md-1 row-item">
+                        <div class="empty-arrow-div">
                             <p></p>
                         </div>
                         <th:block th:each="year :${dto.years}">
-                            <div class="col-md-1 row-item">
+                            <div class="row-item">
                                 <div class="card">
                                     <div class="card-header">
                                         <span th:text="${year.title}">YEAR JOB</span>
@@ -100,7 +102,7 @@
                                 </div>
                             </div>
                         </th:block>
-                        <div class="col-md-1 row-item">
+                        <div class="empty-arrow-div">
                             <p></p>
                         </div>
                     </div>

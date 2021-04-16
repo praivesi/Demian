@@ -6,9 +6,24 @@ body, html {
     margin: 0;
 }
 
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
 .header-container{
     display: flex;
     flex-direction: column;
+}
+
+.header-item {
+    width: 100%;
 }
 
 .login-btn-container{
@@ -17,27 +32,29 @@ body, html {
     justify-content: flex-end;
     align-items: center;
 
-    width: 100%;
-    background: lightYellow;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .login-btn-item {
     margin-right: 10px;
-    background: lightBlue;
+}
+
+.login-btn-item-front {
+    margin-right: auto;
+    margin-left: 10px;
 }
 
 .main-container {
     display: flex;
     flex-grow: 9;
 
-    width: 100%;
-    height: 100%;
-    background-color: red;
+    width:100%;
 }
 
 .main-item {
     height: 100%;
+    width: 100%;
 }
 
 .left-container {
@@ -46,23 +63,47 @@ body, html {
     flex-grow: 1;
 
     height: 100%;
-    width: 100%;
-    background-color: black;
+    width: 20%;
 }
 
 .left-item {
     display: flex;
 
     width: 100%;
-    background-color: brown;
+}
+
+.move-arrow-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+
+    border: 1px dotted black;
+}
+
+.empty-arrow-div {
+   display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      height: 100%;
+
+      border: 1px dotted black;
+}
+
+.move-arrow {
+    width: 50%;
+    height: 50%;
 }
 
 .edit-btn-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 
     width: 100%;
-    background-color: purple;
+    height: 100%;
 }
 
 .edit-btn-item {
@@ -70,11 +111,6 @@ body, html {
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: aqua;
 }
 
 .desire-container {
@@ -83,7 +119,6 @@ body, html {
     flex-direction: column;
 
     height: 100%;
-    background-color: orange;
 }
 
 .desire-item {
@@ -94,31 +129,31 @@ body, html {
 
     width: 100%;
     height: 100px;
-    background-color: pink;
     border: 1px dotted black;
 }
 
 .job-container {
     display: flex;
     flex-flow: column;
-    width: 100%;
     height: 100%;
-    background-color: grey;
     align-items: center;
     justify-content: center;
+
+    overflow: auto;
 
     flex-grow: 10;
 }
 
 .job-item {
     width: 100%;
-    background-color: green;
 }
 
 .job-nav-container{
     display: flex;
     text-align: center;
     align-items: center;
+
+    height: 100%;
 
     flex-grow: 1;
 }
@@ -138,16 +173,13 @@ body, html {
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 100%;
     height: 100%;
-    background-color: beige;
     text-align: center;
 
     flex-grow: 10;
 }
 
 .job-content-item {
-    background-color: blue;
     width:100%;
 }
 
@@ -161,16 +193,41 @@ body, html {
     justify-content: center;
     align-items: center;
 
+/*
     width: 200px;
     height: 100px;
-    background-color: skyblue;
+*/
+    width: 100%;
+    height: 100px;
+
     border: 1px dotted black;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-grow: 8;
 }
 
 .card-body {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     text-align: center;
+
+    width: 100%;
+
+    flex-grow: 2;
 }
+
