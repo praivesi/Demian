@@ -23,7 +23,6 @@
             <a class="btn btn-primary" th:href="@{/months/page}">1M</a>
         </div>
         <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
-        <span class="login-btn-item text-white mx-2" sec:authentication="principal.authorities">권한</span>
         <form class="login-btn-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
               th:action="@{/logout}" method="POST">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
