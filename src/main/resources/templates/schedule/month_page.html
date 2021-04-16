@@ -20,9 +20,9 @@
 <div class="header-container fullscreen">
     <div class="login-btn-container header-item">
         <div class="login-btn-item-front">
-            <a class="btn btn-primary" th:href="@{/decades/page}">D</a>
-            <a class="btn btn-primary" th:href="@{/years/page}">Y</a>
-            <a class="btn btn-primary" th:href="@{/months/page}">M</a>
+            <a class="btn btn-primary" th:href="@{/decades/page}">10Y</a>
+            <a class="btn btn-primary" th:href="@{/years/page}">1Y</a>
+            <a class="btn btn-primary" th:href="@{/months/page}">1M</a>
         </div>
         <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
         <span class="login-btn-item text-white mx-2" sec:authentication="principal.authorities">권한</span>
@@ -36,7 +36,7 @@
         <div class="left-container main-item">
             <!-- Edit Button Container -->
             <div class="edit-btn-container left-item">
-                <button class="edit-btn-item btn btn-primary">Month</button>
+                <p class="edit-btn-item"> 1달 계획 </p>
                 <button class="edit-btn-item desire-add-btn btn btn-primary">목표 추가</button>
             </div>
             <!-- Desire Container -->

@@ -22,10 +22,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/years")
@@ -53,7 +51,16 @@ public class YearJobController {
 
         List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
 
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar tmpCal = (Calendar) startCal.clone();
+
+        for (int i = 0; i < 5; i++) {
+            tmpCal.add(Calendar.YEAR, 1);
+            timeHeaders.add(new SimpleDateFormat("yyyy").format(tmpCal.getTime()));
+        }
+
         model.addAttribute("yearPageDTOs", yearPageDTOs);
+        model.addAttribute("timeHeaders", timeHeaders);
         model.addAttribute("startDate", startCal.getTime());
 
         return "/schedule/year_page";
@@ -69,7 +76,16 @@ public class YearJobController {
 
         List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
 
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar tmpCal = (Calendar) startCal.clone();
+
+        for (int i = 0; i < 5; i++) {
+            tmpCal.add(Calendar.YEAR, 1);
+            timeHeaders.add(new SimpleDateFormat("yyyy").format(tmpCal.getTime()));
+        }
+
         model.addAttribute("yearPageDTOs", yearPageDTOs);
+        model.addAttribute("timeHeaders", timeHeaders);
         model.addAttribute("startDate", startCal.getTime());
 
         return "/schedule/year_page";

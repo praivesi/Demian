@@ -18,10 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/decades")
@@ -45,10 +43,24 @@ public class DecadeJobController {
         Calendar startCal = new GregorianCalendar();
         startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 20 - startCal.get(Calendar.YEAR) % 10);
 
-
         List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
 
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar endCal = (Calendar) startCal.clone();
+
+        Calendar beginCal = (Calendar)endCal.clone();
+        for (int i = 0; i < 5; i++) {
+            endCal.add(Calendar.YEAR, 9);
+            timeHeaders.add(String.format(
+                    "%s ~ %s",
+                    new SimpleDateFormat("yyyy").format(beginCal.getTime()),
+                    new SimpleDateFormat("yyyy").format(endCal.getTime())));
+            beginCal.add(Calendar.YEAR, 10);
+            endCal.add(Calendar.YEAR, 1);
+        }
+
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+        model.addAttribute("timeHeaders", timeHeaders);
         model.addAttribute("startDate", startCal.getTime());
 
         return "/schedule/decade_page";
@@ -64,7 +76,22 @@ public class DecadeJobController {
 
         List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
 
+        List<String> timeHeaders = new ArrayList<>();
+        Calendar endCal = (Calendar) startCal.clone();
+
+        Calendar beginCal = (Calendar)endCal.clone();
+        for (int i = 0; i < 5; i++) {
+            endCal.add(Calendar.YEAR, 9);
+            timeHeaders.add(String.format(
+                    "%s ~ %s",
+                    new SimpleDateFormat("yyyy").format(beginCal.getTime()),
+                    new SimpleDateFormat("yyyy").format(endCal.getTime())));
+            beginCal.add(Calendar.YEAR, 10);
+            endCal.add(Calendar.YEAR, 1);
+        }
+
         model.addAttribute("decadeNewDTOs", decadeNewDTOs);
+        model.addAttribute("timeHeaders", timeHeaders);
         model.addAttribute("startDate", startCal.getTime());
 
         return "/schedule/decade_page";
