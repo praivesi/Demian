@@ -52,7 +52,6 @@ body, html {
 
 .left-item {
     display: flex;
-    align-items: center;
 
     width: 100%;
     background-color: brown;
@@ -61,7 +60,6 @@ body, html {
 .edit-btn-container {
     display: flex;
     justify-content: center;
-    align-items: center;
 
     width: 100%;
     background-color: purple;

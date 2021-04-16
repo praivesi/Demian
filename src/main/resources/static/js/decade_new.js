@@ -1,12 +1,6 @@
 $(document).ready(function(){
-    console.log("BEFORE edit-btn-container height => " + $('.edit-btn-container').height());
-    console.log("job-nav-container height => " + $('.job-nav-container').height());
-
     jobNavContainerHeight = $('.job-nav-container').height();
     $('.edit-btn-container').height(jobNavContainerHeight);
-
-    console.log("AFTER edit-btn-container height => " + $('.edit-btn-container').height());
-    console.log("job-nav-container height => " + $('.job-nav-container').height());
 
     $('.desire-add-btn').on('click', function(){
         window.location.replace(window.location.protocol + '//' + window.location.host + '/desires/form/0');
