@@ -19,14 +19,14 @@
 <div class="header-container fullscreen">
     <div class="login-btn-container header-item">
         <div class="login-btn-item-front">
-            <a class="btn" th:href="@{/decades/page}">10Y</a>
-            <a class="btn" th:href="@{/years/page}">1Y</a>
-            <a class="btn" th:href="@{/months/page}">1M</a>
+            <a class="btn indigo-btn" th:href="@{/decades/page}">10Y</a>
+            <a class="btn indigo-btn" th:href="@{/years/page}">1Y</a>
+            <a class="btn indigo-btn" th:href="@{/months/page}">1M</a>
         </div>
-        <span class="login-btn-item text-white mx-2" sec:authentication="name">사용자</span>
+        <span class="login-btn-item text-white mx-2 header-font" style="margin-right: 15px;" sec:authentication="name">사용자</span>
         <form class="login-btn-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
               th:action="@{/logout}" method="POST">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">로그아웃</button>
+            <button class="btn indigo-btn my-2 my-sm-0" type="submit">로그아웃</button>
         </form>
     </div>
     <!-- Main Container -->
@@ -34,8 +34,8 @@
         <div class="left-container main-item">
             <!-- Edit Button Container -->
             <div class="edit-btn-container left-item">
-                <p class="edit-btn-item"> 10년 계획 </p>
-                <button class="edit-btn-item desire-add-btn btn btn-light">목표 추가</button>
+                <p class="edit-btn-item header-font"> 10 Year Plans </p>
+                <button class="edit-btn-item desire-add-btn btn indigo-btn">목표 추가</button>
             </div>
             <!-- Desire Container -->
             <div class="desire-container left-item">
@@ -47,12 +47,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-item">
-                                    <a href="#" class="btn btn-light"
+                                    <a href="#" class="btn indigo-small-btn"
                                        th:href="@{/desires/form/0(id=${dto.desireDTO.id})}">수정</a>
-                                    <button class="desire-delete-btn btn btn-light" th:value="${dto.desireDTO.id}">
+                                    <button class="desire-delete-btn btn indigo-small-btn" th:value="${dto.desireDTO.id}">
                                         삭제
                                     </button>
-                                    <button class="decade-add-btn btn btn-light" th:value="${dto.desireDTO.id}">할일
+                                    <button class="decade-add-btn btn indigo-small-btn" th:value="${dto.desireDTO.id}">할일
                                         추가
                                     </button>
                                 </div>
@@ -67,15 +67,15 @@
             <!-- Job Navigation Container -->
             <div class="job-nav-container job-item">
                 <div class="move-arrow-div">
-                    <button class="decade-left-arrow move-arrow btn btn-light"><</button>
+                    <button class="decade-left-arrow move-arrow btn indigo-btn"><</button>
                 </div>
                 <th:block th:each="timeHeader : ${timeHeaders}">
-                    <div class="job-nav-item">
+                    <div class="job-nav-item header-font">
                         <p th:text="${timeHeader}"></p>
                     </div>
                 </th:block>
                 <div class="move-arrow-div">
-                    <button class="decade-right-arrow move-arrow btn btn-light">></button>
+                    <button class="decade-right-arrow move-arrow btn indigo-btn">></button>
                 </div>
             </div>
             <!-- Job Content Container -->
@@ -86,15 +86,15 @@
                             <p></p>
                         </div>
                         <th:block th:each="decadeJob :${dto.decadeDTOsSortByTime}">
-                            <div class="row-item">
+                            <div class="row-item" th:classappend="${decadeJob.title != null} ? cell-exist">
                                 <div class="card">
                                     <div class="card-header">
                                         <span th:text="${decadeJob.title}">DECADE JOB</span>
                                     </div>
                                     <div th:if="${decadeJob.title != null}" class="card-body">
-                                        <a href="#" class="btn card-item"
+                                        <a href="#" class="btn indigo-small-btn card-item"
                                            th:href="@{/months/form(desireId=${dto.desireDTO.id}, jobId=${decadeJob.id})}">수정</a>
-                                        <button class="btn btn-light decade-delete-btn" th:value="${decadeJob.id}">
+                                        <button class="btn indigo-small-btn decade-delete-btn" th:value="${decadeJob.id}">
                                             삭제
                                         </button>
                                     </div>
