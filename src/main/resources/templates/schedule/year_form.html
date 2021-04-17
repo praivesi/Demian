@@ -15,43 +15,43 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<form action="/years/form" th:action="@{/years/form}" th:object="${yearJobDTO}" method="post">
+<form class="form-container" action="/years/form" th:action="@{/years/form}" th:object="${yearJobDTO}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{desireId}"/>
     <div>
-        <p>목표 : <span th:text="${desire.title}">목표 이름</span></p>
+        <p>목표 : <span class="header-font" th:text="${desire.title}">목표 이름</span></p>
     </div>
-    <div class="form-group">
+    <div class="form-group form-item">
         <label for="title">제목</label>
         <input type="text" class="form-control" id="title" th:field="*{title}">
         <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
             제목 에러 메시지
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group form-item">
         <label for="from-date">시작 날짜</label>
         <input type="date" class="form-control" id="from-date" th:field="*{fromTime}"/>
         <div class="text-danger" th:if="${#fields.hasErrors('fromTime')}" th:errors="*{fromTime}">
             시작 시간 에러 메시지
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group form-item">
         <label for="to-date">종료 날짜</label>
         <input type="date" class="form-control" id="to-date" th:field="*{toTime}"/>
         <div class="text-danger" th:if="${#fields.hasErrors('toTime')}" th:errors="*{toTime}">
             마감 시간 에러 메시지
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group form-item">
         <label for="content">내용</label>
         <textarea class="form-control" id="content" rows="5" th:field="*{content}"></textarea>
         <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
             내용 에러 메시지
         </div>
     </div>
-    <div class="form-group">
-        <a type="button" class="btn btn-primary" th:href="@{/years/page}">취소</a>
-        <button type="submit" class="btn btn-primary">확인</button>
+    <div class="form-group form-item" style="display: flex; justify-content: flex-end;">
+        <a type="button" class="btn indigo-btn" style="margin-right: 10px;" th:href="@{/years/page}">취소</a>
+        <button type="submit" class="btn indigo-btn">확인</button>
     </div>
 </form>
 </body>

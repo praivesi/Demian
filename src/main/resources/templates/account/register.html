@@ -17,25 +17,24 @@
 </head>
 
 <body class="text-center">
-    <form class="form-signin" th:action="@{/account/register}" method="post">
+    <form class="form-signin form-container" th:action="@{/account/register}" method="post">
         <a th:href="@{/}"><img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72"
         height="57"></a>
-        <h1 class="h3 mb-3 fw-normal">회원가입</h1>
-        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        <h1 class="h3 mb-3 fw-normal header-font form-item">회원가입</h1>
+        <div th:if="${param.error}" class="alert alert-danger form-item" role="alert">
             Invalid username and password.
         </div>
-        <div th:if="${param.logout}" class="alert alert-primary" role="alert">
+        <div th:if="${param.logout}" class="alert alert-primary form-item" role="alert">
             You have been logged out.
         </div>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <input type="text" id="username" name="username" class="form-control form-item" placeholder="Username" required autofocus>
+        <input type="password" id="password" name="password" class="form-control form-item" placeholder="Password" required>
         <!-- <div class="checkbox mb-3">
             <label>
               <input type="checkbox" value="remember-me"> Remember me
             </label>
           </div> -->
-        <button class="w-100 btn btn-lg btn-primary" type="submit">회원가입</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
+        <button class="w-100 btn btn-lg indigo-btn form-item" type="submit">회원가입</button>
     </form>
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

@@ -55,8 +55,8 @@ public class YearJobController {
         Calendar tmpCal = (Calendar) startCal.clone();
 
         for (int i = 0; i < 5; i++) {
-            tmpCal.add(Calendar.YEAR, 1);
             timeHeaders.add(new SimpleDateFormat("yyyy").format(tmpCal.getTime()));
+            tmpCal.add(Calendar.YEAR, 1);
         }
 
         model.addAttribute("yearPageDTOs", yearPageDTOs);

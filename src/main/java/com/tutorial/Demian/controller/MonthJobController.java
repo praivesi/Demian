@@ -59,8 +59,8 @@ public class MonthJobController {
         Calendar tmpCal = (Calendar) startCal.clone();
 
         for (int i = 0; i < 6; i++) {
-            tmpCal.add(Calendar.MONTH, 1);
             timeHeaders.add(new SimpleDateFormat("yyyy-MM").format(tmpCal.getTime()));
+            tmpCal.add(Calendar.MONTH, 1);
         }
 
         model.addAttribute("monthPageDTOs", monthPageDTOs);
