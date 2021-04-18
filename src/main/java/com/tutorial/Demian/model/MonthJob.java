@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 @Data
 public class MonthJob {
+    public final static long MONTH_JOB_DEFAULT_ID = -1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +30,14 @@ public class MonthJob {
     @JsonIgnore
     private Desire desire;
 
-    public MonthJob(){}
+    public MonthJob() {
+        this.id = MONTH_JOB_DEFAULT_ID;
+        this.title = "";
+        this.content = "";
+        this.fromTime = null;
+        this.toTime = null;
+        this.desire = null;
+    }
 
     public MonthJob(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.title = _title;

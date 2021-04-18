@@ -21,12 +21,23 @@ $(document).ready(function(){
     $('.month-left-arrow').on('click', function(){
             var uriProtocol = window.location.protocol + '//' + window.location.host;
 
+            console.log("startYear => " + startYear);
+            console.log("startMonth => " + startMonth);
+
+            // sync between Thymeleaf dates format with Java Date class
+            startMonth--;
+
+            // apply left move
             if (startMonth == 0){
                 startYear--;
                 startMonth = 11;
             } else {
                 startMonth--;
             }
+
+            console.log("After...");
+            console.log("startYear => " + startYear);
+            console.log("startMonth => " + startMonth);
 
             var uri = uriProtocol + "/months/page/" + startYear + "/" + startMonth;
 
@@ -36,6 +47,10 @@ $(document).ready(function(){
     $('.month-right-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
 
+        // sync between Thymeleaf dates format with Java Date class
+        startMonth--;
+
+        // apply right move
         if (startMonth == 11){
             startYear++;
             startMonth = 0;

@@ -12,8 +12,8 @@
             crossorigin="anonymous"></script>
     <script type="text/javaScript" th:src="@{/js/month_page.js}"></script>
     <script th:inline="javascript">
-        var startYear = [[${startYear}]];
-        var startMonth = [[${startMonth}]];
+        var startYear =[[${#dates.year(response.startDate)}]];
+        var startMonth =[[${#dates.month(response.startDate)}]];
     </script>
 </head>
 <body>
@@ -40,19 +40,19 @@
             </div>
             <!-- Desire Container -->
             <div class="desire-container left-item">
-                <th:block th:each="dto : ${monthPageDTOs}">
+                <th:block th:each="desireWithMonth : ${response.desireWithMonths}">
                     <div class="desire-item">
                         <div class="card">
                             <div class="card-header">
-                                <span th:text="${dto.desire.title}">Desire</span>
+                                <span th:text="${desireWithMonth.desire.title}">Desire</span>
                             </div>
                             <div class="card-body">
                                 <div class="card-item">
                                     <a href="#" class="btn indigo-small-btn"
-                                       th:href="@{/desires/form/2(id=${dto.desire.id})}">수정</a>
-                                    <button class="desire-delete-btn btn indigo-small-btn" th:value="${dto.desire.id}">삭제
+                                       th:href="@{/desires/form/2(id=${desireWithMonth.desire.id})}">수정</a>
+                                    <button class="desire-delete-btn btn indigo-small-btn" th:value="${desireWithMonth.desire.id}">삭제
                                     </button>
-                                    <button class="month-add-btn btn indigo-small-btn" th:value="${dto.desire.id}">할일 추가
+                                    <button class="month-add-btn btn indigo-small-btn" th:value="${desireWithMonth.desire.id}">할일 추가
                                     </button>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                 <div class="move-arrow-div">
                     <button class="month-left-arrow move-arrow btn indigo-btn"><</button>
                 </div>
-                <th:block th:each="timeHeader : ${timeHeaders}">
+                <th:block th:each="timeHeader : ${response.timeHeaders}">
                     <div class="job-nav-item header-font">
                         <p th:text="${timeHeader}"></p>
                     </div>
@@ -79,20 +79,20 @@
             </div>
             <!-- Job Content Container -->
             <div class="job-content-container job-item">
-                <th:block th:each="dto : ${monthPageDTOs}">
+                <th:block th:each="desireWithMonth : ${response.desireWithMonths}">
                     <div class="row row-container job-content-item">
                         <div class="empty-arrow-div">
                             <p></p>
                         </div>
-                        <th:block th:each="month :${dto.months}">
-                            <div class="row-item" th:classappend="${month.title != null} ? cell-exist">
+                        <th:block th:each="month :${desireWithMonth.months}">
+                            <div class="row-item" th:classappend="${month.title != ''} ? cell-exist">
                                 <div class="card">
                                     <div class="card-header">
                                         <span th:text="${month.title}">MONTH JOB</span>
                                     </div>
-                                    <div th:if="${month.title != null}" class="card-body">
+                                    <div th:if="${month.title != ''}" class="card-body">
                                         <a href="#" class="btn indigo-small-btn card-item"
-                                           th:href="@{/months/form(desireId=${dto.desire.id}, jobId=${month.id})}">수정</a>
+                                           th:href="@{/months/form(desireId=${desireWithMonth.desire.id}, jobId=${month.id})}">수정</a>
                                         <button class="month-delete-btn btn indigo-small-btn" th:value="${month.id}">삭제
                                         </button>
                                     </div>

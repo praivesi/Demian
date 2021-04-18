@@ -1,13 +1,14 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.JobDTO;
-import com.tutorial.Demian.dto.MonthJobDTO;
-import com.tutorial.Demian.dto.MonthPageDTO;
+import com.tutorial.Demian.controller.MonthJobController;
+import com.tutorial.Demian.controller.YearJobController;
+import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthJob;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.MonthJobRepository;
+import com.tutorial.Demian.service.Utility.JobFilter;
+import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,54 +21,36 @@ public class MonthJobService {
     @Autowired
     private MonthJobRepository monthJobRepository;
 
-    public List<MonthPageDTO> get(Date startDate, Long userId) {
-        List<Desire> desires = desireRepository.findByUserId(userId);
-        List<MonthPageDTO> monthPages = new ArrayList<>();
+    public MonthJobController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
+        MonthJobController.Response response = new MonthJobController.Response();
 
-        for (Desire desire : desires) {
-            MonthPageDTO monthPage = new MonthPageDTO();
-            monthPage.setDesire(DesireDTO.of(desire));
-
-            List<MonthJobDTO> months = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(startDate);
-
-                cal.add(Calendar.MONTH, 1 * i);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 1);
-                Date curStartDate = cal.getTime();
-
-                cal.add(Calendar.MONTH, 1);
-                cal.add(Calendar.SECOND, -1);
-
-                Date curEndDate = cal.getTime();
-
-                MonthJob matchedMonth = null;
-                for (MonthJob month : desire.getMonths()) {
-                    if (curStartDate.getTime() <= month.getFromTime().getTime() &&
-                            month.getToTime().getTime() <= curEndDate.getTime()) {
-                        matchedMonth = month;
-                        break;
-                    }
-                }
-
-                if (matchedMonth == null) {
-                    MonthJobDTO tmpMonthJobDTO = new MonthJobDTO();
-                    tmpMonthJobDTO.setId(-1l);
-                    months.add(tmpMonthJobDTO);
-                } else {
-                    months.add(MonthJobDTO.of(matchedMonth));
-                }
-            }
-
-            monthPage.setMonths(months);
-            monthPages.add(monthPage);
+        Calendar startCal = new GregorianCalendar();
+        if (startYear == MonthJobController.UNDEFINED_YEAR || startMonth == MonthJobController.UNDEFINED_MONTH) {
+            startYear = startCal.get(Calendar.YEAR);
+            startMonth = (startCal.get(Calendar.MONTH) - 2) % 12;
         }
 
-        return monthPages;
+        startCal.set(Calendar.YEAR, startYear);
+        startCal.set(Calendar.MONTH, startMonth);
+        Date startDate = startCal.getTime();
+
+        for (Desire desire : desires) {
+            MonthJobController.DesireWithMonth desireWithMonth = new MonthJobController.DesireWithMonth();
+
+            desireWithMonth.setDesire(DesireDTO.of(desire));
+
+            List<MonthJobDTO> filteredMonths = JobFilter.monthFilter(desire.getMonths(), startDate, 6);
+            desireWithMonth.setMonths(filteredMonths);
+
+            response.getDesireWithMonths().add(desireWithMonth);
+        }
+
+        List<String> timeHeaders = TimeHeaderCalculator.getMonthTimeHeaders(startCal, 6);
+        response.setTimeHeaders(timeHeaders);
+
+        response.setStartDate(startDate);
+
+        return response;
     }
 
     public JobDTO save(JobDTO jobDTO) {

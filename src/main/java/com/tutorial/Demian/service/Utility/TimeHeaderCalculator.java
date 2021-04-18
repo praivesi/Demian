@@ -32,9 +32,20 @@ public class TimeHeaderCalculator {
     public static List<String> getYearTimeHeaders(Calendar startCal, int timeHeaderCount) {
         List<String> timeHeaders = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < timeHeaderCount; i++) {
             timeHeaders.add(new SimpleDateFormat("yyyy").format(startCal.getTime()));
             startCal.add(Calendar.YEAR, 1);
+        }
+
+        return timeHeaders;
+    }
+
+    public static List<String> getMonthTimeHeaders(Calendar startCal, int timeHeaderCount) {
+        List<String> timeHeaders = new ArrayList<>();
+
+        for (int i = 0; i < timeHeaderCount; i++) {
+            timeHeaders.add(new SimpleDateFormat("yyyy-MM").format(startCal.getTime()));
+            startCal.add(Calendar.MONTH, 1);
         }
 
         return timeHeaders;

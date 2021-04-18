@@ -1,9 +1,7 @@
 package com.tutorial.Demian.controller;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.YearJobDTO;
-import com.tutorial.Demian.dto.YearPageDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearJob;
@@ -22,8 +20,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/years")
