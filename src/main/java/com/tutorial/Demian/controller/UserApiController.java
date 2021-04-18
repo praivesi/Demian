@@ -21,9 +21,6 @@ class UserApiController {
     List<User> all() {
         List<User> users = repository.findAll();
 
-        log.debug("Before calling users.get(0).getBoards().size()");
-        log.debug("After calling users.get(0).getBoards().size()");
-
         return users;
     }
     // end::get-aggregate-root[]

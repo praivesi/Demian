@@ -117,7 +117,7 @@ public class DecadeJobController {
 
         model.addAttribute("desireDTO", mayDesire.get());
 
-        return "/schedule/decade_job_form";
+        return "/schedule/decade_form";
     }
 
     @PostMapping("/form")
@@ -133,7 +133,7 @@ public class DecadeJobController {
 
         decadeJobValidator.validate(decadeJobDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/schedule/decade_job_form";
+            return "/schedule/decade_form";
         }
 
         DecadeJob decadeJob = decadeJobDTO.getEntity();

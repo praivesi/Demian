@@ -2,29 +2,15 @@ package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class DesireWithDecadeJobDTO {
     private DesireDTO desireDTO;
     private List<DecadeJobDTO> decadeJobDTOs = new ArrayList<>();
-
-    public DesireDTO getDesireDTO() {
-        return desireDTO;
-    }
-
-    public void setDesireDTO(DesireDTO desireDTO) {
-        this.desireDTO = desireDTO;
-    }
-
-    public List<DecadeJobDTO> getDecadeJobDTOs() {
-        return decadeJobDTOs;
-    }
-
-    public void setDecadeJobDTOs(List<DecadeJobDTO> decadeJobDTOs) {
-        this.decadeJobDTOs = decadeJobDTOs;
-    }
 
     public static DesireWithDecadeJobDTO of(Desire desire, List<DecadeJob> decadeJobs){
         DesireWithDecadeJobDTO dto = new DesireWithDecadeJobDTO();
