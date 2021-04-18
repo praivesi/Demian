@@ -1,7 +1,9 @@
 package com.tutorial.Demian.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tutorial.Demian.dto.DayJobDTO;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

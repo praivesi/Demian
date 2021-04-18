@@ -1,15 +1,16 @@
 package com.tutorial.Demian.service;
 
+import com.tutorial.Demian.controller.DecadeJobController;
 import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.DecadeNewDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DecadeJobRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
+import com.tutorial.Demian.service.Utility.JobFilter;
+import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,70 +22,39 @@ public class DecadeJobService {
     private DesireRepository desireRepository;
 
     @Autowired
-    private DesireService desireService;
-
-    @Autowired
     private DecadeJobRepository decadeJobRepository;
-
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<DecadeNewDTO> get(Date startDate, Long userId) {
-        List<Desire> desires = desireService.getCurrentUserDesires(userId);
-        List<DecadeNewDTO> decadeNewDTOs = new ArrayList<>();
+    public DecadeJobController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
+        DecadeJobController.Response response = new DecadeJobController.Response();
 
-        for (Desire desire : desires) {
-            DecadeNewDTO decadeNewDTO = new DecadeNewDTO();
-            decadeNewDTO.setDesireDTO(DesireDTO.of(desire));
-
-            List<DecadeJobDTO> decadeJobDTOs = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(startDate);
-
-                cal.add(Calendar.YEAR, 10 * i);
-                cal.set(Calendar.MONTH, 0);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 1);
-                Date curStartDate = cal.getTime();
-
-                cal.add(Calendar.YEAR, 10);
-                cal.add(Calendar.SECOND, -1);
-                Date curEndDate = cal.getTime();
-
-                DecadeJob matchedJob = null;
-                for (DecadeJob decadeJob : desire.getDecades()) {
-                    if (curStartDate.getTime() <= decadeJob.getFromTime().getTime() &&
-                            decadeJob.getToTime().getTime() <= curEndDate.getTime()) {
-                        matchedJob = decadeJob;
-                        break;
-                    }
-                }
-
-                if (matchedJob == null) {
-                    DecadeJobDTO tmpDecadeJobDTO = new DecadeJobDTO();
-                    tmpDecadeJobDTO.setId(-1l);
-                    decadeJobDTOs.add(tmpDecadeJobDTO);
-                } else {
-                    decadeJobDTOs.add(DecadeJobDTO.of(matchedJob));
-                }
-            }
-
-            decadeNewDTO.setDecadeDTOsSortByTime(decadeJobDTOs);
-
-            decadeNewDTOs.add(decadeNewDTO);
+        Calendar startCal = new GregorianCalendar();
+        if (startDecade == DecadeJobController.UNDEFINED_DECADE) {
+            startDecade = startCal.get(Calendar.YEAR) - 20;
         }
 
-        return decadeNewDTOs;
-    }
+        startCal.set(Calendar.YEAR, startDecade);
+        Date startDate = startCal.getTime();
 
-    public DecadeJob savePrev(String username, DecadeJob decadeJob) {
-        User user = userRepository.findByUsername(username);
+        for (Desire desire : desires) {
+            DecadeJobController.DesireWithDecade desireWithDecade = new DecadeJobController.DesireWithDecade();
 
-        return decadeJobRepository.save(decadeJob);
+            desireWithDecade.setDesire(DesireDTO.of(desire));
+
+            List<DecadeJobDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
+            desireWithDecade.setDecades(filteredDecades);
+
+            response.getDesireWithDecades().add(desireWithDecade);
+        }
+
+        List<String> timeHeaders = TimeHeaderCalculator.getDecadeTimeHeaders(startCal, 5);
+        response.setTimeHeaders(timeHeaders);
+
+        response.setStartDate(startDate);
+
+        return response;
     }
 
     public JobDTO save(JobDTO jobDTO) {

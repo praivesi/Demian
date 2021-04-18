@@ -1,6 +1,5 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.dto.DesireWithDecadeJobDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +20,6 @@ public class JobService {
     private WeekJobService weekJobService;
     @Autowired
     private DayJobService dayJobService;
-
-    public List<DesireWithDecadeJobDTO> GetAllDesires() {
-        return null;
-//        List<Desire> desires = desireRepository.findAll();
-//        List<DesireWithDecadeJobDTO> response = new ArrayList<>();
-//
-//        for(Desire desire : desires){
-//            response.add(DesireWithDecadeJobDTO.of(desire, desire.getDecadeJobs()));
-//        }
-//
-//        return response;
-    }
 
     public JobDTO save(JobDTO dto) {
         JobDTO response = new JobDTO();

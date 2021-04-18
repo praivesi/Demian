@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 @Data
 public class DecadeJob {
+    public final static long DECADE_JOB_DEFAULT_ID = -1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,6 +40,7 @@ public class DecadeJob {
     }
 
     public DecadeJob(String _title, String _content, Date _fromTime, Date _toTime, Desire _desire) {
+        this.id = DECADE_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;
         this.fromTime = _fromTime;

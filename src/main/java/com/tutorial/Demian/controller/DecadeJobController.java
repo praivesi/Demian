@@ -1,7 +1,7 @@
 package com.tutorial.Demian.controller;
 
 import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.DecadeNewDTO;
+import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
@@ -9,7 +9,9 @@ import com.tutorial.Demian.repository.DecadeJobRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.service.DecadeJobService;
+import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.validator.DecadeJobValidator;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,12 +20,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 @RequestMapping("/decades")
 public class DecadeJobController {
+    public final static int UNDEFINED_DECADE = -1;
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -34,65 +37,29 @@ public class DecadeJobController {
     private DecadeJobValidator decadeJobValidator;
     @Autowired
     private DecadeJobService decadeJobService;
+    @Autowired
+    private DesireService desireService;
 
     @GetMapping("/page")
     public String decade(Model model, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(authentication.getName());
 
-        Calendar startCal = new GregorianCalendar();
-        startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 20 - startCal.get(Calendar.YEAR) % 10);
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        Response response = decadeJobService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
 
-        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
-
-        List<String> timeHeaders = new ArrayList<>();
-        Calendar endCal = (Calendar) startCal.clone();
-
-        Calendar beginCal = (Calendar)endCal.clone();
-        for (int i = 0; i < 5; i++) {
-            endCal.add(Calendar.YEAR, 9);
-            timeHeaders.add(String.format(
-                    "%s ~ %s",
-                    new SimpleDateFormat("yyyy").format(beginCal.getTime()),
-                    new SimpleDateFormat("yyyy").format(endCal.getTime())));
-            beginCal.add(Calendar.YEAR, 10);
-            endCal.add(Calendar.YEAR, 1);
-        }
-
-        model.addAttribute("decadeNewDTOs", decadeNewDTOs);
-        model.addAttribute("timeHeaders", timeHeaders);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("response", response);
 
         return "/schedule/decade_page";
     }
 
-    @GetMapping("/page/{startYear}")
-    public String decadeWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
+    @GetMapping("/page/{startDecade}")
+    public String decadeWithStartYear(Model model, @PathVariable int startDecade, Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName());
 
-        Calendar startCal = new GregorianCalendar();
-        startCal.set(Calendar.YEAR, startYear);
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        Response response = decadeJobService.getDecadePageResp(user.getId(), desires, startDecade);
 
-        List<DecadeNewDTO> decadeNewDTOs = decadeJobService.get(startCal.getTime(), user.getId());
-
-        List<String> timeHeaders = new ArrayList<>();
-        Calendar endCal = (Calendar) startCal.clone();
-
-        Calendar beginCal = (Calendar)endCal.clone();
-        for (int i = 0; i < 5; i++) {
-            endCal.add(Calendar.YEAR, 9);
-            timeHeaders.add(String.format(
-                    "%s ~ %s",
-                    new SimpleDateFormat("yyyy").format(beginCal.getTime()),
-                    new SimpleDateFormat("yyyy").format(endCal.getTime())));
-            beginCal.add(Calendar.YEAR, 10);
-            endCal.add(Calendar.YEAR, 1);
-        }
-
-        model.addAttribute("decadeNewDTOs", decadeNewDTOs);
-        model.addAttribute("timeHeaders", timeHeaders);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("response", response);
 
         return "/schedule/decade_page";
     }
@@ -142,5 +109,29 @@ public class DecadeJobController {
         decadeJobRepository.save(decadeJob);
 
         return "redirect:/decades/page";
+    }
+
+    @Data
+    public static class Response {
+        private List<DesireWithDecade> desireWithDecades;
+        private List<String> timeHeaders;
+        private Date startDate;
+
+        public Response(){
+            this.desireWithDecades = new ArrayList<>();
+            this.timeHeaders = new ArrayList<>();
+            this.startDate = null;
+        }
+    }
+
+    @Data
+    public static class DesireWithDecade {
+        private DesireDTO desire;
+        private List<DecadeJobDTO> decades;
+
+        public DesireWithDecade() {
+            this.desire = null;
+            this.decades = new ArrayList<>();
+        }
     }
 }

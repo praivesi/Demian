@@ -1,6 +1,5 @@
 package com.tutorial.Demian.controller;
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.DesireWithDecadeJobDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.JobService;
@@ -20,11 +19,6 @@ public class ScheduleApiController {
             JobService jobService){
         this.desireService = desireService;
         this.jobService = jobService;
-    }
-
-    @GetMapping("/schedules")
-    List<DesireWithDecadeJobDTO> all() {
-        return desireService.GetAllDesires();
     }
 
     @PostMapping("/schedules/desire")

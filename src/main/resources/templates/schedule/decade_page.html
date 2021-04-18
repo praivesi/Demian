@@ -11,7 +11,7 @@
             crossorigin="anonymous"></script>
     <script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>
     <script th:inline="javascript">
-        var startYear =[[${#dates.year(startDate)}]];
+        var startDecade =[[${#dates.year(response.startDate)}]];
 
     </script>
 </head>
@@ -39,20 +39,20 @@
             </div>
             <!-- Desire Container -->
             <div class="desire-container left-item">
-                <th:block th:each="dto : ${decadeNewDTOs}">
+                <th:block th:each="desireWithDecade : ${response.desireWithDecades}">
                     <div class="desire-item">
                         <div class="card">
                             <div class="card-header">
-                                <span th:text="${dto.desireDTO.title}">Desire</span>
+                                <span th:text="${desireWithDecade.desire.title}">Desire</span>
                             </div>
                             <div class="card-body">
                                 <div class="card-item">
                                     <a href="#" class="btn indigo-small-btn"
-                                       th:href="@{/desires/form/0(id=${dto.desireDTO.id})}">수정</a>
-                                    <button class="desire-delete-btn btn indigo-small-btn" th:value="${dto.desireDTO.id}">
+                                       th:href="@{/desires/form/0(id=${desireWithDecade.desire.id})}">수정</a>
+                                    <button class="desire-delete-btn btn indigo-small-btn" th:value="${desireWithDecade.desire.id}">
                                         삭제
                                     </button>
-                                    <button class="decade-add-btn btn indigo-small-btn" th:value="${dto.desireDTO.id}">할일
+                                    <button class="decade-add-btn btn indigo-small-btn" th:value="${desireWithDecade.desire.id}">할일
                                         추가
                                     </button>
                                 </div>
@@ -69,7 +69,7 @@
                 <div class="move-arrow-div">
                     <button class="decade-left-arrow move-arrow btn indigo-btn"><</button>
                 </div>
-                <th:block th:each="timeHeader : ${timeHeaders}">
+                <th:block th:each="timeHeader : ${response.timeHeaders}">
                     <div class="job-nav-item header-font">
                         <p th:text="${timeHeader}"></p>
                     </div>
@@ -80,21 +80,21 @@
             </div>
             <!-- Job Content Container -->
             <div class="job-content-container job-item">
-                <th:block th:each="dto : ${decadeNewDTOs}">
+                <th:block th:each="desireWithDecade : ${response.desireWithDecades}">
                     <div class="row row-container job-content-item">
                         <div class="empty-arrow-div">
                             <p></p>
                         </div>
-                        <th:block th:each="decadeJob :${dto.decadeDTOsSortByTime}">
-                            <div class="row-item" th:classappend="${decadeJob.title != null} ? cell-exist">
+                        <th:block th:each="decade :${desireWithDecade.decades}">
+                            <div class="row-item" th:classappend="${decade.title != ''} ? cell-exist">
                                 <div class="card">
                                     <div class="card-header">
-                                        <span th:text="${decadeJob.title}">DECADE JOB</span>
+                                        <span th:text="${decade.title}">DECADE JOB</span>
                                     </div>
-                                    <div th:if="${decadeJob.title != null}" class="card-body">
+                                    <div th:if="${decade.title != ''}" class="card-body">
                                         <a href="#" class="btn indigo-small-btn card-item"
-                                           th:href="@{/decades/form(desireId=${dto.desireDTO.id}, jobId=${decadeJob.id})}">수정</a>
-                                        <button class="btn indigo-small-btn decade-delete-btn" th:value="${decadeJob.id}">
+                                           th:href="@{/decades/form(desireId=${desireWithDecade.desire.id}, jobId=${decade.id})}">수정</a>
+                                        <button class="btn indigo-small-btn decade-delete-btn" th:value="${decade.id}">
                                             삭제
                                         </button>
                                     </div>

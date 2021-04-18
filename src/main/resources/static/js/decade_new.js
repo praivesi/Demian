@@ -20,14 +20,14 @@ $(document).ready(function(){
 
     $('.decade-left-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
-        var uri = uriProtocol + "/decades/page/" + (startYear - 10);
+        var uri = uriProtocol + "/decades/page/" + (startDecade - 10);
 
         window.location.replace(uri);
     });
 
     $('.decade-right-arrow').on('click', function(){
         var uriProtocol = window.location.protocol + '//' + window.location.host;
-        var uri = uriProtocol + "/decades/page/" + (startYear + 10);
+        var uri = uriProtocol + "/decades/page/" + (startDecade + 10);
 
         window.location.replace(uri);
     });

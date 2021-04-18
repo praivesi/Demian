@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+import static com.tutorial.Demian.model.DecadeJob.DECADE_JOB_DEFAULT_ID;
+
 @Data
 public class DecadeJobDTO {
     private Long id;
@@ -16,6 +18,14 @@ public class DecadeJobDTO {
     private Date fromTime;
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
+
+    public DecadeJobDTO(){
+        this.id = DECADE_JOB_DEFAULT_ID;
+        this.title = "";
+        this.content = "";
+        this.fromTime = null;
+        this.toTime = null;
+    }
 
     public DecadeJob getEntity(){
         DecadeJob entity = new DecadeJob();

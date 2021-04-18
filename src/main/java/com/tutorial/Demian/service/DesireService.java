@@ -1,13 +1,11 @@
 package com.tutorial.Demian.service;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.DesireWithDecadeJobDTO;
 import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,18 +24,6 @@ public class DesireService {
             UserRepository userRepository){
         this.desireRepository = desireRepository;
         this.userRepository = userRepository;
-    }
-
-    public List<DesireWithDecadeJobDTO> GetAllDesires() {
-        return null;
-//        List<Desire> desires = desireRepository.findAll();
-//        List<DesireWithDecadeJobDTO> response = new ArrayList<>();
-//
-//        for(Desire desire : desires){
-//            response.add(DesireWithDecadeJobDTO.of(desire, desire.getDecadeJobs()));
-//        }
-//
-//        return response;
     }
 
     public List<Desire> getCurrentUserDesires(Long userId){

@@ -1,10 +1,7 @@
 package com.tutorial.Demian.controller;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.DecadeNewDTO;
 import com.tutorial.Demian.dto.YearJobDTO;
 import com.tutorial.Demian.dto.YearPageDTO;
-import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearJob;
