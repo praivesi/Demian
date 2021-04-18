@@ -1,5 +1,7 @@
 package com.tutorial.Demian.controller;
 
+import com.tutorial.Demian.dto.DecadeJobDTO;
+import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.YearJobDTO;
 import com.tutorial.Demian.dto.YearPageDTO;
 import com.tutorial.Demian.model.Desire;
@@ -11,6 +13,7 @@ import com.tutorial.Demian.repository.YearJobRepository;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.YearJobService;
 import com.tutorial.Demian.validator.YearJobValidator;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/years")
 public class YearJobController {
+    public final static int UNDEFINED_YEAR = -1;
+
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
@@ -40,50 +45,24 @@ public class YearJobController {
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(authentication.getName());
 
-        Calendar startCal = new GregorianCalendar();
-        startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR) - 2);
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        YearJobController.Response response = yearJobService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
-        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
-
-        List<String> timeHeaders = new ArrayList<>();
-        Calendar tmpCal = (Calendar) startCal.clone();
-
-        for (int i = 0; i < 5; i++) {
-            timeHeaders.add(new SimpleDateFormat("yyyy").format(tmpCal.getTime()));
-            tmpCal.add(Calendar.YEAR, 1);
-        }
-
-        model.addAttribute("yearPageDTOs", yearPageDTOs);
-        model.addAttribute("timeHeaders", timeHeaders);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("response", response);
 
         return "/schedule/year_page";
     }
 
     @GetMapping("/page/{startYear}")
     public String yearWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(authentication.getName());
 
-        Calendar startCal = new GregorianCalendar();
-        startCal.set(Calendar.YEAR, startYear);
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        YearJobController.Response response = yearJobService.getYearPageResp(user.getId(), desires, startYear);
 
-        List<YearPageDTO> yearPageDTOs = yearJobService.get(startCal.getTime(), user.getId());
-
-        List<String> timeHeaders = new ArrayList<>();
-        Calendar tmpCal = (Calendar) startCal.clone();
-
-        for (int i = 0; i < 5; i++) {
-            tmpCal.add(Calendar.YEAR, 1);
-            timeHeaders.add(new SimpleDateFormat("yyyy").format(tmpCal.getTime()));
-        }
-
-        model.addAttribute("yearPageDTOs", yearPageDTOs);
-        model.addAttribute("timeHeaders", timeHeaders);
-        model.addAttribute("startDate", startCal.getTime());
+        model.addAttribute("response", response);
 
         return "/schedule/year_page";
     }
@@ -134,5 +113,29 @@ public class YearJobController {
         yearJobRepository.save(entity);
 
         return "redirect:/years/page";
+    }
+
+    @Data
+    public static class Response {
+        private List<YearJobController.DesireWithYear> desireWithYears;
+        private List<String> timeHeaders;
+        private Date startDate;
+
+        public Response(){
+            this.desireWithYears = new ArrayList<>();
+            this.timeHeaders = new ArrayList<>();
+            this.startDate = null;
+        }
+    }
+
+    @Data
+    public static class DesireWithYear {
+        private DesireDTO desire;
+        private List<YearJobDTO> years;
+
+        public DesireWithYear() {
+            this.desire = null;
+            this.years = new ArrayList<>();
+        }
     }
 }

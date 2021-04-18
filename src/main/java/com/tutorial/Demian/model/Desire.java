@@ -11,6 +11,8 @@ import java.util.List;
 @Entity
 @Data
 public class Desire {
+    public final static long DESIRE_DEFAULT_ID = -1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

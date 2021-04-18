@@ -36,7 +36,12 @@ public class DecadeJob {
     private Desire desire;
 
     public DecadeJob(){
-
+        this.id = DECADE_JOB_DEFAULT_ID;
+        this.title = "";
+        this.content = "";
+        this.fromTime = null;
+        this.toTime = null;
+        this.desire = null;
     }
 
     public DecadeJob(String _title, String _content, Date _fromTime, Date _toTime, Desire _desire) {

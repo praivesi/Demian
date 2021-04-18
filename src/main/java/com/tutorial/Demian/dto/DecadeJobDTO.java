@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 import static com.tutorial.Demian.model.DecadeJob.DECADE_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 
 @Data
 public class DecadeJobDTO {
@@ -21,6 +22,7 @@ public class DecadeJobDTO {
 
     public DecadeJobDTO(){
         this.id = DECADE_JOB_DEFAULT_ID;
+        this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
         this.content = "";
         this.fromTime = null;

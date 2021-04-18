@@ -1,13 +1,14 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.JobDTO;
-import com.tutorial.Demian.dto.YearJobDTO;
-import com.tutorial.Demian.dto.YearPageDTO;
+import com.tutorial.Demian.controller.DecadeJobController;
+import com.tutorial.Demian.controller.YearJobController;
+import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.YearJob;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.YearJobRepository;
+import com.tutorial.Demian.service.Utility.JobFilter;
+import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,55 +23,34 @@ public class YearJobService {
     @Autowired
     private YearJobRepository yearJobRepository;
 
-    public List<YearPageDTO> get(Date startDate, Long userId) {
-//        List<Desire> desires = desireRepository.findAll();
-        List<Desire> desires = desireService.getCurrentUserDesires(userId);
-        List<YearPageDTO> yearPages = new ArrayList<>();
+    public YearJobController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
+        YearJobController.Response response = new YearJobController.Response();
 
-        for (Desire desire : desires) {
-            YearPageDTO yearPage = new YearPageDTO();
-            yearPage.setDesire(DesireDTO.of(desire));
-
-            List<YearJobDTO> years = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(startDate);
-
-                cal.add(Calendar.YEAR, 1 * i);
-                cal.set(Calendar.MONTH, 0);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 1);
-                Date curStartDate = cal.getTime();
-
-                cal.add(Calendar.YEAR, 1);
-                cal.add(Calendar.SECOND, -1);
-                Date curEndDate = cal.getTime();
-
-                YearJob matchedYear = null;
-                for (YearJob year : desire.getYears()) {
-                    if (curStartDate.getTime() <= year.getFromTime().getTime() &&
-                            year.getToTime().getTime() <= curEndDate.getTime()) {
-                        matchedYear = year;
-                        break;
-                    }
-                }
-
-                if (matchedYear == null) {
-                    YearJobDTO tmpYearJobDTO = new YearJobDTO();
-                    tmpYearJobDTO.setId(-1l);
-                    years.add(tmpYearJobDTO);
-                } else {
-                    years.add(YearJobDTO.of(matchedYear));
-                }
-            }
-
-            yearPage.setYears(years);
-            yearPages.add(yearPage);
+        Calendar startCal = new GregorianCalendar();
+        if (startYear == YearJobController.UNDEFINED_YEAR) {
+            startYear = startCal.get(Calendar.YEAR) - 2;
         }
 
-        return yearPages;
+        startCal.set(Calendar.YEAR, startYear);
+        Date startDate = startCal.getTime();
+
+        for (Desire desire : desires) {
+            YearJobController.DesireWithYear desireWithYear = new YearJobController.DesireWithYear();
+
+            desireWithYear.setDesire(DesireDTO.of(desire));
+
+            List<YearJobDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
+            desireWithYear.setYears(filteredYears);
+
+            response.getDesireWithYears().add(desireWithYear);
+        }
+
+        List<String> timeHeaders = TimeHeaderCalculator.getYearTimeHeaders(startCal, 5);
+        response.setTimeHeaders(timeHeaders);
+
+        response.setStartDate(startDate);
+
+        return response;
     }
 
     public JobDTO save(JobDTO jobDTO) {

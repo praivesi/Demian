@@ -1,5 +1,7 @@
 package com.tutorial.Demian.service.Utility;
 
+import com.tutorial.Demian.dto.YearPageDTO;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +24,17 @@ public class TimeHeaderCalculator {
 
             beginCal.add(Calendar.YEAR, 10);
             endCal.add(Calendar.YEAR, 1);
+        }
+
+        return timeHeaders;
+    }
+
+    public static List<String> getYearTimeHeaders(Calendar startCal, int timeHeaderCount) {
+        List<String> timeHeaders = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            timeHeaders.add(new SimpleDateFormat("yyyy").format(startCal.getTime()));
+            startCal.add(Calendar.YEAR, 1);
         }
 
         return timeHeaders;
