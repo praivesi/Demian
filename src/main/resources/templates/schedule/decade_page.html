@@ -1,34 +1,15 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head"></head>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" type="text/css" href="decade_new.css" th:href="@{/css/decade_new.css}"/>
-
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-            crossorigin="anonymous"></script>
     <script type="text/javaScript" th:src="@{/js/decade_new.js}"></script>
     <script th:inline="javascript">
-        var startDecade =[[${#dates.year(response.startDate)}]];
-
+            var startDecade =[[${#dates.year(response.startDate)}]];
     </script>
 </head>
 <body>
 <div class="header-container fullscreen">
-    <div class="login-btn-container header-item">
-        <div class="login-btn-item-front">
-            <a class="btn indigo-btn" th:href="@{/decades/page}">10Y</a>
-            <a class="btn indigo-btn" th:href="@{/years/page}">1Y</a>
-            <a class="btn indigo-btn" th:href="@{/months/page}">1M</a>
-        </div>
-        <span class="header-font">Hi,&nbsp;</span><span class="login-btn-item text-white mx-2 header-font" style="margin-right: 15px;" sec:authentication="name">사용자</span>
-        <form class="login-btn-item form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()"
-              th:action="@{/logout}" method="POST">
-            <button class="btn indigo-btn my-2 my-sm-0" type="submit">로그아웃</button>
-        </form>
-    </div>
+    <div th:replace="fragments/common :: login-container"></div>
     <!-- Main Container -->
     <div class="main-container header-item">
         <div class="left-container main-item">
