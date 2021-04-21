@@ -9,6 +9,8 @@ public class TimeHeaderCalculator {
     public static List<String> getDecadeTimeHeaders(Calendar startCal, int timeHeaderCount) {
         List<String> timeHeaders = new ArrayList<>();
 
+        startCal.set(Calendar.YEAR, (startCal.get(Calendar.YEAR) / 10) * 10);
+
         Calendar beginCal = (Calendar) startCal.clone();
         Calendar endCal = (Calendar) startCal.clone();
 
