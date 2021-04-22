@@ -11,10 +11,11 @@ import com.tutorial.Demian.service.Utility.JobFilter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class JobFilterTest {
@@ -119,50 +120,48 @@ public class JobFilterTest {
                 .matches(dto -> dto.getFromTime().toString().contains("2024"));
     }
 
-//    @Test
-//    void monthJobFilter_succeed() {
-//        // given
-//        List<MonthJob> entireMonths = new ArrayList<>();
-//        Calendar startCal = Calendar.getInstance();
-//        Calendar cal = Calendar.getInstance();
-//        cal.set(Calendar.YEAR, 2020);
-//        cal.set(Calendar.MONTH, 0);
-//
-//        for (long i = 0; i < 10; i++) {
-//            MonthJob monthJob = new MonthJob();
-//            monthJob.setId(i);
-//            monthJob.setFromTime(cal.getTime());
-//
-//            cal.add(Calendar.DAY_OF_MONTH, 1);
-//            monthJob.setToTime(cal.getTime());
-//
-//            Desire desire = new Desire();
-//            desire.setId(i);
-//            monthJob.setDesire(desire);
-//
-//            entireMonths.add(monthJob);
-//
-//            cal.add(Calendar.MONTH, 1);
-//            cal.add(Calendar.DAY_OF_MONTH, -1);
-//        }
-//
-//        startCal.set(Calendar.YEAR, 2020);
-//
-//        // when
-//        List<MonthJobDTO> pickedMonths
-//                = this.jobFilter.monthFilter(entireMonths, startCal.getTime(), 5);
-//
-//        // then
-//        Assertions.assertThat(pickedMonths.size()).isEqualTo(5);
-//        Assertions.assertThat(pickedMonths).element(0)
-//                .matches(dto -> dto.getFromTime().toString().contains("2020-01"));
-//        Assertions.assertThat(pickedMonths).element(1)
-//                .matches(dto -> dto.getFromTime().toString().contains("2020-02"));
-//        Assertions.assertThat(pickedMonths).element(2)
-//                .matches(dto -> dto.getFromTime().toString().contains("2020-03"));
-//        Assertions.assertThat(pickedMonths).element(3)
-//                .matches(dto -> dto.getFromTime().toString().contains("2020-04"));
-//        Assertions.assertThat(pickedMonths).element(4)
-//                .matches(dto -> dto.getFromTime().toString().contains("2020-05"));
-//    }
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void monthJobFilter_succeed(int monthNum) {
+        // given
+        List<MonthJob> entireMonths = new ArrayList<>();
+        Calendar startCal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2020);
+        cal.set(Calendar.MONTH, 0);
+
+        for (long i = 0; i < 10; i++) {
+            MonthJob monthJob = new MonthJob();
+            monthJob.setId(i);
+            monthJob.setFromTime(cal.getTime());
+
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            monthJob.setToTime(cal.getTime());
+
+            Desire desire = new Desire();
+            desire.setId(i);
+            monthJob.setDesire(desire);
+
+            entireMonths.add(monthJob);
+
+            cal.add(Calendar.MONTH, 1);
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+        }
+
+        startCal.set(Calendar.YEAR, 2020);
+        startCal.set(Calendar.MONTH, 0);
+
+        // when
+        List<MonthJobDTO> pickedMonths
+                = this.jobFilter.monthFilter(entireMonths, startCal.getTime(), 5);
+
+        // then
+        Assertions.assertThat(pickedMonths.size()).isEqualTo(5);
+        Assertions.assertThat(pickedMonths).element(monthNum)
+                .matches(dto -> {
+                    Calendar tmpCal = Calendar.getInstance();
+                    tmpCal.setTime(dto.getFromTime());
+                    return tmpCal.get(Calendar.MONTH) == monthNum;
+                });
+    }
 }
