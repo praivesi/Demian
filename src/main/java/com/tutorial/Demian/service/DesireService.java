@@ -30,22 +30,10 @@ public class DesireService {
         return desireRepository.findByUserId(userId);
     }
 
-    public Desire savePrev(String username, Desire desire) {
-        User user = userRepository.findByUsername(username);
-        desire.setUser(user);
-
-        // [210228] Dummy data for test
-        desire.setSortNum(10l);
-        desire.setDecades(new ArrayList<DecadeJob>());
-
-        return desireRepository.save(desire);
-    }
-
     public DesireDTO save(DesireDTO dto) {
         Desire newDesire = new Desire(dto.getTitle(), dto.getContent(), 0l);
 
         // added temporary user
-        System.out.println("In Real : " + userRepository.hashCode());
         User user = userRepository.findByUsername("hsoh");
         newDesire.setUser(user);
 
