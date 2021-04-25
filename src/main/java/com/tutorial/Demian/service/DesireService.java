@@ -1,29 +1,20 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.DecadeJob;
-import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.tutorial.Demian.dto.DesireDTO;
+import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.repository.DesireRepository;
+import org.springframework.stereotype.Service;
+
 @Service
 public class DesireService {
-//    @Autowired
     private DesireRepository desireRepository;
-//    @Autowired
-    private UserRepository userRepository;
 
     public DesireService(
-            DesireRepository desireRepository,
-            UserRepository userRepository){
+            DesireRepository desireRepository){
         this.desireRepository = desireRepository;
-        this.userRepository = userRepository;
     }
 
     public List<Desire> getCurrentUserDesires(Long userId){
@@ -31,13 +22,7 @@ public class DesireService {
     }
 
     public DesireDTO save(DesireDTO dto) {
-        Desire newDesire = new Desire(dto.getTitle(), dto.getContent(), 0l);
-
-        // added temporary user
-        User user = userRepository.findByUsername("hsoh");
-        newDesire.setUser(user);
-
-        Desire entity = desireRepository.save(newDesire);
+        Desire entity = desireRepository.save(dto.getEntity());
         dto.setId(entity.getId());
 
         return dto;
@@ -64,7 +49,6 @@ public class DesireService {
 
     public DesireDTO get(Long id) {
         DesireDTO dto = new DesireDTO();
-
         Optional<Desire> maybeDesire = desireRepository.findById(id);
 
         if (maybeDesire.isPresent()) {

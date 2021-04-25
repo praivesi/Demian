@@ -8,7 +8,6 @@ import com.tutorial.Demian.model.DecadeJob;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.repository.DecadeJobRepository;
 import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +17,8 @@ import java.util.*;
 
 @Service
 public class DecadeJobService {
-    @Autowired
-    private DesireRepository desireRepository;
-
-    @Autowired
-    private DecadeJobRepository decadeJobRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private DesireRepository desireRepository;
+    @Autowired private DecadeJobRepository decadeJobRepository;
 
     public DecadeJobController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
         DecadeJobController.Response response = new DecadeJobController.Response();

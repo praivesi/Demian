@@ -17,12 +17,10 @@ public class DesireServiceTest {
     private DesireService desireService;
 
     @Autowired private DesireRepository desireRepository;
-    @Autowired private UserRepository userRepository;
 
     @BeforeEach
     void setup(){
-        this.desireService = new DesireService(
-                this.desireRepository, this.userRepository);
+        this.desireService = new DesireService(this.desireRepository);
     }
 
     @Test
