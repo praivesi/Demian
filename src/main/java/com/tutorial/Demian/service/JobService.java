@@ -16,10 +16,6 @@ public class JobService {
     private YearJobService yearJobService;
     @Autowired
     private MonthJobService monthJobService;
-    @Autowired
-    private WeekJobService weekJobService;
-    @Autowired
-    private DayJobService dayJobService;
 
     public JobDTO save(JobDTO dto) {
         JobDTO response = new JobDTO();
@@ -35,14 +31,6 @@ public class JobService {
 
             case 2: // Month
                 response = monthJobService.save(dto);
-                break;
-
-            case 3: // Week
-                response = weekJobService.save(dto);
-                break;
-
-            case 4: // Day
-                response = dayJobService.save(dto);
                 break;
         }
 
@@ -64,14 +52,6 @@ public class JobService {
             case 2: // Month
                 response = monthJobService.update(dto, id);
                 break;
-
-            case 3: // Week
-                response = weekJobService.update(dto, id);
-                break;
-
-            case 4: // Day
-                response = dayJobService.update(dto, id);
-                break;
         }
 
         return response;
@@ -92,14 +72,6 @@ public class JobService {
             case 2: // Month
                 response = monthJobService.get(id);
                 break;
-
-            case 3: // Week
-                response = weekJobService.get(id);
-                break;
-
-            case 4: // Day
-                response = dayJobService.get(id);
-                break;
         }
 
         return response;
@@ -119,14 +91,6 @@ public class JobService {
 
             case 2: // Month
                 response = monthJobService.delete(id);
-                break;
-
-            case 3: // Week
-                response = weekJobService.delete(id);
-                break;
-
-            case 4: // Day
-                response = dayJobService.delete(id);
                 break;
         }
 

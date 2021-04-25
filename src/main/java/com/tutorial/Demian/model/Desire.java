@@ -35,12 +35,6 @@ public class Desire {
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
     private List<MonthJob> months = new ArrayList<>();
 
-    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<WeekJob> weeks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<DayJob> days = new ArrayList<>();
-
     public Desire(){}
 
     public Desire(String _title, String _content, Long _sortNum){
