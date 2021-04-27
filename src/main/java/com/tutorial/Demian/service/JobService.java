@@ -4,33 +4,31 @@ import com.tutorial.Demian.dto.JobDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class JobService {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private DecadeJobService decadeJobService;
+    private DecadeService decadeService;
     @Autowired
-    private YearJobService yearJobService;
+    private YearService yearService;
     @Autowired
-    private MonthJobService monthJobService;
+    private MonthService monthService;
 
     public JobDTO save(JobDTO dto) {
         JobDTO response = new JobDTO();
 
         switch (dto.getJobType()) {
             case 0: // Decade
-                response = decadeJobService.save(dto);
+                response = decadeService.save(dto);
                 break;
 
             case 1: // Year
-                response = yearJobService.save(dto);
+                response = yearService.save(dto);
                 break;
 
             case 2: // Month
-                response = monthJobService.save(dto);
+                response = monthService.save(dto);
                 break;
         }
 
@@ -42,15 +40,15 @@ public class JobService {
 
         switch (jobType) {
             case 0: // Decade
-                response = decadeJobService.update(dto, id);
+                response = decadeService.update(dto, id);
                 break;
 
             case 1: // Year
-                response = yearJobService.update(dto, id);
+                response = yearService.update(dto, id);
                 break;
 
             case 2: // Month
-                response = monthJobService.update(dto, id);
+                response = monthService.update(dto, id);
                 break;
         }
 
@@ -62,15 +60,15 @@ public class JobService {
 
         switch (jobType) {
             case 0: // Decade
-                response = decadeJobService.get(id);
+                response = decadeService.get(id);
                 break;
 
             case 1: // Year
-                response = yearJobService.get(id);
+                response = yearService.get(id);
                 break;
 
             case 2: // Month
-                response = monthJobService.get(id);
+                response = monthService.get(id);
                 break;
         }
 
@@ -82,15 +80,15 @@ public class JobService {
 
         switch (jobType) {
             case 0: // Decade
-                response = decadeJobService.delete(id);
+                response = decadeService.delete(id);
                 break;
 
             case 1: // Year
-                response = yearJobService.delete(id);
+                response = yearService.delete(id);
                 break;
 
             case 2: // Month
-                response = monthJobService.delete(id);
+                response = monthService.delete(id);
                 break;
         }
 

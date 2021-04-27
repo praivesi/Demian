@@ -27,13 +27,13 @@ public class Desire {
     private Long sortNum;
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<DecadeJob> decades = new ArrayList<>();
+    private List<Decade> decades = new ArrayList<>();
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<YearJob> years = new ArrayList<>();
+    private List<Year> years = new ArrayList<>();
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<MonthJob> months = new ArrayList<>();
+    private List<Month> months = new ArrayList<>();
 
     public Desire(){}
 

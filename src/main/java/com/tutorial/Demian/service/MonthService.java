@@ -1,12 +1,11 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.controller.MonthJobController;
-import com.tutorial.Demian.controller.YearJobController;
+import com.tutorial.Demian.controller.MonthController;
 import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.MonthJob;
+import com.tutorial.Demian.model.Month;
 import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.MonthJobRepository;
+import com.tutorial.Demian.repository.MonthRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +14,17 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class MonthJobService {
+public class MonthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private MonthJobRepository monthJobRepository;
+    private MonthRepository monthRepository;
 
-    public MonthJobController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
-        MonthJobController.Response response = new MonthJobController.Response();
+    public MonthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
+        MonthController.Response response = new MonthController.Response();
 
         Calendar startCal = new GregorianCalendar();
-        if (startYear == MonthJobController.UNDEFINED_YEAR || startMonth == MonthJobController.UNDEFINED_MONTH) {
+        if (startYear == MonthController.UNDEFINED_YEAR || startMonth == MonthController.UNDEFINED_MONTH) {
             startYear = startCal.get(Calendar.YEAR);
             startMonth = (startCal.get(Calendar.MONTH) - 2) % 12;
         }
@@ -35,11 +34,11 @@ public class MonthJobService {
         Date startDate = startCal.getTime();
 
         for (Desire desire : desires) {
-            MonthJobController.DesireWithMonth desireWithMonth = new MonthJobController.DesireWithMonth();
+            MonthController.DesireWithMonth desireWithMonth = new MonthController.DesireWithMonth();
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
 
-            List<MonthJobDTO> filteredMonths = JobFilter.monthFilter(desire.getMonths(), startDate, 6);
+            List<MonthDTO> filteredMonths = JobFilter.monthFilter(desire.getMonths(), startDate, 6);
             desireWithMonth.setMonths(filteredMonths);
 
             response.getDesireWithMonths().add(desireWithMonth);
@@ -58,8 +57,8 @@ public class MonthJobService {
 
         Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
-            MonthJob newMonthJob = new MonthJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-            MonthJob entity = monthJobRepository.save(newMonthJob);
+            Month newMonth = new Month(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+            Month entity = monthRepository.save(newMonth);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -69,17 +68,17 @@ public class MonthJobService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<MonthJob> maybeEntity = monthJobRepository.findById(id);
+        Optional<Month> maybeEntity = monthRepository.findById(id);
 
         if (maybeEntity.isPresent()) {
-            MonthJob entity = maybeEntity.get();
+            Month entity = maybeEntity.get();
 
             entity.setTitle(dto.getTitle());
             entity.setContent(dto.getContent());
             entity.setFromTime(dto.getFromTime());
             entity.setToTime(dto.getToTime());
 
-            monthJobRepository.save(entity);
+            monthRepository.save(entity);
             dto.setId(id);
         } else {
             dto = new JobDTO();
@@ -90,10 +89,10 @@ public class MonthJobService {
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
-        Optional<MonthJob> maybeMonthJob = monthJobRepository.findById(id);
+        Optional<Month> maybeMonthJob = monthRepository.findById(id);
 
         if (maybeMonthJob.isPresent()) {
-            MonthJob entity = maybeMonthJob.get();
+            Month entity = maybeMonthJob.get();
 
             dto.setJobType(1);
             dto.setId(entity.getId());
@@ -109,7 +108,7 @@ public class MonthJobService {
 
     public Long delete(Long id) {
         try {
-            monthJobRepository.deleteById(id);
+            monthRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

@@ -1,12 +1,12 @@
 package com.tutorial.Demian.repository;
 
-import com.tutorial.Demian.model.DecadeJob;
+import com.tutorial.Demian.model.Decade;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DecadeJobRepository extends JpaRepository<DecadeJob, Long> {
+public interface DecadeRepository extends JpaRepository<Decade, Long> {
     @EntityGraph(attributePaths = {"yearJobs"})
-    List<DecadeJob> findAll();
+    List<Decade> findAll();
 }

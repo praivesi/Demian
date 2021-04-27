@@ -1,16 +1,16 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.MonthJob;
+import com.tutorial.Demian.model.Month;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
-import static com.tutorial.Demian.model.MonthJob.MONTH_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.Month.MONTH_JOB_DEFAULT_ID;
 
 @Data
-public class MonthJobDTO {
+public class MonthDTO {
     private Long id;
     private Long desireId;
     private String title;
@@ -20,7 +20,7 @@ public class MonthJobDTO {
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
-    public MonthJobDTO(){
+    public MonthDTO(){
         this.id = MONTH_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
@@ -29,8 +29,8 @@ public class MonthJobDTO {
         this.toTime = null;
     }
 
-    public MonthJob getEntity(){
-        MonthJob entity = new MonthJob();
+    public Month getEntity(){
+        Month entity = new Month();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -41,8 +41,8 @@ public class MonthJobDTO {
         return entity;
     }
 
-    public static MonthJobDTO of(MonthJob month) {
-        MonthJobDTO dto = new MonthJobDTO();
+    public static MonthDTO of(Month month) {
+        MonthDTO dto = new MonthDTO();
 
         dto.id = month.getId();
         dto.desireId = month.getDesire().getId();

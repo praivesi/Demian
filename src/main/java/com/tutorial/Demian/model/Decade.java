@@ -2,6 +2,7 @@ package com.tutorial.Demian.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +12,8 @@ import java.util.List;
 
 @Entity
 @Data
-public class YearJob {
-    public final static long YEAR_JOB_DEFAULT_ID = -1l;
+public class Decade {
+    public final static long DECADE_JOB_DEFAULT_ID = -1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,11 @@ public class YearJob {
     private String title;
 
     private String content;
+
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fromTime;
+
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
     @ManyToOne
@@ -30,8 +35,8 @@ public class YearJob {
     @JsonIgnore
     private Desire desire;
 
-    public YearJob() {
-        this.id = YEAR_JOB_DEFAULT_ID;
+    public Decade(){
+        this.id = DECADE_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
         this.fromTime = null;
@@ -39,12 +44,12 @@ public class YearJob {
         this.desire = null;
     }
 
-    public YearJob(String _title, String _content, Date _from, Date _to, Desire _desire) {
-        this.id = YEAR_JOB_DEFAULT_ID;
+    public Decade(String _title, String _content, Date _fromTime, Date _toTime, Desire _desire) {
+        this.id = DECADE_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;
-        this.fromTime = _from;
-        this.toTime = _to;
+        this.fromTime = _fromTime;
+        this.toTime = _toTime;
         this.desire = _desire;
     }
 }

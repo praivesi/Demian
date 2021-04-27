@@ -1,16 +1,16 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.DecadeJob;
+import com.tutorial.Demian.model.Decade;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-import static com.tutorial.Demian.model.DecadeJob.DECADE_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.Decade.DECADE_JOB_DEFAULT_ID;
 import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 
 @Data
-public class DecadeJobDTO {
+public class DecadeDTO {
     private Long id;
     private Long desireId;
     private String title;
@@ -20,7 +20,7 @@ public class DecadeJobDTO {
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
-    public DecadeJobDTO(){
+    public DecadeDTO(){
         this.id = DECADE_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
@@ -29,8 +29,8 @@ public class DecadeJobDTO {
         this.toTime = null;
     }
 
-    public DecadeJob getEntity(){
-        DecadeJob entity = new DecadeJob();
+    public Decade getEntity(){
+        Decade entity = new Decade();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -41,8 +41,8 @@ public class DecadeJobDTO {
         return entity;
     }
 
-    public static DecadeJobDTO of(DecadeJob decade){
-        DecadeJobDTO dto = new DecadeJobDTO();
+    public static DecadeDTO of(Decade decade){
+        DecadeDTO dto = new DecadeDTO();
 
         dto.id = decade.getId();
         dto.desireId = decade.getDesire().getId();

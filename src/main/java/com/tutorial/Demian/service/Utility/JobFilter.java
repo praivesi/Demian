@@ -1,11 +1,11 @@
 package com.tutorial.Demian.service.Utility;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.MonthJobDTO;
-import com.tutorial.Demian.dto.YearJobDTO;
-import com.tutorial.Demian.model.DecadeJob;
-import com.tutorial.Demian.model.MonthJob;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.model.Decade;
+import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.Year;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,8 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 public class JobFilter {
-    public static List<DecadeJobDTO> decadeFilter(List<DecadeJob> entireDecades, Date startDate, int decadeCount) {
-        List<DecadeJobDTO> pickedDecades = new ArrayList<>();
+    public static List<DecadeDTO> decadeFilter(List<Decade> entireDecades, Date startDate, int decadeCount) {
+        List<DecadeDTO> pickedDecades = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -29,19 +29,19 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            DecadeJob matchedJob = null;
-            for (DecadeJob decadeJob : entireDecades) {
-                if (filterStart.getTime() <= decadeJob.getFromTime().getTime() &&
-                        decadeJob.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = decadeJob;
+            Decade matchedJob = null;
+            for (Decade decade : entireDecades) {
+                if (filterStart.getTime() <= decade.getFromTime().getTime() &&
+                        decade.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = decade;
                     break;
                 }
             }
 
             if (matchedJob == null) {
-                pickedDecades.add(new DecadeJobDTO());
+                pickedDecades.add(new DecadeDTO());
             } else {
-                pickedDecades.add(DecadeJobDTO.of(matchedJob));
+                pickedDecades.add(DecadeDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);
@@ -50,8 +50,8 @@ public class JobFilter {
         return pickedDecades;
     }
 
-    public static List<YearJobDTO> yearFilter(List<YearJob> entireYears, Date startDate, int yearCount) {
-        List<YearJobDTO> pickedYears = new ArrayList<>();
+    public static List<YearDTO> yearFilter(List<Year> entireYears, Date startDate, int yearCount) {
+        List<YearDTO> pickedYears = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -65,19 +65,19 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            YearJob matchedJob = null;
-            for (YearJob yearJob : entireYears) {
-                if (filterStart.getTime() <= yearJob.getFromTime().getTime() &&
-                        yearJob.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = yearJob;
+            Year matchedJob = null;
+            for (Year year : entireYears) {
+                if (filterStart.getTime() <= year.getFromTime().getTime() &&
+                        year.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = year;
                     break;
                 }
             }
 
             if (matchedJob == null) {
-                pickedYears.add(new YearJobDTO());
+                pickedYears.add(new YearDTO());
             } else {
-                pickedYears.add(YearJobDTO.of(matchedJob));
+                pickedYears.add(com.tutorial.Demian.dto.YearDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);
@@ -86,8 +86,8 @@ public class JobFilter {
         return pickedYears;
     }
 
-    public static List<MonthJobDTO> monthFilter(List<MonthJob> entireMonths, Date startDate, int monthCount) {
-        List<MonthJobDTO> pickedMonths = new ArrayList<>();
+    public static List<MonthDTO> monthFilter(List<Month> entireMonths, Date startDate, int monthCount) {
+        List<MonthDTO> pickedMonths = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -101,19 +101,19 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            MonthJob matchedJob = null;
-            for (MonthJob monthJob : entireMonths) {
-                if (filterStart.getTime() <= monthJob.getFromTime().getTime() &&
-                        monthJob.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = monthJob;
+            Month matchedJob = null;
+            for (Month month : entireMonths) {
+                if (filterStart.getTime() <= month.getFromTime().getTime() &&
+                        month.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = month;
                     break;
                 }
             }
 
             if (matchedJob == null) {
-                pickedMonths.add(new MonthJobDTO());
+                pickedMonths.add(new MonthDTO());
             } else {
-                pickedMonths.add(MonthJobDTO.of(matchedJob));
+                pickedMonths.add(MonthDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);

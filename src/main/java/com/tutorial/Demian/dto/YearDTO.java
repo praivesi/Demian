@@ -1,16 +1,16 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.model.Year;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
-import static com.tutorial.Demian.model.YearJob.YEAR_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.Year.YEAR_JOB_DEFAULT_ID;
 
 @Data
-public class YearJobDTO {
+public class YearDTO {
     private Long id;
     private Long desireId;
     private String title;
@@ -21,7 +21,7 @@ public class YearJobDTO {
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
-    public YearJobDTO(){
+    public YearDTO(){
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
@@ -30,8 +30,8 @@ public class YearJobDTO {
         this.desireId = DESIRE_DEFAULT_ID;
     }
 
-    public YearJob getEntity(){
-        YearJob entity = new YearJob();
+    public Year getEntity(){
+        Year entity = new Year();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -42,8 +42,8 @@ public class YearJobDTO {
         return entity;
     }
 
-    public static YearJobDTO of(YearJob year){
-        YearJobDTO dto = new YearJobDTO();
+    public static YearDTO of(Year year){
+        YearDTO dto = new YearDTO();
 
         dto.id = year.getId();
         dto.desireId = year.getDesire().getId();

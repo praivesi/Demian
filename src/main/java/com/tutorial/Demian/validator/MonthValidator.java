@@ -1,22 +1,22 @@
 package com.tutorial.Demian.validator;
 
-import com.tutorial.Demian.dto.MonthJobDTO;
-import com.tutorial.Demian.model.MonthJob;
+import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.model.Month;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class MonthJobValidator implements Validator {
+public class MonthValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return MonthJob.class.equals(clazz);
+        return Month.class.equals(clazz);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        MonthJobDTO dto = (MonthJobDTO) obj;
+        MonthDTO dto = (MonthDTO) obj;
 
         if (!StringUtils.hasText(dto.getTitle())) {
             errors.rejectValue("title", "key", "제목을 입력하세요");

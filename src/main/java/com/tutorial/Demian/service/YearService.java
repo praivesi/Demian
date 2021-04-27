@@ -1,12 +1,11 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.controller.DecadeJobController;
-import com.tutorial.Demian.controller.YearJobController;
+import com.tutorial.Demian.controller.YearController;
 import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.YearJobRepository;
+import com.tutorial.Demian.repository.YearRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +14,19 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class YearJobService {
+public class YearService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
     private DesireService desireService;
     @Autowired
-    private YearJobRepository yearJobRepository;
+    private YearRepository yearRepository;
 
-    public YearJobController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
-        YearJobController.Response response = new YearJobController.Response();
+    public YearController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
+        YearController.Response response = new YearController.Response();
 
         Calendar startCal = new GregorianCalendar();
-        if (startYear == YearJobController.UNDEFINED_YEAR) {
+        if (startYear == YearController.UNDEFINED_YEAR) {
             startYear = startCal.get(Calendar.YEAR) - 2;
         }
 
@@ -35,11 +34,11 @@ public class YearJobService {
         Date startDate = startCal.getTime();
 
         for (Desire desire : desires) {
-            YearJobController.DesireWithYear desireWithYear = new YearJobController.DesireWithYear();
+            YearController.DesireWithYear desireWithYear = new YearController.DesireWithYear();
 
             desireWithYear.setDesire(DesireDTO.of(desire));
 
-            List<YearJobDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
+            List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
             desireWithYear.setYears(filteredYears);
 
             response.getDesireWithYears().add(desireWithYear);
@@ -59,8 +58,8 @@ public class YearJobService {
 //        Optional<DecadeJob> maybeParentJob = decadeJobRepository.findById(jobDTO.getParentId());
         Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
-            YearJob newYearJob = new YearJob(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-            YearJob entity = yearJobRepository.save(newYearJob);
+            Year newYear = new Year(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+            Year entity = yearRepository.save(newYear);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -70,17 +69,17 @@ public class YearJobService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<YearJob> maybeEntity = yearJobRepository.findById(id);
+        Optional<Year> maybeEntity = yearRepository.findById(id);
 
         if (maybeEntity.isPresent()) {
-            YearJob entity = maybeEntity.get();
+            Year entity = maybeEntity.get();
 
             entity.setTitle(dto.getTitle());
             entity.setContent(dto.getContent());
             entity.setFromTime(dto.getFromTime());
             entity.setToTime(dto.getToTime());
 
-            yearJobRepository.save(entity);
+            yearRepository.save(entity);
             dto.setId(id);
         } else {
             dto = new JobDTO();
@@ -91,10 +90,10 @@ public class YearJobService {
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
-        Optional<YearJob> maybeYearJob = yearJobRepository.findById(id);
+        Optional<Year> maybeYearJob = yearRepository.findById(id);
 
         if (maybeYearJob.isPresent()) {
-            YearJob entity = maybeYearJob.get();
+            Year entity = maybeYearJob.get();
 
             dto.setJobType(1);
             dto.setId(entity.getId());
@@ -110,7 +109,7 @@ public class YearJobService {
 
     public Long delete(Long id) {
         try {
-            yearJobRepository.deleteById(id);
+            yearRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

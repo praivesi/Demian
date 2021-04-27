@@ -15,7 +15,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<form class="form-container" action="/years/form" th:action="@{/years/form}" th:object="${yearJobDTO}" method="post">
+<form class="form-container" action="/years/form" th:action="@{/years/form}" th:object="${yearDTO}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{desireId}"/>
     <div>

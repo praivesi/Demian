@@ -1,16 +1,16 @@
 package com.tutorial.Demian.controller;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
+import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.DecadeJob;
+import com.tutorial.Demian.model.Decade;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.DecadeJobRepository;
+import com.tutorial.Demian.repository.DecadeRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.service.DecadeJobService;
+import com.tutorial.Demian.service.DecadeService;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.validator.DecadeJobValidator;
+import com.tutorial.Demian.validator.DecadeValidator;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/decades")
-public class DecadeJobController {
+public class DecadeController {
     public final static int UNDEFINED_DECADE = -1;
 
     @Autowired
@@ -32,11 +32,11 @@ public class DecadeJobController {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private DecadeJobRepository decadeJobRepository;
+    private DecadeRepository decadeRepository;
     @Autowired
-    private DecadeJobValidator decadeJobValidator;
+    private DecadeValidator decadeValidator;
     @Autowired
-    private DecadeJobService decadeJobService;
+    private DecadeService decadeService;
     @Autowired
     private DesireService desireService;
 
@@ -45,7 +45,7 @@ public class DecadeJobController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeJobService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
+        Response response = decadeService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
 
         model.addAttribute("response", response);
 
@@ -57,7 +57,7 @@ public class DecadeJobController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeJobService.getDecadePageResp(user.getId(), desires, startDecade);
+        Response response = decadeService.getDecadePageResp(user.getId(), desires, startDecade);
 
         model.addAttribute("response", response);
 
@@ -74,12 +74,12 @@ public class DecadeJobController {
         }
 
         if (jobId == null) {
-            DecadeJobDTO dto = new DecadeJobDTO();
+            DecadeDTO dto = new DecadeDTO();
             dto.setDesireId(desireId);
             model.addAttribute("decadeJobDTO", dto);
         } else {
-            DecadeJob decadeJob = decadeJobRepository.findById(jobId).orElse(null);
-            model.addAttribute("decadeJobDTO", DecadeJobDTO.of(decadeJob));
+            Decade decade = decadeRepository.findById(jobId).orElse(null);
+            model.addAttribute("decadeJobDTO", DecadeDTO.of(decade));
         }
 
         model.addAttribute("desireDTO", mayDesire.get());
@@ -88,9 +88,9 @@ public class DecadeJobController {
     }
 
     @PostMapping("/form")
-    public String postDecadeJobForm(Model model, @Valid DecadeJobDTO decadeJobDTO, BindingResult bindingResult,
+    public String postDecadeJobForm(Model model, @Valid DecadeDTO decadeDTO, BindingResult bindingResult,
                                     Authentication authentication) {
-        Optional<Desire> mayDesire = desireRepository.findById(decadeJobDTO.getDesireId());
+        Optional<Desire> mayDesire = desireRepository.findById(decadeDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/decades/page";
@@ -98,15 +98,15 @@ public class DecadeJobController {
 
         model.addAttribute("desireDTO", mayDesire.get());
 
-        decadeJobValidator.validate(decadeJobDTO, bindingResult);
+        decadeValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/decade_form";
         }
 
-        DecadeJob decadeJob = decadeJobDTO.getEntity();
-        decadeJob.setDesire(mayDesire.get());
+        Decade decade = decadeDTO.getEntity();
+        decade.setDesire(mayDesire.get());
 
-        decadeJobRepository.save(decadeJob);
+        decadeRepository.save(decade);
 
         return "redirect:/decades/page";
     }
@@ -127,7 +127,7 @@ public class DecadeJobController {
     @Data
     public static class DesireWithDecade {
         private DesireDTO desire;
-        private List<DecadeJobDTO> decades;
+        private List<DecadeDTO> decades;
 
         public DesireWithDecade() {
             this.desire = null;

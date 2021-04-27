@@ -1,12 +1,12 @@
 package com.tutorial.Demian.service.utility;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.MonthJobDTO;
-import com.tutorial.Demian.dto.YearJobDTO;
-import com.tutorial.Demian.model.DecadeJob;
+import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.model.Decade;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.MonthJob;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,25 +29,25 @@ public class JobFilterTest {
     @Test
     void decadeJobFilter_succeed() {
         // given
-        List<DecadeJob> entireDecades = new ArrayList<>();
+        List<Decade> entireDecades = new ArrayList<>();
         Calendar startCal = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2000);
         cal.set(Calendar.MONTH, 0);
 
         for (long i = 0; i < 10; i++) {
-            DecadeJob decadeJob = new DecadeJob();
-            decadeJob.setId(i);
-            decadeJob.setFromTime(cal.getTime());
+            Decade decade = new Decade();
+            decade.setId(i);
+            decade.setFromTime(cal.getTime());
 
             cal.add(Calendar.MONTH, 1);
-            decadeJob.setToTime(cal.getTime());
+            decade.setToTime(cal.getTime());
 
             Desire desire = new Desire();
             desire.setId(i);
-            decadeJob.setDesire(desire);
+            decade.setDesire(desire);
 
-            entireDecades.add(decadeJob);
+            entireDecades.add(decade);
 
             cal.add(Calendar.YEAR, 10);
             cal.add(Calendar.MONTH, -1);
@@ -56,7 +56,7 @@ public class JobFilterTest {
         startCal.set(Calendar.YEAR, 2020);
 
         // when
-        List<DecadeJobDTO> pickedDecades
+        List<DecadeDTO> pickedDecades
                 = this.jobFilter.decadeFilter(entireDecades, startCal.getTime(), 5);
 
         // then
@@ -76,25 +76,25 @@ public class JobFilterTest {
     @Test
     void yearJobFilter_succeed() {
         // given
-        List<YearJob> entireYears = new ArrayList<>();
+        List<Year> entireYears = new ArrayList<>();
         Calendar startCal = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, 0);
 
         for (long i = 0; i < 10; i++) {
-            YearJob yearJob = new YearJob();
-            yearJob.setId(i);
-            yearJob.setFromTime(cal.getTime());
+            Year year = new Year();
+            year.setId(i);
+            year.setFromTime(cal.getTime());
 
             cal.add(Calendar.MONTH, 1);
-            yearJob.setToTime(cal.getTime());
+            year.setToTime(cal.getTime());
 
             Desire desire = new Desire();
             desire.setId(i);
-            yearJob.setDesire(desire);
+            year.setDesire(desire);
 
-            entireYears.add(yearJob);
+            entireYears.add(year);
 
             cal.add(Calendar.YEAR, 1);
             cal.add(Calendar.MONTH, -1);
@@ -103,7 +103,7 @@ public class JobFilterTest {
         startCal.set(Calendar.YEAR, 2020);
 
         // when
-        List<YearJobDTO> pickedYears
+        List<YearDTO> pickedYears
                 = this.jobFilter.yearFilter(entireYears, startCal.getTime(), 5);
 
         // then
@@ -124,25 +124,25 @@ public class JobFilterTest {
     @ValueSource(ints = {0, 1, 2, 3, 4})
     void monthJobFilter_succeed(int monthNum) {
         // given
-        List<MonthJob> entireMonths = new ArrayList<>();
+        List<Month> entireMonths = new ArrayList<>();
         Calendar startCal = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2020);
         cal.set(Calendar.MONTH, 0);
 
         for (long i = 0; i < 10; i++) {
-            MonthJob monthJob = new MonthJob();
-            monthJob.setId(i);
-            monthJob.setFromTime(cal.getTime());
+            Month month = new Month();
+            month.setId(i);
+            month.setFromTime(cal.getTime());
 
             cal.add(Calendar.DAY_OF_MONTH, 1);
-            monthJob.setToTime(cal.getTime());
+            month.setToTime(cal.getTime());
 
             Desire desire = new Desire();
             desire.setId(i);
-            monthJob.setDesire(desire);
+            month.setDesire(desire);
 
-            entireMonths.add(monthJob);
+            entireMonths.add(month);
 
             cal.add(Calendar.MONTH, 1);
             cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -152,7 +152,7 @@ public class JobFilterTest {
         startCal.set(Calendar.MONTH, 0);
 
         // when
-        List<MonthJobDTO> pickedMonths
+        List<MonthDTO> pickedMonths
                 = this.jobFilter.monthFilter(entireMonths, startCal.getTime(), 5);
 
         // then

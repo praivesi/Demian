@@ -1,24 +1,22 @@
 package com.tutorial.Demian.validator;
 
-import com.tutorial.Demian.dto.DecadeJobDTO;
-import com.tutorial.Demian.dto.YearJobDTO;
-import com.tutorial.Demian.model.DecadeJob;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.model.Year;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class YearJobValidator implements Validator {
+public class YearValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return YearJob.class.equals(clazz);
+        return Year.class.equals(clazz);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        YearJobDTO dto = (YearJobDTO) obj;
+        YearDTO dto = (YearDTO) obj;
 
         if (!StringUtils.hasText(dto.getTitle())) {
             errors.rejectValue("title", "key", "제목을 입력하세요");

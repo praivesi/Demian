@@ -79,16 +79,16 @@
                     <div class="col-md-1 row-item">
                         <p></p>
                     </div>
-                    <th:block th:each="decadeJob :${dto.decadeDTOsSortByTime}">
+                    <th:block th:each="decade :${dto.decadeDTOsSortByTime}">
                         <div class="col-md-1 row-item">
                             <div class="card">
                                 <div class="card-header">
-                                    <span th:text="${decadeJob.title}">DECADE JOB</span>
+                                    <span th:text="${decade.title}">DECADE JOB</span>
                                 </div>
-                                <div th:if="${decadeJob.title != null}" class="card-body">
+                                <div th:if="${decade.title != null}" class="card-body">
                                     <a href="#" class="btn btn-primary card-item"
-                                       th:href="@{/schedule/decade_new/jobForm(desireId=${dto.desireDTO.id}, jobId=${decadeJob.id})}">수정</a>
-                                    <button class="decade-job-delete-btn btn btn-primary" th:value="${decadeJob.id}">삭제</button>
+                                       th:href="@{/schedule/decade_new/jobForm(desireId=${dto.desireDTO.id}, jobId=${decade.id})}">수정</a>
+                                    <button class="decade-job-delete-btn btn btn-primary" th:value="${decade.id}">삭제</button>
                                 </div>
                             </div>
                         </div>

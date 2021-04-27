@@ -1,16 +1,16 @@
 package com.tutorial.Demian.controller;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.YearJobDTO;
+import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.model.YearJob;
+import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.repository.YearJobRepository;
+import com.tutorial.Demian.repository.YearRepository;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.service.YearJobService;
-import com.tutorial.Demian.validator.YearJobValidator;
+import com.tutorial.Demian.service.YearService;
+import com.tutorial.Demian.validator.YearValidator;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/years")
-public class YearJobController {
+public class YearController {
     public final static int UNDEFINED_YEAR = -1;
 
     @Autowired
@@ -35,20 +35,20 @@ public class YearJobController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private YearJobRepository yearJobRepository;
+    private YearRepository yearRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private YearJobService yearJobService;
+    private YearService yearService;
     @Autowired
-    private YearJobValidator yearJobValidator;
+    private YearValidator yearValidator;
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearJobController.Response response = yearJobService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
+        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
         model.addAttribute("response", response);
 
@@ -60,7 +60,7 @@ public class YearJobController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearJobController.Response response = yearJobService.getYearPageResp(user.getId(), desires, startYear);
+        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
 
         model.addAttribute("response", response);
 
@@ -77,12 +77,12 @@ public class YearJobController {
         }
 
         if (jobId == null) {
-            YearJobDTO yearDTO = new YearJobDTO();
+            YearDTO yearDTO = new YearDTO();
             yearDTO.setDesireId(desireId);
             model.addAttribute("yearJobDTO", yearDTO);
         } else {
-            YearJob year = yearJobRepository.findById(jobId).orElse(null);
-            model.addAttribute("yearJobDTO", YearJobDTO.of(year));
+            Year year = yearRepository.findById(jobId).orElse(null);
+            model.addAttribute("yearJobDTO", com.tutorial.Demian.dto.YearDTO.of(year));
         }
 
         model.addAttribute("desire", mayDesire.get());
@@ -91,33 +91,33 @@ public class YearJobController {
     }
 
     @PostMapping("/form")
-    public String postJobForm(Model model, @Valid YearJobDTO yearJobDTO, BindingResult bindingResult,
-                                    Authentication authentication) {
-        Optional<Desire> mayDesire = desireRepository.findById(yearJobDTO.getDesireId());
+    public String postJobForm(Model model, @Valid YearDTO yearDTO, BindingResult bindingResult,
+                              Authentication authentication) {
+        Optional<Desire> mayDesire = desireRepository.findById(yearDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/years/page";
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("yearJobDTO", yearJobDTO);
+        model.addAttribute("yearJobDTO", yearDTO);
 
-        yearJobValidator.validate(yearJobDTO, bindingResult);
+        yearValidator.validate(yearDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/year_form";
         }
 
-        YearJob entity = yearJobDTO.getEntity();
+        Year entity = yearDTO.getEntity();
         entity.setDesire(mayDesire.get());
 
-        yearJobRepository.save(entity);
+        yearRepository.save(entity);
 
         return "redirect:/years/page";
     }
 
     @Data
     public static class Response {
-        private List<YearJobController.DesireWithYear> desireWithYears;
+        private List<YearController.DesireWithYear> desireWithYears;
         private List<String> timeHeaders;
         private Date startDate;
 
@@ -131,7 +131,7 @@ public class YearJobController {
     @Data
     public static class DesireWithYear {
         private DesireDTO desire;
-        private List<YearJobDTO> years;
+        private List<YearDTO> years;
 
         public DesireWithYear() {
             this.desire = null;

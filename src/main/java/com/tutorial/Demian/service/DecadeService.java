@@ -1,12 +1,12 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.controller.DecadeJobController;
-import com.tutorial.Demian.dto.DecadeJobDTO;
+import com.tutorial.Demian.controller.DecadeController;
+import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
-import com.tutorial.Demian.model.DecadeJob;
+import com.tutorial.Demian.model.Decade;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.repository.DecadeJobRepository;
+import com.tutorial.Demian.repository.DecadeRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
@@ -16,15 +16,15 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class DecadeJobService {
+public class DecadeService {
     @Autowired private DesireRepository desireRepository;
-    @Autowired private DecadeJobRepository decadeJobRepository;
+    @Autowired private DecadeRepository decadeRepository;
 
-    public DecadeJobController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
-        DecadeJobController.Response response = new DecadeJobController.Response();
+    public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
+        DecadeController.Response response = new DecadeController.Response();
 
         Calendar startCal = new GregorianCalendar();
-        if (startDecade == DecadeJobController.UNDEFINED_DECADE) {
+        if (startDecade == DecadeController.UNDEFINED_DECADE) {
             startDecade = startCal.get(Calendar.YEAR) - 20;
         }
 
@@ -32,11 +32,11 @@ public class DecadeJobService {
         Date startDate = startCal.getTime();
 
         for (Desire desire : desires) {
-            DecadeJobController.DesireWithDecade desireWithDecade = new DecadeJobController.DesireWithDecade();
+            DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
 
             desireWithDecade.setDesire(DesireDTO.of(desire));
 
-            List<DecadeJobDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
+            List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
             desireWithDecade.setDecades(filteredDecades);
 
             response.getDesireWithDecades().add(desireWithDecade);
@@ -55,9 +55,9 @@ public class DecadeJobService {
 
         Optional<Desire> maybeDesire = desireRepository.findById(jobDTO.getParentId());
         if (maybeDesire.isPresent()) {
-            DecadeJob newDecadeJob = new DecadeJob(jobDTO.getTitle(), jobDTO.getContent(),
+            Decade newDecade = new Decade(jobDTO.getTitle(), jobDTO.getContent(),
                     jobDTO.getFromTime(), jobDTO.getToTime(), maybeDesire.get());
-            DecadeJob entity = decadeJobRepository.save(newDecadeJob);
+            Decade entity = decadeRepository.save(newDecade);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -67,17 +67,17 @@ public class DecadeJobService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<DecadeJob> maybeEntity = decadeJobRepository.findById(id);
+        Optional<Decade> maybeEntity = decadeRepository.findById(id);
 
         if (maybeEntity.isPresent()) {
-            DecadeJob entity = maybeEntity.get();
+            Decade entity = maybeEntity.get();
 
             entity.setTitle(dto.getTitle());
             entity.setContent(dto.getContent());
             entity.setFromTime(dto.getFromTime());
             entity.setToTime(dto.getToTime());
 
-            decadeJobRepository.save(entity);
+            decadeRepository.save(entity);
             dto.setId(id);
         } else {
             dto = new JobDTO();
@@ -88,10 +88,10 @@ public class DecadeJobService {
 
     public JobDTO get(Long id) {
         JobDTO dto = new JobDTO();
-        Optional<DecadeJob> maybeDecadeJob = decadeJobRepository.findById(id);
+        Optional<Decade> maybeDecadeJob = decadeRepository.findById(id);
 
         if (maybeDecadeJob.isPresent()) {
-            DecadeJob entity = maybeDecadeJob.get();
+            Decade entity = maybeDecadeJob.get();
 
             dto.setJobType(0);
             dto.setId(entity.getId());
@@ -107,7 +107,7 @@ public class DecadeJobService {
 
     public Long delete(Long id) {
         try {
-            decadeJobRepository.deleteById(id);
+            decadeRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

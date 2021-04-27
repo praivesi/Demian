@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class MonthJob {
+public class Month {
     public final static long MONTH_JOB_DEFAULT_ID = -1l;
 
     @Id
@@ -30,7 +30,7 @@ public class MonthJob {
     @JsonIgnore
     private Desire desire;
 
-    public MonthJob() {
+    public Month() {
         this.id = MONTH_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
@@ -39,7 +39,7 @@ public class MonthJob {
         this.desire = null;
     }
 
-    public MonthJob(String _title, String _content, Date _from, Date _to, Desire _desire) {
+    public Month(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;
