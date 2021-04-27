@@ -1,14 +1,14 @@
 package com.tutorial.Demian.validator;
 
-import com.tutorial.Demian.dto.DesireDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.tutorial.Demian.dto.DesireDTO;
+
 @Component
 public class DesireValidator implements Validator {
-
     @Override
     public boolean supports(Class<?> clazz) {
         return DesireDTO.class.equals(clazz);

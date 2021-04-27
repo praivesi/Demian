@@ -3,29 +3,39 @@ package com.tutorial.Demian.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.repository.DesireRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class DesireService {
     private DesireRepository desireRepository;
 
     public DesireService(
-            DesireRepository desireRepository){
+            DesireRepository desireRepository) {
         this.desireRepository = desireRepository;
     }
 
-    public List<Desire> getCurrentUserDesires(Long userId){
-        return desireRepository.findByUserId(userId);
-    }
+    public DesireDTO get(Long id) {
+        DesireDTO dto = new DesireDTO();
+        Optional<Desire> maybeDesire = desireRepository.findById(id);
 
-    public DesireDTO save(DesireDTO dto) {
-        Desire entity = desireRepository.save(dto.getEntity());
-        dto.setId(entity.getId());
+        if (maybeDesire.isPresent()) {
+            Desire entity = maybeDesire.get();
+
+            dto.setId(entity.getId());
+            dto.setTitle(entity.getTitle());
+            dto.setContent(entity.getContent());
+            dto.setSortNum(entity.getSortNum());
+        }
 
         return dto;
+    }
+
+    public List<Desire> getCurrentUserDesires(Long userId) {
+        return desireRepository.findByUserId(userId);
     }
 
     public DesireDTO update(DesireDTO dto, Long id) {
@@ -47,18 +57,9 @@ public class DesireService {
         return dto;
     }
 
-    public DesireDTO get(Long id) {
-        DesireDTO dto = new DesireDTO();
-        Optional<Desire> maybeDesire = desireRepository.findById(id);
-
-        if (maybeDesire.isPresent()) {
-            Desire entity = maybeDesire.get();
-
-            dto.setId(entity.getId());
-            dto.setTitle(entity.getTitle());
-            dto.setContent(entity.getContent());
-            dto.setSortNum(entity.getSortNum());
-        }
+    public DesireDTO save(DesireDTO dto) {
+        Desire entity = desireRepository.save(dto.getEntity());
+        dto.setId(entity.getId());
 
         return dto;
     }

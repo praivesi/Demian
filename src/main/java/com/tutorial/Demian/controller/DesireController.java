@@ -1,11 +1,7 @@
 package com.tutorial.Demian.controller;
 
-import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.validator.DesireValidator;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,7 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import com.tutorial.Demian.dto.DesireDTO;
+import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.User;
+import com.tutorial.Demian.repository.DesireRepository;
+import com.tutorial.Demian.repository.UserRepository;
+import com.tutorial.Demian.validator.DesireValidator;
 
 @Controller
 @RequestMapping("/desires")
@@ -54,26 +55,17 @@ public class DesireController {
         recvDesire.setUser(user);
 
         desireRepository.save(recvDesire);
-        String retPath = "";
 
-        switch (jobType){
-            case 0:
-                retPath = "redirect:/decades/page";
-                break;
-            case 1:
-                retPath = "redirect:/years/page";
-                break;
-            case 2:
-                retPath = "redirect:/months/page";
-                break;
-            case 3:
-                retPath = "redirect:/weeks/page";
-                break;
-            case 4:
-                retPath = "redirect:/days/page";
-                break;
+        if (jobType == 0) {
+            return "redirect:/decades/page";
+        }
+        if (jobType == 1) {
+            return "redirect:/years/page";
+        }
+        if (jobType == 2) {
+            return "redirect:/months/page";
         }
 
-        return retPath;
+        return "";
     }
 }
