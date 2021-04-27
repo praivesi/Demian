@@ -1,6 +1,5 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.model.Role;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,9 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setEnabled(true);
-        Role role = new Role();
-        role.setId(1l);
-        user.getRoles().add(role);
+//        Role role = new Role();
+//        role.setId(1l);
+//        user.getRoles().add(role);
 
         return userRepository.save(user);
     }

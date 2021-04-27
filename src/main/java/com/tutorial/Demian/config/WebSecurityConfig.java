@@ -48,11 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("select username,password,enabled " // Authentication
                         + "from user "
-                        + "where username = ?")
-                .authoritiesByUsernameQuery("select u.username,r.name " // Authorization
-                        + "from user_role ur inner join user u on ur.user_id = u.id "
-                        + "inner join role r on ur.role_id = r.id "
-                        + "where u.username = ?");
+                        + "where username = ?");
+//                .authoritiesByUsernameQuery("select username from user"); // Authorization
+//                .authoritiesByUsernameQuery("select u.username,r.name " // Authorization
+//                        + "from user_role ur inner join user u on ur.user_id = u.id "
+//                        + "inner join role r on ur.role_id = r.id "
+//                        + "where u.username = ?");
     }
 
     @Bean
