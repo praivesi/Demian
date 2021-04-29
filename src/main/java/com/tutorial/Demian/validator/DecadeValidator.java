@@ -1,11 +1,12 @@
 package com.tutorial.Demian.validator;
 
-import com.tutorial.Demian.dto.DecadeDTO;
-import com.tutorial.Demian.model.Decade;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
+import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.model.Decade;
 
 @Component
 public class DecadeValidator implements Validator {
