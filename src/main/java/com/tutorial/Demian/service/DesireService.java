@@ -34,6 +34,10 @@ public class DesireService {
         return dto;
     }
 
+    public Optional<Desire> getEntity(long desireId){
+        return desireRepository.findById(desireId);
+    }
+
     public List<Desire> getCurrentUserDesires(Long userId) {
         return desireRepository.findByUserId(userId);
     }

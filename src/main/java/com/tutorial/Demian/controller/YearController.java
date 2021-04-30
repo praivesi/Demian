@@ -18,10 +18,8 @@ import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.Year;
-import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.repository.YearRepository;
 import com.tutorial.Demian.service.DesireService;
+import com.tutorial.Demian.service.UserService;
 import com.tutorial.Demian.service.YearService;
 import com.tutorial.Demian.validator.YearValidator;
 
@@ -32,22 +30,14 @@ import lombok.Data;
 public class YearController {
     public final static int UNDEFINED_YEAR = -1;
 
-    @Autowired
-    private DesireRepository desireRepository;
-    @Autowired
-    private DesireService desireService;
-    @Autowired
-    private YearRepository yearRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private YearService yearService;
-    @Autowired
-    private YearValidator yearValidator;
+    @Autowired private UserService userService;
+    @Autowired private DesireService desireService;
+    @Autowired private YearService yearService;
+    @Autowired private YearValidator yearValidator;
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName());
+        User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         YearController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
@@ -59,7 +49,7 @@ public class YearController {
 
     @GetMapping("/page/{startYear}")
     public String yearWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName());
+        User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         YearController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
@@ -71,7 +61,7 @@ public class YearController {
 
     @GetMapping("/form")
     public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
-        Optional<Desire> mayDesire = desireRepository.findById(desireId);
+        Optional<Desire> mayDesire = desireService.getEntity(desireId);
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
@@ -83,7 +73,7 @@ public class YearController {
             yearDTO.setDesireId(desireId);
             model.addAttribute("yearJobDTO", yearDTO);
         } else {
-            Year year = yearRepository.findById(jobId).orElse(null);
+            Year year = yearService.findYear(jobId);
             model.addAttribute("yearJobDTO", com.tutorial.Demian.dto.YearDTO.of(year));
         }
 
@@ -95,7 +85,7 @@ public class YearController {
     @PostMapping("/form")
     public String postJobForm(Model model, @Valid YearDTO yearDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<Desire> mayDesire = desireRepository.findById(yearDTO.getDesireId());
+        Optional<Desire> mayDesire = desireService.getEntity(yearDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/years/page";
@@ -112,7 +102,7 @@ public class YearController {
         Year entity = yearDTO.getEntity();
         entity.setDesire(mayDesire.get());
 
-        yearRepository.save(entity);
+        yearService.save(entity);
 
         return "redirect:/years/page";
     }

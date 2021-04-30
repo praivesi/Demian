@@ -14,6 +14,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User get(String username){
+        return userRepository.findByUsername(username);
+    }
 
     public User save(User user){
         String encodedPassword = passwordEncoder.encode(user.getPassword());

@@ -57,6 +57,10 @@ public class YearService {
         return response;
     }
 
+    public Year findYear(long jobId) {
+        return yearRepository.findById(jobId).orElse(null);
+    }
+
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 1) return null;
 
@@ -71,6 +75,10 @@ public class YearService {
         }
 
         return jobDTO;
+    }
+
+    public Year save(Year year){
+        return yearRepository.save(year);
     }
 
     public JobDTO update(JobDTO dto, Long id) {
