@@ -1,7 +1,11 @@
 package com.tutorial.Demian.service;
 
+import java.util.*;
+
 import com.tutorial.Demian.controller.MonthController;
-import com.tutorial.Demian.dto.*;
+import com.tutorial.Demian.dto.DesireDTO;
+import com.tutorial.Demian.dto.JobDTO;
+import com.tutorial.Demian.dto.MonthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.Month;
 import com.tutorial.Demian.repository.DesireRepository;
@@ -10,8 +14,6 @@ import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class MonthService {
@@ -51,6 +53,12 @@ public class MonthService {
 
         return response;
     }
+
+    public Month getEntity(Long jobId) {
+        return monthRepository.findById(jobId).orElse(null);
+    }
+
+    public Month save(Month month) { return monthRepository.save(month); }
 
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 2) return null;
