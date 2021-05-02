@@ -1,16 +1,16 @@
 package com.tutorial.Demian.service.Utility;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.MonthDTO;
 import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Decade;
 import com.tutorial.Demian.model.Month;
 import com.tutorial.Demian.model.Year;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class JobFilter {
     public static List<DecadeDTO> decadeFilter(List<Decade> entireDecades, Date startDate, int decadeCount) {

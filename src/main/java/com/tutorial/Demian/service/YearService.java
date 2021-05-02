@@ -64,7 +64,6 @@ public class YearService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 1) return null;
 
-//        Optional<DecadeJob> maybeParentJob = decadeJobRepository.findById(jobDTO.getParentId());
         Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (maybeParentJob.isPresent()) {
             Year newYear = new Year(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());

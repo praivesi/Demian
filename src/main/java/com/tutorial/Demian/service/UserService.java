@@ -1,10 +1,11 @@
 package com.tutorial.Demian.service;
 
-import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.tutorial.Demian.model.User;
+import com.tutorial.Demian.repository.UserRepository;
 
 @Service
 public class UserService {
