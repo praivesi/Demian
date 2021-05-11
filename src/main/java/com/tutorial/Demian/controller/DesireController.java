@@ -16,6 +16,7 @@ import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.validator.DesireValidator;
 
+
 @Controller
 @RequestMapping("/desires")
 public class DesireController {
@@ -48,24 +49,37 @@ public class DesireController {
             return "/schedule/desire_form";
         }
 
-        Desire recvDesire = desireDTO.getEntity();
+        this.saveDesire(desireDTO, authentication);
 
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        recvDesire.setUser(user);
+        return this.getRedirectPath(jobType);
+    }
 
-        desireRepository.save(recvDesire);
+    private boolean saveDesire(DesireDTO desireDTO, Authentication authentication) {
+        try {
+            Desire recvDesire = desireDTO.getEntity();
 
+            User user = userRepository.findByUsername(authentication.getName());
+            recvDesire.setUser(user);
+
+            desireRepository.save(recvDesire);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private String getRedirectPath(int jobType) {
         if (jobType == 0) {
             return "redirect:/decades/page";
         }
+
         if (jobType == 1) {
             return "redirect:/years/page";
         }
-        if (jobType == 2) {
-            return "redirect:/months/page";
-        }
 
-        return "";
+        return "redirect:/months/page";
     }
 }

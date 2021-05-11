@@ -19,22 +19,12 @@ public class DesireService {
     }
 
     public DesireDTO get(Long id) {
-        DesireDTO dto = new DesireDTO();
         Optional<Desire> maybeDesire = desireRepository.findById(id);
 
-        if (maybeDesire.isPresent()) {
-            Desire entity = maybeDesire.get();
-
-            dto.setId(entity.getId());
-            dto.setTitle(entity.getTitle());
-            dto.setContent(entity.getContent());
-            dto.setSortNum(entity.getSortNum());
-        }
-
-        return dto;
+        return maybeDesire.isPresent() ? new DesireDTO(maybeDesire.get()) : new DesireDTO();
     }
 
-    public Optional<Desire> getEntity(long desireId){
+    public Optional<Desire> getEntity(long desireId) {
         return desireRepository.findById(desireId);
     }
 
@@ -45,20 +35,16 @@ public class DesireService {
     public DesireDTO update(DesireDTO dto, Long id) {
         Optional<Desire> maybeEntity = desireRepository.findById(id);
 
-        if (maybeEntity.isPresent()) {
-            Desire entity = maybeEntity.get();
-
-            entity.setTitle(dto.getTitle());
-            entity.setContent(dto.getContent());
-            entity.setSortNum(dto.getSortNum());
-
-            desireRepository.save(entity);
-            dto.setId(id);
-        } else {
-            dto = new DesireDTO();
+        if (!maybeEntity.isPresent()) {
+            return new DesireDTO();
         }
 
-        return dto;
+        Desire updateEntity = dto.getEntity();
+        updateEntity.setId(id);
+
+        desireRepository.save(updateEntity);
+
+        return DesireDTO.of(updateEntity);
     }
 
     public DesireDTO save(DesireDTO dto) {
