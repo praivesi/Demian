@@ -1,6 +1,7 @@
 package com.tutorial.Demian.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tutorial.Demian.dto.DecadeDTO;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,7 +36,7 @@ public class Decade {
     @JsonIgnore
     private Desire desire;
 
-    public Decade(){
+    public Decade() {
         this.id = DECADE_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";

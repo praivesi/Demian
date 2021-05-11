@@ -30,6 +30,10 @@ public class DecadeController {
     public final static int UNDEFINED_DECADE = -1;
 
     @Autowired
+    private DesireService desireService;
+    @Autowired
+    private DecadeService decadeService;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private DesireRepository desireRepository;
@@ -37,10 +41,6 @@ public class DecadeController {
     private DecadeRepository decadeRepository;
     @Autowired
     private DecadeValidator decadeValidator;
-    @Autowired
-    private DecadeService decadeService;
-    @Autowired
-    private DesireService desireService;
 
     @GetMapping("/page")
     public String decade(Model model, Authentication authentication) {
@@ -75,18 +75,24 @@ public class DecadeController {
             return "redirect:/decades/page";
         }
 
+        DecadeDTO decadeDTO = this.getDecadeEntity(desireId, jobId);
+
+        model.addAttribute("desireDTO", mayDesire.get());
+        model.addAttribute("decadeJobDTO", decadeDTO);
+
+        return "/schedule/decade_form";
+    }
+
+    private DecadeDTO getDecadeEntity(Long desireId, Long jobId) {
         if (jobId == null) {
             DecadeDTO dto = new DecadeDTO();
             dto.setDesireId(desireId);
-            model.addAttribute("decadeJobDTO", dto);
-        } else {
-            Decade decade = decadeRepository.findById(jobId).orElse(null);
-            model.addAttribute("decadeJobDTO", DecadeDTO.of(decade));
+
+            return dto;
         }
 
-        model.addAttribute("desireDTO", mayDesire.get());
-
-        return "/schedule/decade_form";
+        Decade decade = decadeRepository.findById(jobId).orElse(null);
+        return DecadeDTO.of(decade);
     }
 
     @PostMapping("/form")
@@ -98,19 +104,30 @@ public class DecadeController {
             return "redirect:/decades/page";
         }
 
-        model.addAttribute("desireDTO", mayDesire.get());
+//        model.addAttribute("desireDTO", mayDesire.get()); <------------- [ 21/05/12 korsa ] 이거 없어도 되지 않나?
 
         decadeValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/decade_form";
         }
 
-        Decade decade = decadeDTO.getEntity();
-        decade.setDesire(mayDesire.get());
-
-        decadeRepository.save(decade);
+        this.postDecadeJobFormInternal(decadeDTO, mayDesire.get());
 
         return "redirect:/decades/page";
+    }
+
+    private boolean postDecadeJobFormInternal(DecadeDTO decadeDTO, Desire desire) {
+        try {
+            Decade decade = decadeDTO.getEntity();
+            decade.setDesire(desire);
+
+            decadeRepository.save(decade);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     @Data
@@ -119,7 +136,7 @@ public class DecadeController {
         private List<String> timeHeaders;
         private Date startDate;
 
-        public Response(){
+        public Response() {
             this.desireWithDecades = new ArrayList<>();
             this.timeHeaders = new ArrayList<>();
             this.startDate = null;

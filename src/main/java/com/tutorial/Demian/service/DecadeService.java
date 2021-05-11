@@ -22,37 +22,50 @@ import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 
 @Service
 public class DecadeService {
-    @Autowired private DesireRepository desireRepository;
-    @Autowired private DecadeRepository decadeRepository;
+    @Autowired
+    private DesireRepository desireRepository;
+    @Autowired
+    private DecadeRepository decadeRepository;
 
     public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
         DecadeController.Response response = new DecadeController.Response();
 
+        Calendar startCal = this.getStartCalendar(startDecade);
+
+        for (Desire desire : desires) {
+            DecadeController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
+
+            response.getDesireWithDecades().add(desireWithDecade);
+        }
+
+        List<String> timeHeaders = TimeHeaderCalculator.getDecadeTimeHeaders(startCal, 5);
+
+        response.setTimeHeaders(timeHeaders);
+        response.setStartDate(startCal.getTime());
+
+        return response;
+    }
+
+    private Calendar getStartCalendar(int startDecade) {
         Calendar startCal = new GregorianCalendar();
         if (startDecade == DecadeController.UNDEFINED_DECADE) {
             startDecade = startCal.get(Calendar.YEAR) - 20;
         }
 
         startCal.set(Calendar.YEAR, startDecade);
-        Date startDate = startCal.getTime();
 
-        for (Desire desire : desires) {
-            DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
+        return startCal;
+    }
 
-            desireWithDecade.setDesire(DesireDTO.of(desire));
+    private DecadeController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
+        DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
 
-            List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
-            desireWithDecade.setDecades(filteredDecades);
+        desireWithDecade.setDesire(DesireDTO.of(desire));
 
-            response.getDesireWithDecades().add(desireWithDecade);
-        }
+        List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
+        desireWithDecade.setDecades(filteredDecades);
 
-        List<String> timeHeaders = TimeHeaderCalculator.getDecadeTimeHeaders(startCal, 5);
-        response.setTimeHeaders(timeHeaders);
-
-        response.setStartDate(startDate);
-
-        return response;
+        return desireWithDecade;
     }
 
     public JobDTO save(JobDTO jobDTO) {
@@ -74,38 +87,47 @@ public class DecadeService {
     public JobDTO update(JobDTO dto, Long id) {
         Optional<Decade> maybeEntity = decadeRepository.findById(id);
 
-        if (maybeEntity.isPresent()) {
-            Decade entity = maybeEntity.get();
-
-            entity.setTitle(dto.getTitle());
-            entity.setContent(dto.getContent());
-            entity.setFromTime(dto.getFromTime());
-            entity.setToTime(dto.getToTime());
-
-            decadeRepository.save(entity);
-            dto.setId(id);
-        } else {
-            dto = new JobDTO();
+        if (!maybeEntity.isPresent()) {
+            return new JobDTO();
         }
+
+        Decade updatedEntity = this.getUpdatedEntity(maybeEntity.get(), dto);
+        decadeRepository.save(updatedEntity);
+
+        dto.setId(id);
 
         return dto;
     }
 
+    private Decade getUpdatedEntity(Decade entity, JobDTO dto){
+        entity.setTitle(dto.getTitle());
+        entity.setContent(dto.getContent());
+        entity.setFromTime(dto.getFromTime());
+        entity.setToTime(dto.getToTime());
+
+        return entity;
+    }
+
     public JobDTO get(Long id) {
-        JobDTO dto = new JobDTO();
         Optional<Decade> maybeDecadeJob = decadeRepository.findById(id);
 
         if (maybeDecadeJob.isPresent()) {
-            Decade entity = maybeDecadeJob.get();
-
-            dto.setJobType(0);
-            dto.setId(entity.getId());
-            dto.setTitle(entity.getTitle());
-            dto.setContent(entity.getContent());
-            dto.setFromTime(entity.getFromTime());
-            dto.setToTime(entity.getToTime());
-            dto.setParentId(entity.getDesire().getId());
+           return this.get(maybeDecadeJob.get());
         }
+
+        return new JobDTO();
+    }
+
+    private JobDTO get(Decade entity){
+        JobDTO dto = new JobDTO();
+
+        dto.setJobType(0);
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setContent(entity.getContent());
+        dto.setFromTime(entity.getFromTime());
+        dto.setToTime(entity.getToTime());
+        dto.setParentId(entity.getDesire().getId());
 
         return dto;
     }
