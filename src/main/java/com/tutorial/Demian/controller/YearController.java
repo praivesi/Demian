@@ -30,10 +30,14 @@ import lombok.Data;
 public class YearController {
     public final static int UNDEFINED_YEAR = -1;
 
-    @Autowired private UserService userService;
-    @Autowired private DesireService desireService;
-    @Autowired private YearService yearService;
-    @Autowired private YearValidator yearValidator;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DesireService desireService;
+    @Autowired
+    private YearService yearService;
+    @Autowired
+    private YearValidator yearValidator;
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
@@ -68,18 +72,24 @@ public class YearController {
             return "redirect:/years/page";
         }
 
+        YearDTO yearDTO = this.getYearDTO(desireId, jobId);
+
+        model.addAttribute("desire", mayDesire.get());
+        model.addAttribute("yearJobDTO", yearDTO);
+
+        return "schedule/year_form";
+    }
+
+    private YearDTO getYearDTO(Long desireId, Long jobId) {
         if (jobId == null) {
             YearDTO yearDTO = new YearDTO();
             yearDTO.setDesireId(desireId);
-            model.addAttribute("yearJobDTO", yearDTO);
-        } else {
-            Year year = yearService.findYear(jobId);
-            model.addAttribute("yearJobDTO", com.tutorial.Demian.dto.YearDTO.of(year));
+
+            return yearDTO;
         }
 
-        model.addAttribute("desire", mayDesire.get());
-
-        return "schedule/year_form";
+        Year year = yearService.findYear(jobId);
+        return com.tutorial.Demian.dto.YearDTO.of(year);
     }
 
     @PostMapping("/form")
@@ -99,12 +109,18 @@ public class YearController {
             return "/schedule/year_form";
         }
 
+        this.saveYearDTO(mayDesire.get(), yearDTO);
+
+        return "redirect:/years/page";
+    }
+
+    private Year saveYearDTO(Desire desire, YearDTO yearDTO) {
         Year entity = yearDTO.getEntity();
-        entity.setDesire(mayDesire.get());
+        entity.setDesire(desire);
 
         yearService.save(entity);
 
-        return "redirect:/years/page";
+        return entity;
     }
 
     @Data
@@ -113,7 +129,7 @@ public class YearController {
         private List<String> timeHeaders;
         private Date startDate;
 
-        public Response(){
+        public Response() {
             this.desireWithYears = new ArrayList<>();
             this.timeHeaders = new ArrayList<>();
             this.startDate = null;

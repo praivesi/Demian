@@ -1,6 +1,7 @@
 package com.tutorial.Demian.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tutorial.Demian.dto.YearDTO;
 import lombok.Data;
 
 import javax.persistence.*;

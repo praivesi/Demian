@@ -1,12 +1,9 @@
 package com.tutorial.Demian.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Service;
 
 import com.tutorial.Demian.controller.YearController;
@@ -29,32 +26,46 @@ public class YearService {
 
     public YearController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
         YearController.Response response = new YearController.Response();
+        Calendar startCal = this.getStartCal(new GregorianCalendar(), startYear);
 
-        Calendar startCal = new GregorianCalendar();
+        response.setDesireWithYears(this.getDesireWithYears(startCal.getTime(), desires));
+        response.setTimeHeaders(TimeHeaderCalculator.getYearTimeHeaders(startCal, 5));
+        response.setStartDate(startCal.getTime());
+
+        return response;
+    }
+
+    private Calendar getStartCal(Calendar startCal, int startYear) {
         if (startYear == YearController.UNDEFINED_YEAR) {
             startYear = startCal.get(Calendar.YEAR) - 2;
         }
 
         startCal.set(Calendar.YEAR, startYear);
-        Date startDate = startCal.getTime();
+
+        return startCal;
+    }
+
+    private List<YearController.DesireWithYear> getDesireWithYears(Date startDate, List<Desire> desires) {
+        List<YearController.DesireWithYear> desireWithYears = new ArrayList<>();
 
         for (Desire desire : desires) {
-            YearController.DesireWithYear desireWithYear = new YearController.DesireWithYear();
+            YearController.DesireWithYear desireWithYear = this.getDesireWithYear(desire, startDate);
 
-            desireWithYear.setDesire(DesireDTO.of(desire));
-
-            List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
-            desireWithYear.setYears(filteredYears);
-
-            response.getDesireWithYears().add(desireWithYear);
+            desireWithYears.add(desireWithYear);
         }
 
-        List<String> timeHeaders = TimeHeaderCalculator.getYearTimeHeaders(startCal, 5);
-        response.setTimeHeaders(timeHeaders);
+        return desireWithYears;
+    }
 
-        response.setStartDate(startDate);
+    private YearController.DesireWithYear getDesireWithYear(Desire desire, Date startDate) {
+        YearController.DesireWithYear desireWithYear = new YearController.DesireWithYear();
 
-        return response;
+        desireWithYear.setDesire(DesireDTO.of(desire));
+
+        List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
+        desireWithYear.setYears(filteredYears);
+
+        return desireWithYear;
     }
 
     public Year findYear(long jobId) {
@@ -65,56 +76,63 @@ public class YearService {
         if (jobDTO.getJobType() != 1) return null;
 
         Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
-        if (maybeParentJob.isPresent()) {
-            Year newYear = new Year(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-            Year entity = yearRepository.save(newYear);
-            jobDTO.setId(entity.getId());
-        } else {
-            jobDTO = new JobDTO();
+        if (!maybeParentJob.isPresent()) {
+            return new JobDTO();
         }
+
+        Year newYear = new Year(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+        Year entity = yearRepository.save(newYear);
+        jobDTO.setId(entity.getId());
 
         return jobDTO;
     }
 
-    public Year save(Year year){
+    public Year save(Year year) {
         return yearRepository.save(year);
     }
 
     public JobDTO update(JobDTO dto, Long id) {
         Optional<Year> maybeEntity = yearRepository.findById(id);
 
-        if (maybeEntity.isPresent()) {
-            Year entity = maybeEntity.get();
-
-            entity.setTitle(dto.getTitle());
-            entity.setContent(dto.getContent());
-            entity.setFromTime(dto.getFromTime());
-            entity.setToTime(dto.getToTime());
-
-            yearRepository.save(entity);
-            dto.setId(id);
-        } else {
-            dto = new JobDTO();
+        if (!maybeEntity.isPresent()) {
+            return new JobDTO();
         }
+
+        this.updateInternal(maybeEntity.get(), dto);
+        dto.setId(id);
 
         return dto;
     }
 
+    private Year updateInternal(Year entity, JobDTO dto) {
+        entity.setTitle(dto.getTitle());
+        entity.setContent(dto.getContent());
+        entity.setFromTime(dto.getFromTime());
+        entity.setToTime(dto.getToTime());
+
+        return yearRepository.save(entity);
+    }
+
     public JobDTO get(Long id) {
-        JobDTO dto = new JobDTO();
         Optional<Year> maybeYearJob = yearRepository.findById(id);
 
-        if (maybeYearJob.isPresent()) {
-            Year entity = maybeYearJob.get();
-
-            dto.setJobType(1);
-            dto.setId(entity.getId());
-            dto.setTitle(entity.getTitle());
-            dto.setContent(entity.getContent());
-            dto.setFromTime(entity.getFromTime());
-            dto.setToTime(entity.getToTime());
-            dto.setParentId(entity.getDesire().getId());
+        if (!maybeYearJob.isPresent()) {
+            return new JobDTO();
         }
+
+        return this.getInternal(maybeYearJob.get());
+    }
+
+    private JobDTO getInternal(Year entity) {
+        JobDTO dto = new JobDTO();
+
+        dto.setJobType(1);
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setContent(entity.getContent());
+        dto.setFromTime(entity.getFromTime());
+        dto.setToTime(entity.getToTime());
+        dto.setParentId(entity.getDesire().getId());
 
         return dto;
     }
