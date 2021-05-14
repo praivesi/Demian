@@ -8,9 +8,11 @@ import java.util.Optional;
 
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.Month;
 import com.tutorial.Demian.model.User;
+import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.MonthService;
 import com.tutorial.Demian.service.UserService;
@@ -74,18 +76,25 @@ public class MonthController {
             return "redirect:/months/page";
         }
 
-        if (jobId == null) {
-            MonthDTO monthDTO = new MonthDTO();
-            monthDTO.setDesireId(desireId);
-            model.addAttribute("monthJobDTO", monthDTO);
-        } else {
-            Month month = monthService.getEntity(jobId);
-            model.addAttribute("monthJobDTO", MonthDTO.of(month));
-        }
+        MonthDTO monthDTO = this.getMonthDTO(desireId, jobId);
 
+        model.addAttribute("monthJobDTO", monthDTO);
         model.addAttribute("desire", mayDesire.get());
 
         return "schedule/month_form";
+    }
+
+    private MonthDTO getMonthDTO(Long desireId, Long jobId) {
+        if (jobId == null) {
+            MonthDTO monthDTO = new MonthDTO();
+            monthDTO.setDesireId(desireId);
+
+            return monthDTO;
+        }
+
+        Month month = monthService.getEntity(jobId);
+
+        return MonthDTO.of(month);
     }
 
     @PostMapping("/form")
@@ -105,12 +114,18 @@ public class MonthController {
             return "/schedule/month_form";
         }
 
+        this.saveMonthDTO(mayDesire.get(), monthDTO);
+
+        return "redirect:/months/page";
+    }
+
+    private Month saveMonthDTO(Desire desire, MonthDTO monthDTO) {
         Month entity = monthDTO.getEntity();
-        entity.setDesire(mayDesire.get());
+        entity.setDesire(desire);
 
         monthService.save(entity);
 
-        return "redirect:/months/page";
+        return entity;
     }
 
     @Data
