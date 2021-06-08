@@ -18,13 +18,13 @@ public class User {
     private String password;
     private Boolean enabled;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    @JsonIgnore
-//    private List<Role> roles = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
+    private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Desire> desires = new ArrayList<>();
