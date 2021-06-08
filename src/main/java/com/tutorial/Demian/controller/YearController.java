@@ -75,7 +75,7 @@ public class YearController {
         YearDTO yearDTO = this.getYearDTO(desireId, jobId);
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("yearJobDTO", yearDTO);
+        model.addAttribute("yearDTO", yearDTO);
 
         return "schedule/year_form";
     }
@@ -102,7 +102,7 @@ public class YearController {
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("yearJobDTO", yearDTO);
+        model.addAttribute("yearDTO", yearDTO);
 
         yearValidator.validate(yearDTO, bindingResult);
         if (bindingResult.hasErrors()) {

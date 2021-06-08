@@ -26,7 +26,7 @@ public class YearService {
 
     public YearController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
         YearController.Response response = new YearController.Response();
-        Calendar startCal = this.getStartCal(new GregorianCalendar(), startYear);
+        Calendar startCal = this.getStartCal(startYear);
 
         response.setDesireWithYears(this.getDesireWithYears(startCal.getTime(), desires));
         response.setTimeHeaders(TimeHeaderCalculator.getYearTimeHeaders(startCal, 5));
@@ -35,7 +35,9 @@ public class YearService {
         return response;
     }
 
-    private Calendar getStartCal(Calendar startCal, int startYear) {
+    private Calendar getStartCal(int startYear) {
+        Calendar startCal = new GregorianCalendar();
+
         if (startYear == YearController.UNDEFINED_YEAR) {
             startYear = startCal.get(Calendar.YEAR) - 2;
         }

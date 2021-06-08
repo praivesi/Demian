@@ -78,7 +78,7 @@ public class DecadeController {
         DecadeDTO decadeDTO = this.getDecadeEntity(desireId, jobId);
 
         model.addAttribute("desireDTO", mayDesire.get());
-        model.addAttribute("decadeJobDTO", decadeDTO);
+        model.addAttribute("decadeDTO", decadeDTO);
 
         return "/schedule/decade_form";
     }
@@ -104,7 +104,8 @@ public class DecadeController {
             return "redirect:/decades/page";
         }
 
-//        model.addAttribute("desireDTO", mayDesire.get()); <------------- [ 21/05/12 korsa ] 이거 없어도 되지 않나?
+        model.addAttribute("desireDTO", mayDesire.get());
+        model.addAttribute("decadeDTO", decadeDTO);
 
         decadeValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {

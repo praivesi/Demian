@@ -78,7 +78,7 @@ public class MonthController {
 
         MonthDTO monthDTO = this.getMonthDTO(desireId, jobId);
 
-        model.addAttribute("monthJobDTO", monthDTO);
+        model.addAttribute("monthDTO", monthDTO);
         model.addAttribute("desire", mayDesire.get());
 
         return "schedule/month_form";
@@ -107,7 +107,7 @@ public class MonthController {
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("monthJobDTO", monthDTO);
+        model.addAttribute("monthDTO", monthDTO);
 
         monthValidator.validate(monthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
