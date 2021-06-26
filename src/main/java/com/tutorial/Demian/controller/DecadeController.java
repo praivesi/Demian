@@ -63,7 +63,7 @@ public class DecadeController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/decade_page";
+        return "schedule/decade_page";
     }
 
     @GetMapping("/form")
@@ -80,7 +80,7 @@ public class DecadeController {
         model.addAttribute("desireDTO", mayDesire.get());
         model.addAttribute("decadeDTO", decadeDTO);
 
-        return "/schedule/decade_form";
+        return "schedule/decade_form";
     }
 
     private DecadeDTO getDecadeEntity(Long desireId, Long jobId) {
@@ -109,7 +109,7 @@ public class DecadeController {
 
         decadeValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/schedule/decade_form";
+            return "schedule/decade_form";
         }
 
         this.postDecadeJobFormInternal(decadeDTO, mayDesire.get());

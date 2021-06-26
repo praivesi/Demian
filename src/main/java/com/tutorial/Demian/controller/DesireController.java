@@ -38,7 +38,7 @@ public class DesireController {
 
         model.addAttribute("jobType", jobType);
 
-        return "/schedule/desire_form";
+        return "schedule/desire_form";
     }
 
     @PostMapping("/form/{jobType}")
@@ -46,7 +46,7 @@ public class DesireController {
         desireValidator.validate(desireDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "/schedule/desire_form";
+            return "schedule/desire_form";
         }
 
         this.saveDesire(desireDTO, authentication);

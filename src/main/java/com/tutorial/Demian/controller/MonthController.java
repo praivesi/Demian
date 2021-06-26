@@ -51,7 +51,7 @@ public class MonthController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/month_page";
+        return "schedule/month_page";
     }
 
     @GetMapping("/page/{startYear}/{startMonth}")
@@ -64,7 +64,7 @@ public class MonthController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/month_page";
+        return "schedule/month_page";
     }
 
     @GetMapping("/form")

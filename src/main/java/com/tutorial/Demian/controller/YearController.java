@@ -48,7 +48,7 @@ public class YearController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/year_page";
+        return "schedule/year_page";
     }
 
     @GetMapping("/page/{startYear}")
@@ -60,7 +60,7 @@ public class YearController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/year_page";
+        return "schedule/year_page";
     }
 
     @GetMapping("/form")
@@ -106,7 +106,7 @@ public class YearController {
 
         yearValidator.validate(yearDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/schedule/year_form";
+            return "schedule/year_form";
         }
 
         this.saveYearDTO(mayDesire.get(), yearDTO);
