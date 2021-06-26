@@ -51,7 +51,7 @@ public class DecadeController {
 
         model.addAttribute("response", response);
 
-        return "/schedule/decade_page";
+        return "schedule/decade_page";
     }
 
     @GetMapping("/page/{startDecade}")
