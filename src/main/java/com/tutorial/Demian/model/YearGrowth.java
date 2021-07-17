@@ -20,8 +20,8 @@ public class YearGrowth {
     private String title;
 
     private String content;
-    private Date fromTime;
-    private Date toTime;
+
+    private int yearNumber;
 
     @ManyToOne
     @JoinColumn(name = "desire_id")
@@ -32,17 +32,15 @@ public class YearGrowth {
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.yearNumber = 0;
         this.desire = null;
     }
 
-    public YearGrowth(String _title, String _content, Date _from, Date _to, Desire _desire) {
+    public YearGrowth(String _title, String _content, int _yearNumber, Desire _desire) {
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;
-        this.fromTime = _from;
-        this.toTime = _to;
+        this.yearNumber = _yearNumber;
         this.desire = _desire;
     }
 }

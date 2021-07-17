@@ -36,8 +36,8 @@ public class JobFilter {
 
             for (DecadeGrowth decadeGrowth : entireDecadeGrowths) {
 
-                if(filterStartCal.get(Calendar.YEAR) <= decadeGrowth.getDecadeNumber() &&
-                    decadeGrowth.getDecadeNumber() <= filterEndCal.get(Calendar.YEAR)){
+                if (filterStartCal.get(Calendar.YEAR) <= decadeGrowth.getDecadeNumber() &&
+                        decadeGrowth.getDecadeNumber() <= filterEndCal.get(Calendar.YEAR)) {
                     matchedJob = decadeGrowth;
                     break;
                 }
@@ -71,9 +71,16 @@ public class JobFilter {
             Date filterEnd = cal.getTime();
 
             YearGrowth matchedJob = null;
+
+            Calendar filterStartCal = new GregorianCalendar();
+            filterStartCal.setTime(filterStart);
+
+            Calendar filterEndCal = new GregorianCalendar();
+            filterEndCal.setTime(filterEnd);
+
             for (YearGrowth yearGrowth : entireYearGrowths) {
-                if (filterStart.getTime() <= yearGrowth.getFromTime().getTime() &&
-                        yearGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+                if (filterStartCal.get(Calendar.YEAR) <= yearGrowth.getYearNumber() &&
+                        yearGrowth.getYearNumber() <= filterEndCal.get(Calendar.YEAR)) {
                     matchedJob = yearGrowth;
                     break;
                 }

@@ -81,7 +81,7 @@ public class YearService {
             return new JobDTO();
         }
 
-        YearGrowth newYearGrowth = new YearGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+        YearGrowth newYearGrowth = new YearGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getYearNumber(), maybeParentJob.get());
         YearGrowth entity = yearRepository.save(newYearGrowth);
         jobDTO.setId(entity.getId());
 
@@ -108,8 +108,7 @@ public class YearService {
     private YearGrowth updateInternal(YearGrowth entity, JobDTO dto) {
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setFromTime(dto.getFromTime());
-        entity.setToTime(dto.getToTime());
+        entity.setYearNumber(dto.getYearNumber());
 
         return yearRepository.save(entity);
     }
@@ -131,8 +130,7 @@ public class YearService {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
-        dto.setFromTime(entity.getFromTime());
-        dto.setToTime(entity.getToTime());
+        dto.setYearNumber(entity.getYearNumber());
         dto.setParentId(entity.getDesire().getId());
 
         return dto;

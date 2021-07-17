@@ -15,18 +15,13 @@ public class YearDTO {
     private Long desireId;
     private String title;
     private String content;
-
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date fromTime;
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date toTime;
+    private int yearNumber;
 
     public YearDTO(){
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.yearNumber = 0;
         this.desireId = DESIRE_DEFAULT_ID;
     }
 
@@ -36,8 +31,7 @@ public class YearDTO {
         entity.setId(this.id);
         entity.setTitle(this.title);
         entity.setContent(this.content);
-        entity.setFromTime(this.fromTime);
-        entity.setToTime(this.toTime);
+        entity.setYearNumber(this.yearNumber);
 
         return entity;
     }
@@ -49,8 +43,7 @@ public class YearDTO {
         dto.desireId = yearGrowth.getDesire().getId();
         dto.title = yearGrowth.getTitle();
         dto.content = yearGrowth.getContent();
-        dto.fromTime = yearGrowth.getFromTime();
-        dto.toTime = yearGrowth.getToTime();
+        dto.yearNumber = yearGrowth.getYearNumber();
 
         return dto;
     }
