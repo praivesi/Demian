@@ -1,9 +1,6 @@
 package com.tutorial.Demian.service.Utility;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.MonthDTO;
@@ -30,9 +27,17 @@ public class JobFilter {
             Date filterEnd = cal.getTime();
 
             DecadeGrowth matchedJob = null;
+
+            Calendar filterStartCal = new GregorianCalendar();
+            filterStartCal.setTime(filterStart);
+
+            Calendar filterEndCal = new GregorianCalendar();
+            filterEndCal.setTime(filterEnd);
+
             for (DecadeGrowth decadeGrowth : entireDecadeGrowths) {
-                if (filterStart.getTime() <= decadeGrowth.getFromTime().getTime() &&
-                        decadeGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+
+                if(filterStartCal.get(Calendar.YEAR) <= decadeGrowth.getDecadeNumber() &&
+                    decadeGrowth.getDecadeNumber() <= filterEndCal.get(Calendar.YEAR)){
                     matchedJob = decadeGrowth;
                     break;
                 }

@@ -74,7 +74,7 @@ public class DecadeService {
         Optional<DesireGrowth> maybeDesire = desireRepository.findById(jobDTO.getParentId());
         if (maybeDesire.isPresent()) {
             DecadeGrowth newDecadeGrowth = new DecadeGrowth(jobDTO.getTitle(), jobDTO.getContent(),
-                    jobDTO.getFromTime(), jobDTO.getToTime(), maybeDesire.get());
+                    jobDTO.getDecadeNumber(), maybeDesire.get());
             DecadeGrowth entity = decadeRepository.save(newDecadeGrowth);
             jobDTO.setId(entity.getId());
         } else {
@@ -102,9 +102,7 @@ public class DecadeService {
     private DecadeGrowth getUpdatedEntity(DecadeGrowth entity, JobDTO dto){
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setFromTime(dto.getFromTime());
-        entity.setToTime(dto.getToTime());
-
+        entity.setDecadeNumber(dto.getDecadeNumber());
         return entity;
     }
 
@@ -125,8 +123,7 @@ public class DecadeService {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
-        dto.setFromTime(entity.getFromTime());
-        dto.setToTime(entity.getToTime());
+        dto.setDecadeNumber(entity.getDecadeNumber());
         dto.setParentId(entity.getDesire().getId());
 
         return dto;

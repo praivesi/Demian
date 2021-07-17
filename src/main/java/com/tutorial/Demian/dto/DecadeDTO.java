@@ -15,18 +15,14 @@ public class DecadeDTO {
     private Long desireId;
     private String title;
     private String content;
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date fromTime;
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date toTime;
+    private int decadeNumber;
 
     public DecadeDTO(){
         this.id = DECADE_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.decadeNumber = 0;
     }
 
     public DecadeGrowth getEntity(){
@@ -35,8 +31,7 @@ public class DecadeDTO {
         entity.setId(this.id);
         entity.setTitle(this.title);
         entity.setContent(this.content);
-        entity.setFromTime(this.fromTime);
-        entity.setToTime(this.toTime);
+        entity.setDecadeNumber(this.decadeNumber);
 
         return entity;
     }
@@ -48,8 +43,7 @@ public class DecadeDTO {
         dto.desireId = decadeGrowth.getDesire().getId();
         dto.title = decadeGrowth.getTitle();
         dto.content = decadeGrowth.getContent();
-        dto.fromTime = decadeGrowth.getFromTime();
-        dto.toTime = decadeGrowth.getToTime();
+        dto.decadeNumber = decadeGrowth.getDecadeNumber();
 
         return dto;
     }

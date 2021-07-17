@@ -22,11 +22,7 @@ public class DecadeGrowth {
 
     private String content;
 
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date fromTime;
-
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date toTime;
+    private int decadeNumber;
 
     @ManyToOne
     @JoinColumn(name = "desire_id")
@@ -37,17 +33,15 @@ public class DecadeGrowth {
         this.id = DECADE_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.decadeNumber = 0;
         this.desire = null;
     }
 
-    public DecadeGrowth(String _title, String _content, Date _fromTime, Date _toTime, DesireGrowth _desire) {
+    public DecadeGrowth(String _title, String _content, int _decadeNumber, DesireGrowth _desire) {
         this.id = DECADE_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;
-        this.fromTime = _fromTime;
-        this.toTime = _toTime;
+        this.decadeNumber = _decadeNumber;
         this.desire = _desire;
     }
 }

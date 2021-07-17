@@ -11,6 +11,7 @@ public class JobDTO {
     private String content;
     private Date fromTime;
     private Date toTime;
+    private int decadeNumber;
     private Long parentId;
     private int jobType; // 0 - Decade, 1 - Year, 2 - Month, 3 - Week, 4 - Day
 
@@ -68,5 +69,13 @@ public class JobDTO {
 
     public void setJobType(int jobType) {
         this.jobType = jobType;
+    }
+
+    public int getDecadeNumber() {
+        return this.decadeNumber;
+    }
+
+    public void setDecadeNumber(int decadeNumber) {
+        this.decadeNumber = decadeNumber;
     }
 }
