@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.Decade;
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DecadeGrowth;
+import com.tutorial.Demian.model.DesireGrowth;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DecadeRepository;
 import com.tutorial.Demian.repository.DesireRepository;
@@ -46,7 +46,7 @@ public class DecadeController {
     public String decade(Model model, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
 
-        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
         Response response = decadeService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
 
         model.addAttribute("response", response);
@@ -58,7 +58,7 @@ public class DecadeController {
     public String decadeWithStartYear(Model model, @PathVariable int startDecade, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
 
-        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
         Response response = decadeService.getDecadePageResp(user.getId(), desires, startDecade);
 
         model.addAttribute("response", response);
@@ -68,7 +68,7 @@ public class DecadeController {
 
     @GetMapping("/form")
     public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
-        Optional<Desire> mayDesire = desireRepository.findById(desireId);
+        Optional<DesireGrowth> mayDesire = desireRepository.findById(desireId);
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
@@ -91,14 +91,14 @@ public class DecadeController {
             return dto;
         }
 
-        Decade decade = decadeRepository.findById(jobId).orElse(null);
-        return DecadeDTO.of(decade);
+        DecadeGrowth decadeGrowth = decadeRepository.findById(jobId).orElse(null);
+        return DecadeDTO.of(decadeGrowth);
     }
 
     @PostMapping("/form")
     public String postDecadeJobForm(Model model, @Valid DecadeDTO decadeDTO, BindingResult bindingResult,
                                     Authentication authentication) {
-        Optional<Desire> mayDesire = desireRepository.findById(decadeDTO.getDesireId());
+        Optional<DesireGrowth> mayDesire = desireRepository.findById(decadeDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/decades/page";
@@ -117,12 +117,12 @@ public class DecadeController {
         return "redirect:/decades/page";
     }
 
-    private boolean postDecadeJobFormInternal(DecadeDTO decadeDTO, Desire desire) {
+    private boolean postDecadeJobFormInternal(DecadeDTO decadeDTO, DesireGrowth desire) {
         try {
-            Decade decade = decadeDTO.getEntity();
-            decade.setDesire(desire);
+            DecadeGrowth decadeGrowth = decadeDTO.getEntity();
+            decadeGrowth.setDesire(desire);
 
-            decadeRepository.save(decade);
+            decadeRepository.save(decadeGrowth);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

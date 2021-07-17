@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DesireGrowth;
 
-public interface DesireRepository extends JpaRepository<Desire, Long> {
+public interface DesireRepository extends JpaRepository<DesireGrowth, Long> {
     @EntityGraph(attributePaths = {"decades"})
-    List<Desire> findAll();
+    List<DesireGrowth> findAll();
 
-    List<Desire> findByUserId(Long userId);
+    List<DesireGrowth> findByUserId(Long userId);
 }

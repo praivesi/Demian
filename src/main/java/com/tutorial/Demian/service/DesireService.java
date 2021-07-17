@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DesireGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
 
 @Service
@@ -19,27 +19,27 @@ public class DesireService {
     }
 
     public DesireDTO get(Long id) {
-        Optional<Desire> maybeDesire = desireRepository.findById(id);
+        Optional<DesireGrowth> maybeDesire = desireRepository.findById(id);
 
         return maybeDesire.isPresent() ? new DesireDTO(maybeDesire.get()) : new DesireDTO();
     }
 
-    public Optional<Desire> getEntity(long desireId) {
+    public Optional<DesireGrowth> getEntity(long desireId) {
         return desireRepository.findById(desireId);
     }
 
-    public List<Desire> getCurrentUserDesires(Long userId) {
+    public List<DesireGrowth> getCurrentUserDesires(Long userId) {
         return desireRepository.findByUserId(userId);
     }
 
     public DesireDTO update(DesireDTO dto, Long id) {
-        Optional<Desire> maybeEntity = desireRepository.findById(id);
+        Optional<DesireGrowth> maybeEntity = desireRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new DesireDTO();
         }
 
-        Desire updateEntity = dto.getEntity();
+        DesireGrowth updateEntity = dto.getEntity();
         updateEntity.setId(id);
 
         desireRepository.save(updateEntity);
@@ -48,7 +48,7 @@ public class DesireService {
     }
 
     public DesireDTO save(DesireDTO dto) {
-        Desire entity = desireRepository.save(dto.getEntity());
+        DesireGrowth entity = desireRepository.save(dto.getEntity());
         dto.setId(entity.getId());
 
         return dto;

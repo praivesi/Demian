@@ -1,13 +1,13 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.MonthGrowth;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
-import static com.tutorial.Demian.model.Month.MONTH_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.DesireGrowth.DESIRE_DEFAULT_ID;
+import static com.tutorial.Demian.model.MonthGrowth.MONTH_JOB_DEFAULT_ID;
 
 @Data
 public class MonthDTO {
@@ -29,8 +29,8 @@ public class MonthDTO {
         this.toTime = null;
     }
 
-    public Month getEntity(){
-        Month entity = new Month();
+    public MonthGrowth getEntity(){
+        MonthGrowth entity = new MonthGrowth();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -41,15 +41,15 @@ public class MonthDTO {
         return entity;
     }
 
-    public static MonthDTO of(Month month) {
+    public static MonthDTO of(MonthGrowth monthGrowth) {
         MonthDTO dto = new MonthDTO();
 
-        dto.id = month.getId();
-        dto.desireId = month.getDesire().getId();
-        dto.title = month.getTitle();
-        dto.content = month.getContent();
-        dto.fromTime = month.getFromTime();
-        dto.toTime = month.getToTime();
+        dto.id = monthGrowth.getId();
+        dto.desireId = monthGrowth.getDesire().getId();
+        dto.title = monthGrowth.getTitle();
+        dto.content = monthGrowth.getContent();
+        dto.fromTime = monthGrowth.getFromTime();
+        dto.toTime = monthGrowth.getToTime();
 
         return dto;
     }

@@ -8,12 +8,12 @@ import java.util.List;
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.MonthDTO;
 import com.tutorial.Demian.dto.YearDTO;
-import com.tutorial.Demian.model.Decade;
-import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.DecadeGrowth;
+import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.Year;
 
 public class JobFilter {
-    public static List<DecadeDTO> decadeFilter(List<Decade> entireDecades, Date startDate, int decadeCount) {
+    public static List<DecadeDTO> decadeFilter(List<DecadeGrowth> entireDecadeGrowths, Date startDate, int decadeCount) {
         List<DecadeDTO> pickedDecades = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
@@ -29,11 +29,11 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            Decade matchedJob = null;
-            for (Decade decade : entireDecades) {
-                if (filterStart.getTime() <= decade.getFromTime().getTime() &&
-                        decade.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = decade;
+            DecadeGrowth matchedJob = null;
+            for (DecadeGrowth decadeGrowth : entireDecadeGrowths) {
+                if (filterStart.getTime() <= decadeGrowth.getFromTime().getTime() &&
+                        decadeGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = decadeGrowth;
                     break;
                 }
             }
@@ -86,7 +86,7 @@ public class JobFilter {
         return pickedYears;
     }
 
-    public static List<MonthDTO> monthFilter(List<Month> entireMonths, Date startDate, int monthCount) {
+    public static List<MonthDTO> monthFilter(List<MonthGrowth> entireMonthGrowths, Date startDate, int monthCount) {
         List<MonthDTO> pickedMonths = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
@@ -101,11 +101,11 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            Month matchedJob = null;
-            for (Month month : entireMonths) {
-                if (filterStart.getTime() <= month.getFromTime().getTime() &&
-                        month.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = month;
+            MonthGrowth matchedJob = null;
+            for (MonthGrowth monthGrowth : entireMonthGrowths) {
+                if (filterStart.getTime() <= monthGrowth.getFromTime().getTime() &&
+                        monthGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = monthGrowth;
                     break;
                 }
             }

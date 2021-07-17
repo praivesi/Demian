@@ -8,11 +8,9 @@ import java.util.Optional;
 
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.dto.YearDTO;
-import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.MonthService;
 import com.tutorial.Demian.service.UserService;
@@ -46,7 +44,7 @@ public class MonthController {
     public String month(Model model, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
         MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
 
         model.addAttribute("response", response);
@@ -59,7 +57,7 @@ public class MonthController {
                                       Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
+        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
         MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
 
         model.addAttribute("response", response);
@@ -69,7 +67,7 @@ public class MonthController {
 
     @GetMapping("/form")
     public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
-        Optional<Desire> mayDesire = desireService.getEntity(desireId);
+        Optional<DesireGrowth> mayDesire = desireService.getEntity(desireId);
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
@@ -92,15 +90,15 @@ public class MonthController {
             return monthDTO;
         }
 
-        Month month = monthService.getEntity(jobId);
+        MonthGrowth monthGrowth = monthService.getEntity(jobId);
 
-        return MonthDTO.of(month);
+        return MonthDTO.of(monthGrowth);
     }
 
     @PostMapping("/form")
     public String postJobForm(Model model, @Valid MonthDTO monthDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<Desire> mayDesire = desireService.getEntity(monthDTO.getDesireId());
+        Optional<DesireGrowth> mayDesire = desireService.getEntity(monthDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/months/page";
@@ -119,8 +117,8 @@ public class MonthController {
         return "redirect:/months/page";
     }
 
-    private Month saveMonthDTO(Desire desire, MonthDTO monthDTO) {
-        Month entity = monthDTO.getEntity();
+    private MonthGrowth saveMonthDTO(DesireGrowth desire, MonthDTO monthDTO) {
+        MonthGrowth entity = monthDTO.getEntity();
         entity.setDesire(desire);
 
         monthService.save(entity);

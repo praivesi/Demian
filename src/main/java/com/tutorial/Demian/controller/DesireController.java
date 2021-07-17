@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DesireGrowth;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
@@ -32,7 +32,7 @@ public class DesireController {
         if (id == null) {
             model.addAttribute("desireDTO", new DesireDTO());
         } else {
-            Desire desire = desireRepository.findById(id).orElse(null);
+            DesireGrowth desire = desireRepository.findById(id).orElse(null);
             model.addAttribute("desireDTO", DesireDTO.of(desire));
         }
 
@@ -56,7 +56,7 @@ public class DesireController {
 
     private boolean saveDesire(DesireDTO desireDTO, Authentication authentication) {
         try {
-            Desire recvDesire = desireDTO.getEntity();
+            DesireGrowth recvDesire = desireDTO.getEntity();
 
             User user = userRepository.findByUsername(authentication.getName());
             recvDesire.setUser(user);

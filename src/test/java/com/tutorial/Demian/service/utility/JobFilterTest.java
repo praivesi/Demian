@@ -1,23 +1,5 @@
 package com.tutorial.Demian.service.utility;
 
-import com.tutorial.Demian.dto.DecadeDTO;
-import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.dto.YearDTO;
-import com.tutorial.Demian.model.Decade;
-import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.Month;
-import com.tutorial.Demian.model.Year;
-import com.tutorial.Demian.service.Utility.JobFilter;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 public class JobFilterTest {
 //    private JobFilter jobFilter;
 //

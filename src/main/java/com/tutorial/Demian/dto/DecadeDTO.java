@@ -1,13 +1,13 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.Decade;
+import com.tutorial.Demian.model.DecadeGrowth;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-import static com.tutorial.Demian.model.Decade.DECADE_JOB_DEFAULT_ID;
-import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
+import static com.tutorial.Demian.model.DecadeGrowth.DECADE_JOB_DEFAULT_ID;
+import static com.tutorial.Demian.model.DesireGrowth.DESIRE_DEFAULT_ID;
 
 @Data
 public class DecadeDTO {
@@ -29,8 +29,8 @@ public class DecadeDTO {
         this.toTime = null;
     }
 
-    public Decade getEntity(){
-        Decade entity = new Decade();
+    public DecadeGrowth getEntity(){
+        DecadeGrowth entity = new DecadeGrowth();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -41,15 +41,15 @@ public class DecadeDTO {
         return entity;
     }
 
-    public static DecadeDTO of(Decade decade){
+    public static DecadeDTO of(DecadeGrowth decadeGrowth){
         DecadeDTO dto = new DecadeDTO();
 
-        dto.id = decade.getId();
-        dto.desireId = decade.getDesire().getId();
-        dto.title = decade.getTitle();
-        dto.content = decade.getContent();
-        dto.fromTime = decade.getFromTime();
-        dto.toTime = decade.getToTime();
+        dto.id = decadeGrowth.getId();
+        dto.desireId = decadeGrowth.getDesire().getId();
+        dto.title = decadeGrowth.getTitle();
+        dto.content = decadeGrowth.getContent();
+        dto.fromTime = decadeGrowth.getFromTime();
+        dto.toTime = decadeGrowth.getToTime();
 
         return dto;
     }

@@ -13,8 +13,8 @@ import com.tutorial.Demian.controller.DecadeController;
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
-import com.tutorial.Demian.model.Decade;
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DecadeGrowth;
+import com.tutorial.Demian.model.DesireGrowth;
 import com.tutorial.Demian.repository.DecadeRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
@@ -27,12 +27,12 @@ public class DecadeService {
     @Autowired
     private DecadeRepository decadeRepository;
 
-    public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
+    public DecadeController.Response getDecadePageResp(Long userId, List<DesireGrowth> desires, int startDecade) {
         DecadeController.Response response = new DecadeController.Response();
 
         Calendar startCal = this.getStartCalendar(startDecade);
 
-        for (Desire desire : desires) {
+        for (DesireGrowth desire : desires) {
             DecadeController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
 
             response.getDesireWithDecades().add(desireWithDecade);
@@ -57,12 +57,12 @@ public class DecadeService {
         return startCal;
     }
 
-    private DecadeController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
+    private DecadeController.DesireWithDecade getDesireWithDecade(DesireGrowth desire, Date startDate) {
         DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
 
         desireWithDecade.setDesire(DesireDTO.of(desire));
 
-        List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecades(), startDate, 5);
+        List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecadeGrowths(), startDate, 5);
         desireWithDecade.setDecades(filteredDecades);
 
         return desireWithDecade;
@@ -71,11 +71,11 @@ public class DecadeService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 0) return null;
 
-        Optional<Desire> maybeDesire = desireRepository.findById(jobDTO.getParentId());
+        Optional<DesireGrowth> maybeDesire = desireRepository.findById(jobDTO.getParentId());
         if (maybeDesire.isPresent()) {
-            Decade newDecade = new Decade(jobDTO.getTitle(), jobDTO.getContent(),
+            DecadeGrowth newDecadeGrowth = new DecadeGrowth(jobDTO.getTitle(), jobDTO.getContent(),
                     jobDTO.getFromTime(), jobDTO.getToTime(), maybeDesire.get());
-            Decade entity = decadeRepository.save(newDecade);
+            DecadeGrowth entity = decadeRepository.save(newDecadeGrowth);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -85,13 +85,13 @@ public class DecadeService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<Decade> maybeEntity = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeEntity = decadeRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
         }
 
-        Decade updatedEntity = this.getUpdatedEntity(maybeEntity.get(), dto);
+        DecadeGrowth updatedEntity = this.getUpdatedEntity(maybeEntity.get(), dto);
         decadeRepository.save(updatedEntity);
 
         dto.setId(id);
@@ -99,7 +99,7 @@ public class DecadeService {
         return dto;
     }
 
-    private Decade getUpdatedEntity(Decade entity, JobDTO dto){
+    private DecadeGrowth getUpdatedEntity(DecadeGrowth entity, JobDTO dto){
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
         entity.setFromTime(dto.getFromTime());
@@ -109,7 +109,7 @@ public class DecadeService {
     }
 
     public JobDTO get(Long id) {
-        Optional<Decade> maybeDecadeJob = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeDecadeJob = decadeRepository.findById(id);
 
         if (maybeDecadeJob.isPresent()) {
            return this.get(maybeDecadeJob.get());
@@ -118,7 +118,7 @@ public class DecadeService {
         return new JobDTO();
     }
 
-    private JobDTO get(Decade entity){
+    private JobDTO get(DecadeGrowth entity){
         JobDTO dto = new JobDTO();
 
         dto.setJobType(0);

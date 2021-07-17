@@ -3,12 +3,11 @@ package com.tutorial.Demian.service;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Service;
 
 import com.tutorial.Demian.controller.YearController;
 import com.tutorial.Demian.dto.*;
-import com.tutorial.Demian.model.Desire;
+import com.tutorial.Demian.model.DesireGrowth;
 import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.YearRepository;
@@ -24,7 +23,7 @@ public class YearService {
     @Autowired
     private YearRepository yearRepository;
 
-    public YearController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
+    public YearController.Response getYearPageResp(Long userId, List<DesireGrowth> desires, int startYear) {
         YearController.Response response = new YearController.Response();
         Calendar startCal = this.getStartCal(startYear);
 
@@ -47,10 +46,10 @@ public class YearService {
         return startCal;
     }
 
-    private List<YearController.DesireWithYear> getDesireWithYears(Date startDate, List<Desire> desires) {
+    private List<YearController.DesireWithYear> getDesireWithYears(Date startDate, List<DesireGrowth> desires) {
         List<YearController.DesireWithYear> desireWithYears = new ArrayList<>();
 
-        for (Desire desire : desires) {
+        for (DesireGrowth desire : desires) {
             YearController.DesireWithYear desireWithYear = this.getDesireWithYear(desire, startDate);
 
             desireWithYears.add(desireWithYear);
@@ -59,7 +58,7 @@ public class YearService {
         return desireWithYears;
     }
 
-    private YearController.DesireWithYear getDesireWithYear(Desire desire, Date startDate) {
+    private YearController.DesireWithYear getDesireWithYear(DesireGrowth desire, Date startDate) {
         YearController.DesireWithYear desireWithYear = new YearController.DesireWithYear();
 
         desireWithYear.setDesire(DesireDTO.of(desire));
@@ -77,7 +76,7 @@ public class YearService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 1) return null;
 
-        Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
+        Optional<DesireGrowth> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (!maybeParentJob.isPresent()) {
             return new JobDTO();
         }
