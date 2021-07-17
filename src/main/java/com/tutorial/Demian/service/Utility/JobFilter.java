@@ -7,7 +7,7 @@ import com.tutorial.Demian.dto.MonthDTO;
 import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.MonthGrowth;
-import com.tutorial.Demian.model.Year;
+import com.tutorial.Demian.model.YearGrowth;
 
 public class JobFilter {
     public static List<DecadeDTO> decadeFilter(List<DecadeGrowth> entireDecadeGrowths, Date startDate, int decadeCount) {
@@ -55,7 +55,7 @@ public class JobFilter {
         return pickedDecades;
     }
 
-    public static List<YearDTO> yearFilter(List<Year> entireYears, Date startDate, int yearCount) {
+    public static List<YearDTO> yearFilter(List<YearGrowth> entireYearGrowths, Date startDate, int yearCount) {
         List<YearDTO> pickedYears = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
@@ -70,11 +70,11 @@ public class JobFilter {
             cal.add(Calendar.SECOND, -1);
             Date filterEnd = cal.getTime();
 
-            Year matchedJob = null;
-            for (Year year : entireYears) {
-                if (filterStart.getTime() <= year.getFromTime().getTime() &&
-                        year.getToTime().getTime() <= filterEnd.getTime()) {
-                    matchedJob = year;
+            YearGrowth matchedJob = null;
+            for (YearGrowth yearGrowth : entireYearGrowths) {
+                if (filterStart.getTime() <= yearGrowth.getFromTime().getTime() &&
+                        yearGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+                    matchedJob = yearGrowth;
                     break;
                 }
             }

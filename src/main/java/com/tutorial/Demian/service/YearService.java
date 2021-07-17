@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.tutorial.Demian.controller.YearController;
 import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.Year;
+import com.tutorial.Demian.model.YearGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.YearRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
@@ -63,13 +63,13 @@ public class YearService {
 
         desireWithYear.setDesire(DesireDTO.of(desire));
 
-        List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYears(), startDate, 5);
+        List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYearGrowths(), startDate, 5);
         desireWithYear.setYears(filteredYears);
 
         return desireWithYear;
     }
 
-    public Year findYear(long jobId) {
+    public YearGrowth findYear(long jobId) {
         return yearRepository.findById(jobId).orElse(null);
     }
 
@@ -81,19 +81,19 @@ public class YearService {
             return new JobDTO();
         }
 
-        Year newYear = new Year(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-        Year entity = yearRepository.save(newYear);
+        YearGrowth newYearGrowth = new YearGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+        YearGrowth entity = yearRepository.save(newYearGrowth);
         jobDTO.setId(entity.getId());
 
         return jobDTO;
     }
 
-    public Year save(Year year) {
-        return yearRepository.save(year);
+    public YearGrowth save(YearGrowth yearGrowth) {
+        return yearRepository.save(yearGrowth);
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<Year> maybeEntity = yearRepository.findById(id);
+        Optional<YearGrowth> maybeEntity = yearRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
@@ -105,7 +105,7 @@ public class YearService {
         return dto;
     }
 
-    private Year updateInternal(Year entity, JobDTO dto) {
+    private YearGrowth updateInternal(YearGrowth entity, JobDTO dto) {
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
         entity.setFromTime(dto.getFromTime());
@@ -115,7 +115,7 @@ public class YearService {
     }
 
     public JobDTO get(Long id) {
-        Optional<Year> maybeYearJob = yearRepository.findById(id);
+        Optional<YearGrowth> maybeYearJob = yearRepository.findById(id);
 
         if (!maybeYearJob.isPresent()) {
             return new JobDTO();
@@ -124,7 +124,7 @@ public class YearService {
         return this.getInternal(maybeYearJob.get());
     }
 
-    private JobDTO getInternal(Year entity) {
+    private JobDTO getInternal(YearGrowth entity) {
         JobDTO dto = new JobDTO();
 
         dto.setJobType(1);

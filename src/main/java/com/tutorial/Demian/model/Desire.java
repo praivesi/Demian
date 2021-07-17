@@ -30,7 +30,7 @@ public class Desire {
     private List<DecadeGrowth> decadeGrowths = new ArrayList<>();
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
-    private List<Year> years = new ArrayList<>();
+    private List<YearGrowth> yearGrowths = new ArrayList<>();
 
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
     private List<MonthGrowth> monthGrowths = new ArrayList<>();

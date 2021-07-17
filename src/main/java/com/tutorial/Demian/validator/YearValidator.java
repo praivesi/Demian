@@ -6,13 +6,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.tutorial.Demian.dto.YearDTO;
-import com.tutorial.Demian.model.Year;
+import com.tutorial.Demian.model.YearGrowth;
 
 @Component
 public class YearValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return Year.class.equals(clazz);
+        return YearGrowth.class.equals(clazz);
     }
 
     @Override
