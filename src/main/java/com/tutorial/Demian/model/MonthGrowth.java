@@ -26,7 +26,7 @@ public class MonthGrowth {
     @ManyToOne
     @JoinColumn(name = "desire_id")
     @JsonIgnore
-    private DesireGrowth desire;
+    private Desire desire;
 
     public MonthGrowth() {
         this.id = MONTH_JOB_DEFAULT_ID;
@@ -37,7 +37,7 @@ public class MonthGrowth {
         this.desire = null;
     }
 
-    public MonthGrowth(String _title, String _content, Date _from, Date _to, DesireGrowth _desire) {
+    public MonthGrowth(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.title = _title;
         this.content = _content;
         this.fromTime = _from;

@@ -6,7 +6,7 @@ import com.tutorial.Demian.controller.MonthController;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.MonthRepository;
@@ -23,7 +23,7 @@ public class MonthService {
     @Autowired
     private MonthRepository monthRepository;
 
-    public MonthController.Response getMonthPageResp(Long userId, List<DesireGrowth> desires, int startYear, int startMonth) {
+    public MonthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
         MonthController.Response response = new MonthController.Response();
 
         Calendar startCal = this.getStartCal(new GregorianCalendar(), startYear, startMonth);
@@ -52,10 +52,10 @@ public class MonthService {
         return startCal;
     }
 
-    private List<MonthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<DesireGrowth> desires) {
+    private List<MonthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<Desire> desires) {
         List<MonthController.DesireWithMonth> desireWithMonths = new ArrayList<>();
 
-        for (DesireGrowth desire : desires) {
+        for (Desire desire : desires) {
             MonthController.DesireWithMonth desireWithMonth = new MonthController.DesireWithMonth();
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
@@ -80,7 +80,7 @@ public class MonthService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 2) return null;
 
-        Optional<DesireGrowth> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
+        Optional<Desire> maybeParentJob = desireRepository.findById(jobDTO.getParentId());
         if (!maybeParentJob.isPresent()) {
             return new JobDTO();
         }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class DesireGrowth {
+public class Desire {
     public final static long DESIRE_DEFAULT_ID = -1l;
 
     @Id
@@ -35,9 +35,9 @@ public class DesireGrowth {
     @OneToMany(mappedBy = "desire", fetch = FetchType.LAZY)
     private List<MonthGrowth> monthGrowths = new ArrayList<>();
 
-    public DesireGrowth(){}
+    public Desire(){}
 
-    public DesireGrowth(String _title, String _content, Long _sortNum){
+    public Desire(String _title, String _content, Long _sortNum){
         this.title = _title;
         this.content = _content;
         this.sortNum = _sortNum;

@@ -1,6 +1,6 @@
 package com.tutorial.Demian.dto;
 
-import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.Desire;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,7 +18,7 @@ public class DesireDTO {
         this.sortNum = -1l;
     }
 
-    public DesireDTO(DesireGrowth desire){
+    public DesireDTO(Desire desire){
         this.id = desire.getId();
         this.title = desire.getTitle();
         this.content = desire.getContent();
@@ -31,8 +31,8 @@ public class DesireDTO {
         this.sortNum = sortNum;
     }
 
-    public DesireGrowth getEntity(){
-        DesireGrowth entity = new DesireGrowth();
+    public Desire getEntity(){
+        Desire entity = new Desire();
 
         entity.setId(this.id);
         entity.setTitle(this.title);
@@ -42,7 +42,7 @@ public class DesireDTO {
         return entity;
     }
 
-    public static DesireDTO of(DesireGrowth desire) {
+    public static DesireDTO of(Desire desire) {
         DesireDTO dto = new DesireDTO();
 
         dto.id = desire.getId();

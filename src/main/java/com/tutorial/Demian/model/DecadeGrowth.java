@@ -2,11 +2,9 @@ package com.tutorial.Demian.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Data
@@ -27,7 +25,7 @@ public class DecadeGrowth {
     @ManyToOne
     @JoinColumn(name = "desire_id")
     @JsonIgnore
-    private DesireGrowth desire;
+    private Desire desire;
 
     public DecadeGrowth() {
         this.id = DECADE_JOB_DEFAULT_ID;
@@ -37,7 +35,7 @@ public class DecadeGrowth {
         this.desire = null;
     }
 
-    public DecadeGrowth(String _title, String _content, int _decadeNumber, DesireGrowth _desire) {
+    public DecadeGrowth(String _title, String _content, int _decadeNumber, Desire _desire) {
         this.id = DECADE_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;

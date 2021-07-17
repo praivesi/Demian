@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.YearDTO;
-import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.service.DesireService;
@@ -43,7 +43,7 @@ public class YearController {
     public String year(Model model, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         YearController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
         model.addAttribute("response", response);
@@ -55,7 +55,7 @@ public class YearController {
     public String yearWithStartYear(Model model, @PathVariable int startYear, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         YearController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
 
         model.addAttribute("response", response);
@@ -65,7 +65,7 @@ public class YearController {
 
     @GetMapping("/form")
     public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
-        Optional<DesireGrowth> mayDesire = desireService.getEntity(desireId);
+        Optional<Desire> mayDesire = desireService.getEntity(desireId);
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
@@ -95,7 +95,7 @@ public class YearController {
     @PostMapping("/form")
     public String postJobForm(Model model, @Valid YearDTO yearDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<DesireGrowth> mayDesire = desireService.getEntity(yearDTO.getDesireId());
+        Optional<Desire> mayDesire = desireService.getEntity(yearDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/years/page";
@@ -114,7 +114,7 @@ public class YearController {
         return "redirect:/years/page";
     }
 
-    private Year saveYearDTO(DesireGrowth desire, YearDTO yearDTO) {
+    private Year saveYearDTO(Desire desire, YearDTO yearDTO) {
         Year entity = yearDTO.getEntity();
         entity.setDesire(desire);
 

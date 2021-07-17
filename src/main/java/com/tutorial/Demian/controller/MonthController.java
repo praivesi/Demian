@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.service.DesireService;
@@ -44,7 +44,7 @@ public class MonthController {
     public String month(Model model, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
 
         model.addAttribute("response", response);
@@ -57,7 +57,7 @@ public class MonthController {
                                       Authentication authentication) {
         User user = userService.get(authentication.getName());
 
-        List<DesireGrowth> desires = desireService.getCurrentUserDesires(user.getId());
+        List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
         MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
 
         model.addAttribute("response", response);
@@ -67,7 +67,7 @@ public class MonthController {
 
     @GetMapping("/form")
     public String jobForm(Model model, @RequestParam(required = true) Long desireId, @RequestParam(required = false) Long jobId) {
-        Optional<DesireGrowth> mayDesire = desireService.getEntity(desireId);
+        Optional<Desire> mayDesire = desireService.getEntity(desireId);
 
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
@@ -98,7 +98,7 @@ public class MonthController {
     @PostMapping("/form")
     public String postJobForm(Model model, @Valid MonthDTO monthDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<DesireGrowth> mayDesire = desireService.getEntity(monthDTO.getDesireId());
+        Optional<Desire> mayDesire = desireService.getEntity(monthDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/months/page";
@@ -117,7 +117,7 @@ public class MonthController {
         return "redirect:/months/page";
     }
 
-    private MonthGrowth saveMonthDTO(DesireGrowth desire, MonthDTO monthDTO) {
+    private MonthGrowth saveMonthDTO(Desire desire, MonthDTO monthDTO) {
         MonthGrowth entity = monthDTO.getEntity();
         entity.setDesire(desire);
 

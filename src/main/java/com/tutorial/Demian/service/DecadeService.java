@@ -14,7 +14,7 @@ import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
-import com.tutorial.Demian.model.DesireGrowth;
+import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.repository.DecadeRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
@@ -27,12 +27,12 @@ public class DecadeService {
     @Autowired
     private DecadeRepository decadeRepository;
 
-    public DecadeController.Response getDecadePageResp(Long userId, List<DesireGrowth> desires, int startDecade) {
+    public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
         DecadeController.Response response = new DecadeController.Response();
 
         Calendar startCal = this.getStartCalendar(startDecade);
 
-        for (DesireGrowth desire : desires) {
+        for (Desire desire : desires) {
             DecadeController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
 
             response.getDesireWithDecades().add(desireWithDecade);
@@ -57,7 +57,7 @@ public class DecadeService {
         return startCal;
     }
 
-    private DecadeController.DesireWithDecade getDesireWithDecade(DesireGrowth desire, Date startDate) {
+    private DecadeController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
         DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
 
         desireWithDecade.setDesire(DesireDTO.of(desire));
@@ -71,7 +71,7 @@ public class DecadeService {
     public JobDTO save(JobDTO jobDTO) {
         if (jobDTO.getJobType() != 0) return null;
 
-        Optional<DesireGrowth> maybeDesire = desireRepository.findById(jobDTO.getParentId());
+        Optional<Desire> maybeDesire = desireRepository.findById(jobDTO.getParentId());
         if (maybeDesire.isPresent()) {
             DecadeGrowth newDecadeGrowth = new DecadeGrowth(jobDTO.getTitle(), jobDTO.getContent(),
                     jobDTO.getDecadeNumber(), maybeDesire.get());

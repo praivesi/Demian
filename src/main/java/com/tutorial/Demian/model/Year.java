@@ -26,7 +26,7 @@ public class Year {
     @ManyToOne
     @JoinColumn(name = "desire_id")
     @JsonIgnore
-    private DesireGrowth desire;
+    private Desire desire;
 
     public Year() {
         this.id = YEAR_JOB_DEFAULT_ID;
@@ -37,7 +37,7 @@ public class Year {
         this.desire = null;
     }
 
-    public Year(String _title, String _content, Date _from, Date _to, DesireGrowth _desire) {
+    public Year(String _title, String _content, Date _from, Date _to, Desire _desire) {
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = _title;
         this.content = _content;

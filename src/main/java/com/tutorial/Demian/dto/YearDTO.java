@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-import static com.tutorial.Demian.model.DesireGrowth.DESIRE_DEFAULT_ID;
+import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 import static com.tutorial.Demian.model.Year.YEAR_JOB_DEFAULT_ID;
 
 @Data
