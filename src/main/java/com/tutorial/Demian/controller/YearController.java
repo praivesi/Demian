@@ -17,7 +17,7 @@ import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.model.Year;
+import com.tutorial.Demian.model.YearGrowth;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.UserService;
 import com.tutorial.Demian.service.YearService;
@@ -88,8 +88,8 @@ public class YearController {
             return yearDTO;
         }
 
-        Year year = yearService.findYear(jobId);
-        return com.tutorial.Demian.dto.YearDTO.of(year);
+        YearGrowth yearGrowth = yearService.findYear(jobId);
+        return com.tutorial.Demian.dto.YearDTO.of(yearGrowth);
     }
 
     @PostMapping("/form")
@@ -114,8 +114,8 @@ public class YearController {
         return "redirect:/years/page";
     }
 
-    private Year saveYearDTO(Desire desire, YearDTO yearDTO) {
-        Year entity = yearDTO.getEntity();
+    private YearGrowth saveYearDTO(Desire desire, YearDTO yearDTO) {
+        YearGrowth entity = yearDTO.getEntity();
         entity.setDesire(desire);
 
         yearService.save(entity);

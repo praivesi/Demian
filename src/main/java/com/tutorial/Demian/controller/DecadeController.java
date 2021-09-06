@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tutorial.Demian.dto.DecadeDTO;
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.model.Decade;
+import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DecadeRepository;
@@ -91,8 +91,8 @@ public class DecadeController {
             return dto;
         }
 
-        Decade decade = decadeRepository.findById(jobId).orElse(null);
-        return DecadeDTO.of(decade);
+        DecadeGrowth decadeGrowth = decadeRepository.findById(jobId).orElse(null);
+        return DecadeDTO.of(decadeGrowth);
     }
 
     @PostMapping("/form")
@@ -119,10 +119,10 @@ public class DecadeController {
 
     private boolean postDecadeJobFormInternal(DecadeDTO decadeDTO, Desire desire) {
         try {
-            Decade decade = decadeDTO.getEntity();
-            decade.setDesire(desire);
+            DecadeGrowth decadeGrowth = decadeDTO.getEntity();
+            decadeGrowth.setDesire(desire);
 
-            decadeRepository.save(decade);
+            decadeRepository.save(decadeGrowth);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

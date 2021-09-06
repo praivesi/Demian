@@ -8,11 +8,9 @@ import java.util.Optional;
 
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.dto.YearDTO;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.Month;
+import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.model.Year;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.MonthService;
 import com.tutorial.Demian.service.UserService;
@@ -92,9 +90,9 @@ public class MonthController {
             return monthDTO;
         }
 
-        Month month = monthService.getEntity(jobId);
+        MonthGrowth monthGrowth = monthService.getEntity(jobId);
 
-        return MonthDTO.of(month);
+        return MonthDTO.of(monthGrowth);
     }
 
     @PostMapping("/form")
@@ -119,8 +117,8 @@ public class MonthController {
         return "redirect:/months/page";
     }
 
-    private Month saveMonthDTO(Desire desire, MonthDTO monthDTO) {
-        Month entity = monthDTO.getEntity();
+    private MonthGrowth saveMonthDTO(Desire desire, MonthDTO monthDTO) {
+        MonthGrowth entity = monthDTO.getEntity();
         entity.setDesire(desire);
 
         monthService.save(entity);
