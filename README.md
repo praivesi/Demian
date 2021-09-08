@@ -24,6 +24,8 @@
 
 http://52.78.73.115:8080/
 
+테스트 계정 => ID : elon / PWD : 
+
 
 ## Rest API 참고 문헌
 https://sanghaklee.tistory.com/57
