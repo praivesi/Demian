@@ -24,7 +24,7 @@
 
 http://52.78.73.115:8080/
 
-테스트 계정 => ID : elon / PWD : 
+테스트 계정 => ID : elon / PWD : musk
 
 
 ## Rest API 참고 문헌
