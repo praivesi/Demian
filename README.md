@@ -20,6 +20,11 @@
     5) 기능 명세에 구현해야 할 기능을 먼저 작성하고 각 기능에 대응하는 Test 코드를 작성한다.
 
 
+## 프로토타입 AWS 홈페이지 
+
+http://52.78.73.115:8080/
+
+
 ## Rest API 참고 문헌
 https://sanghaklee.tistory.com/57
 https://digitalbourgeois.tistory.com/54
