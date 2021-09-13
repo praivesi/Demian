@@ -3,13 +3,11 @@ package com.tutorial.Demian.service;
 import java.util.*;
 
 import com.tutorial.Demian.controller.MonthController;
-import com.tutorial.Demian.controller.YearController;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.dto.MonthDTO;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.model.Month;
-import com.tutorial.Demian.model.Year;
+import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.MonthRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
@@ -62,7 +60,7 @@ public class MonthService {
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
 
-            List<MonthDTO> filteredMonths = JobFilter.monthFilter(desire.getMonths(), startDate, 6);
+            List<MonthDTO> filteredMonths = JobFilter.monthFilter(desire.getMonthGrowths(), startDate, 6);
             desireWithMonth.setMonths(filteredMonths);
 
             desireWithMonths.add(desireWithMonth);
@@ -71,12 +69,12 @@ public class MonthService {
         return desireWithMonths;
     }
 
-    public Month getEntity(Long jobId) {
+    public MonthGrowth getEntity(Long jobId) {
         return monthRepository.findById(jobId).orElse(null);
     }
 
-    public Month save(Month month) {
-        return monthRepository.save(month);
+    public MonthGrowth save(MonthGrowth monthGrowth) {
+        return monthRepository.save(monthGrowth);
     }
 
     public JobDTO save(JobDTO jobDTO) {
@@ -87,15 +85,15 @@ public class MonthService {
             return new JobDTO();
         }
 
-        Month newMonth = new Month(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-        Month entity = monthRepository.save(newMonth);
+        MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+        MonthGrowth entity = monthRepository.save(newMonthGrowth);
         jobDTO.setId(entity.getId());
 
         return jobDTO;
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<Month> maybeEntity = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeEntity = monthRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
@@ -108,7 +106,7 @@ public class MonthService {
         return dto;
     }
 
-    private Month updateInternal(Month entity, JobDTO dto) {
+    private MonthGrowth updateInternal(MonthGrowth entity, JobDTO dto) {
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
         entity.setFromTime(dto.getFromTime());
@@ -119,13 +117,13 @@ public class MonthService {
 
     public JobDTO get(Long id) {
 
-        Optional<Month> maybeMonthJob = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeMonthJob = monthRepository.findById(id);
 
         if (!maybeMonthJob.isPresent()) {
             return new JobDTO();
         }
 
-        Month entity = maybeMonthJob.get();
+        MonthGrowth entity = maybeMonthJob.get();
 
         JobDTO dto = new JobDTO();
         dto.setJobType(1);
