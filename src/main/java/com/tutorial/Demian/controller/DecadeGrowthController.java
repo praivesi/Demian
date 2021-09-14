@@ -15,7 +15,7 @@ import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.DecadeRepository;
+import com.tutorial.Demian.repository.DecadeGrowthRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.service.DecadeService;
@@ -38,7 +38,7 @@ public class DecadeGrowthController {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private DecadeRepository decadeRepository;
+    private DecadeGrowthRepository decadeGrowthRepository;
     @Autowired
     private DecadeValidator decadeValidator;
 
@@ -91,7 +91,7 @@ public class DecadeGrowthController {
             return dto;
         }
 
-        DecadeGrowth decadeGrowth = decadeRepository.findById(jobId).orElse(null);
+        DecadeGrowth decadeGrowth = decadeGrowthRepository.findById(jobId).orElse(null);
         return DecadeGrowthDTO.of(decadeGrowth);
     }
 
@@ -122,7 +122,7 @@ public class DecadeGrowthController {
             DecadeGrowth decadeGrowth = decadeDTO.getEntity();
             decadeGrowth.setDesire(desire);
 
-            decadeRepository.save(decadeGrowth);
+            decadeGrowthRepository.save(decadeGrowth);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

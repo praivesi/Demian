@@ -15,7 +15,7 @@ import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.repository.DecadeRepository;
+import com.tutorial.Demian.repository.DecadeGrowthRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
@@ -25,7 +25,7 @@ public class DecadeService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private DecadeRepository decadeRepository;
+    private DecadeGrowthRepository decadeGrowthRepository;
 
     public DecadeGrowthController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
         DecadeGrowthController.Response response = new DecadeGrowthController.Response();
@@ -75,7 +75,7 @@ public class DecadeService {
         if (maybeDesire.isPresent()) {
             DecadeGrowth newDecadeGrowth = new DecadeGrowth(jobDTO.getTitle(), jobDTO.getContent(),
                     jobDTO.getDecadeNumber(), maybeDesire.get());
-            DecadeGrowth entity = decadeRepository.save(newDecadeGrowth);
+            DecadeGrowth entity = decadeGrowthRepository.save(newDecadeGrowth);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -85,14 +85,14 @@ public class DecadeService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<DecadeGrowth> maybeEntity = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeEntity = decadeGrowthRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
         }
 
         DecadeGrowth updatedEntity = this.getUpdatedEntity(maybeEntity.get(), dto);
-        decadeRepository.save(updatedEntity);
+        decadeGrowthRepository.save(updatedEntity);
 
         dto.setId(id);
 
@@ -107,7 +107,7 @@ public class DecadeService {
     }
 
     public JobDTO get(Long id) {
-        Optional<DecadeGrowth> maybeDecadeJob = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeDecadeJob = decadeGrowthRepository.findById(id);
 
         if (maybeDecadeJob.isPresent()) {
            return this.get(maybeDecadeJob.get());
@@ -131,7 +131,7 @@ public class DecadeService {
 
     public Long delete(Long id) {
         try {
-            decadeRepository.deleteById(id);
+            decadeGrowthRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

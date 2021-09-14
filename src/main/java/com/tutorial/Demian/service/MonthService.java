@@ -9,7 +9,7 @@ import com.tutorial.Demian.dto.MonthGrowthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.MonthRepository;
+import com.tutorial.Demian.repository.MonthGrowthRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 
@@ -21,7 +21,7 @@ public class MonthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private MonthRepository monthRepository;
+    private MonthGrowthRepository monthGrowthRepository;
 
     public MonthGrowthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
         MonthGrowthController.Response response = new MonthGrowthController.Response();
@@ -70,11 +70,11 @@ public class MonthService {
     }
 
     public MonthGrowth getEntity(Long jobId) {
-        return monthRepository.findById(jobId).orElse(null);
+        return monthGrowthRepository.findById(jobId).orElse(null);
     }
 
     public MonthGrowth save(MonthGrowth monthGrowth) {
-        return monthRepository.save(monthGrowth);
+        return monthGrowthRepository.save(monthGrowth);
     }
 
     public JobDTO save(JobDTO jobDTO) {
@@ -86,14 +86,14 @@ public class MonthService {
         }
 
         MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-        MonthGrowth entity = monthRepository.save(newMonthGrowth);
+        MonthGrowth entity = monthGrowthRepository.save(newMonthGrowth);
         jobDTO.setId(entity.getId());
 
         return jobDTO;
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<MonthGrowth> maybeEntity = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeEntity = monthGrowthRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
@@ -112,12 +112,12 @@ public class MonthService {
         entity.setFromTime(dto.getFromTime());
         entity.setToTime(dto.getToTime());
 
-        return monthRepository.save(entity);
+        return monthGrowthRepository.save(entity);
     }
 
     public JobDTO get(Long id) {
 
-        Optional<MonthGrowth> maybeMonthJob = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeMonthJob = monthGrowthRepository.findById(id);
 
         if (!maybeMonthJob.isPresent()) {
             return new JobDTO();
@@ -139,7 +139,7 @@ public class MonthService {
 
     public Long delete(Long id) {
         try {
-            monthRepository.deleteById(id);
+            monthGrowthRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }
