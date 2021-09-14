@@ -15,7 +15,7 @@ import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 
 @Service
-public class YearService {
+public class YearGrowthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired

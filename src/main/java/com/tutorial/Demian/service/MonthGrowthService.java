@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MonthService {
+public class MonthGrowthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired

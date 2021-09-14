@@ -20,7 +20,7 @@ import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearGrowth;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.UserService;
-import com.tutorial.Demian.service.YearService;
+import com.tutorial.Demian.service.YearGrowthService;
 import com.tutorial.Demian.validator.YearValidator;
 
 import lombok.Data;
@@ -35,7 +35,7 @@ public class YearGrowthController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private YearService yearService;
+    private YearGrowthService yearGrowthService;
     @Autowired
     private YearValidator yearValidator;
 
@@ -44,7 +44,7 @@ public class YearGrowthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearGrowthController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
+        YearGrowthController.Response response = yearGrowthService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
         model.addAttribute("response", response);
 
@@ -56,7 +56,7 @@ public class YearGrowthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearGrowthController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
+        YearGrowthController.Response response = yearGrowthService.getYearPageResp(user.getId(), desires, startYear);
 
         model.addAttribute("response", response);
 
@@ -88,7 +88,7 @@ public class YearGrowthController {
             return yearGrowthDTO;
         }
 
-        YearGrowth yearGrowth = yearService.findYear(jobId);
+        YearGrowth yearGrowth = yearGrowthService.findYear(jobId);
         return YearGrowthDTO.of(yearGrowth);
     }
 
@@ -118,7 +118,7 @@ public class YearGrowthController {
         YearGrowth entity = yearGrowthDTO.getEntity();
         entity.setDesire(desire);
 
-        yearService.save(entity);
+        yearGrowthService.save(entity);
 
         return entity;
     }

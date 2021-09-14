@@ -12,7 +12,7 @@ import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.service.MonthService;
+import com.tutorial.Demian.service.MonthGrowthService;
 import com.tutorial.Demian.service.UserService;
 import com.tutorial.Demian.validator.MonthValidator;
 
@@ -36,7 +36,7 @@ public class MonthGrowthController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private MonthService monthService;
+    private MonthGrowthService monthGrowthService;
     @Autowired
     private MonthValidator monthValidator;
 
@@ -45,7 +45,7 @@ public class MonthGrowthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthGrowthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
+        MonthGrowthController.Response response = monthGrowthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
 
         model.addAttribute("response", response);
 
@@ -58,7 +58,7 @@ public class MonthGrowthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthGrowthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
+        MonthGrowthController.Response response = monthGrowthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
 
         model.addAttribute("response", response);
 
@@ -90,7 +90,7 @@ public class MonthGrowthController {
             return monthGrowthDTO;
         }
 
-        MonthGrowth monthGrowth = monthService.getEntity(jobId);
+        MonthGrowth monthGrowth = monthGrowthService.getEntity(jobId);
 
         return MonthGrowthDTO.of(monthGrowth);
     }
@@ -121,7 +121,7 @@ public class MonthGrowthController {
         MonthGrowth entity = monthGrowthDTO.getEntity();
         entity.setDesire(desire);
 
-        monthService.save(entity);
+        monthGrowthService.save(entity);
 
         return entity;
     }

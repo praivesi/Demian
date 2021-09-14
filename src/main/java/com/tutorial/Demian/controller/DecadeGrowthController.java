@@ -18,7 +18,7 @@ import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.repository.DecadeGrowthRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.service.DecadeService;
+import com.tutorial.Demian.service.DecadeGrowthService;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.validator.DecadeValidator;
 
@@ -32,7 +32,7 @@ public class DecadeGrowthController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private DecadeService decadeService;
+    private DecadeGrowthService decadeGrowthService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -47,7 +47,7 @@ public class DecadeGrowthController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
+        Response response = decadeGrowthService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
 
         model.addAttribute("response", response);
 
@@ -59,7 +59,7 @@ public class DecadeGrowthController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeService.getDecadePageResp(user.getId(), desires, startDecade);
+        Response response = decadeGrowthService.getDecadePageResp(user.getId(), desires, startDecade);
 
         model.addAttribute("response", response);
 
