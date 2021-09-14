@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.MonthGrowthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
@@ -74,51 +74,51 @@ public class MonthController {
             return "redirect:/months/page";
         }
 
-        MonthDTO monthDTO = this.getMonthDTO(desireId, jobId);
+        MonthGrowthDTO monthGrowthDTO = this.getMonthDTO(desireId, jobId);
 
-        model.addAttribute("monthDTO", monthDTO);
+        model.addAttribute("monthDTO", monthGrowthDTO);
         model.addAttribute("desire", mayDesire.get());
 
         return "schedule/month_form";
     }
 
-    private MonthDTO getMonthDTO(Long desireId, Long jobId) {
+    private MonthGrowthDTO getMonthDTO(Long desireId, Long jobId) {
         if (jobId == null) {
-            MonthDTO monthDTO = new MonthDTO();
-            monthDTO.setDesireId(desireId);
+            MonthGrowthDTO monthGrowthDTO = new MonthGrowthDTO();
+            monthGrowthDTO.setDesireId(desireId);
 
-            return monthDTO;
+            return monthGrowthDTO;
         }
 
         MonthGrowth monthGrowth = monthService.getEntity(jobId);
 
-        return MonthDTO.of(monthGrowth);
+        return MonthGrowthDTO.of(monthGrowth);
     }
 
     @PostMapping("/form")
-    public String postJobForm(Model model, @Valid MonthDTO monthDTO, BindingResult bindingResult,
+    public String postJobForm(Model model, @Valid MonthGrowthDTO monthGrowthDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<Desire> mayDesire = desireService.getEntity(monthDTO.getDesireId());
+        Optional<Desire> mayDesire = desireService.getEntity(monthGrowthDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/months/page";
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("monthDTO", monthDTO);
+        model.addAttribute("monthDTO", monthGrowthDTO);
 
-        monthValidator.validate(monthDTO, bindingResult);
+        monthValidator.validate(monthGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/month_form";
         }
 
-        this.saveMonthDTO(mayDesire.get(), monthDTO);
+        this.saveMonthDTO(mayDesire.get(), monthGrowthDTO);
 
         return "redirect:/months/page";
     }
 
-    private MonthGrowth saveMonthDTO(Desire desire, MonthDTO monthDTO) {
-        MonthGrowth entity = monthDTO.getEntity();
+    private MonthGrowth saveMonthDTO(Desire desire, MonthGrowthDTO monthGrowthDTO) {
+        MonthGrowth entity = monthGrowthDTO.getEntity();
         entity.setDesire(desire);
 
         monthService.save(entity);
@@ -142,7 +142,7 @@ public class MonthController {
     @Data
     public static class DesireWithMonth {
         private DesireDTO desire;
-        private List<MonthDTO> months;
+        private List<MonthGrowthDTO> months;
 
         public DesireWithMonth() {
             this.desire = null;

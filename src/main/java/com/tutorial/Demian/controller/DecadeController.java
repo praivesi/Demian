@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
@@ -75,7 +75,7 @@ public class DecadeController {
             return "redirect:/decades/page";
         }
 
-        DecadeDTO decadeDTO = this.getDecadeEntity(desireId, jobId);
+        DecadeGrowthDTO decadeDTO = this.getDecadeEntity(desireId, jobId);
 
         model.addAttribute("desireDTO", mayDesire.get());
         model.addAttribute("decadeDTO", decadeDTO);
@@ -83,20 +83,20 @@ public class DecadeController {
         return "schedule/decade_form";
     }
 
-    private DecadeDTO getDecadeEntity(Long desireId, Long jobId) {
+    private DecadeGrowthDTO getDecadeEntity(Long desireId, Long jobId) {
         if (jobId == null) {
-            DecadeDTO dto = new DecadeDTO();
+            DecadeGrowthDTO dto = new DecadeGrowthDTO();
             dto.setDesireId(desireId);
 
             return dto;
         }
 
         DecadeGrowth decadeGrowth = decadeRepository.findById(jobId).orElse(null);
-        return DecadeDTO.of(decadeGrowth);
+        return DecadeGrowthDTO.of(decadeGrowth);
     }
 
     @PostMapping("/form")
-    public String postDecadeJobForm(Model model, @Valid DecadeDTO decadeDTO, BindingResult bindingResult,
+    public String postDecadeJobForm(Model model, @Valid DecadeGrowthDTO decadeDTO, BindingResult bindingResult,
                                     Authentication authentication) {
         Optional<Desire> mayDesire = desireRepository.findById(decadeDTO.getDesireId());
         if (!mayDesire.isPresent()) {
@@ -117,7 +117,7 @@ public class DecadeController {
         return "redirect:/decades/page";
     }
 
-    private boolean postDecadeJobFormInternal(DecadeDTO decadeDTO, Desire desire) {
+    private boolean postDecadeJobFormInternal(DecadeGrowthDTO decadeDTO, Desire desire) {
         try {
             DecadeGrowth decadeGrowth = decadeDTO.getEntity();
             decadeGrowth.setDesire(desire);
@@ -147,7 +147,7 @@ public class DecadeController {
     @Data
     public static class DesireWithDecade {
         private DesireDTO desire;
-        private List<DecadeDTO> decades;
+        private List<DecadeGrowthDTO> decades;
 
         public DesireWithDecade() {
             this.desire = null;

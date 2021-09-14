@@ -2,16 +2,16 @@ package com.tutorial.Demian.service.Utility;
 
 import java.util.*;
 
-import com.tutorial.Demian.dto.DecadeDTO;
-import com.tutorial.Demian.dto.MonthDTO;
-import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.dto.DecadeGrowthDTO;
+import com.tutorial.Demian.dto.MonthGrowthDTO;
+import com.tutorial.Demian.dto.YearGrowthDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.YearGrowth;
 
 public class JobFilter {
-    public static List<DecadeDTO> decadeFilter(List<DecadeGrowth> entireDecadeGrowths, Date startDate, int decadeCount) {
-        List<DecadeDTO> pickedDecades = new ArrayList<>();
+    public static List<DecadeGrowthDTO> decadeFilter(List<DecadeGrowth> entireDecadeGrowths, Date startDate, int decadeCount) {
+        List<DecadeGrowthDTO> pickedDecades = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -44,9 +44,9 @@ public class JobFilter {
             }
 
             if (matchedJob == null) {
-                pickedDecades.add(new DecadeDTO());
+                pickedDecades.add(new DecadeGrowthDTO());
             } else {
-                pickedDecades.add(DecadeDTO.of(matchedJob));
+                pickedDecades.add(DecadeGrowthDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);
@@ -55,8 +55,8 @@ public class JobFilter {
         return pickedDecades;
     }
 
-    public static List<YearDTO> yearFilter(List<YearGrowth> entireYearGrowths, Date startDate, int yearCount) {
-        List<YearDTO> pickedYears = new ArrayList<>();
+    public static List<YearGrowthDTO> yearFilter(List<YearGrowth> entireYearGrowths, Date startDate, int yearCount) {
+        List<YearGrowthDTO> pickedYears = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -87,9 +87,9 @@ public class JobFilter {
             }
 
             if (matchedJob == null) {
-                pickedYears.add(new YearDTO());
+                pickedYears.add(new YearGrowthDTO());
             } else {
-                pickedYears.add(com.tutorial.Demian.dto.YearDTO.of(matchedJob));
+                pickedYears.add(YearGrowthDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);
@@ -98,8 +98,8 @@ public class JobFilter {
         return pickedYears;
     }
 
-    public static List<MonthDTO> monthFilter(List<MonthGrowth> entireMonthGrowths, Date startDate, int monthCount) {
-        List<MonthDTO> pickedMonths = new ArrayList<>();
+    public static List<MonthGrowthDTO> monthFilter(List<MonthGrowth> entireMonthGrowths, Date startDate, int monthCount) {
+        List<MonthGrowthDTO> pickedMonths = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -123,9 +123,9 @@ public class JobFilter {
             }
 
             if (matchedJob == null) {
-                pickedMonths.add(new MonthDTO());
+                pickedMonths.add(new MonthGrowthDTO());
             } else {
-                pickedMonths.add(MonthDTO.of(matchedJob));
+                pickedMonths.add(MonthGrowthDTO.of(matchedJob));
             }
 
             cal.add(Calendar.SECOND, 1);

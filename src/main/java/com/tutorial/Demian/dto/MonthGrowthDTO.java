@@ -10,7 +10,7 @@ import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 import static com.tutorial.Demian.model.MonthGrowth.MONTH_JOB_DEFAULT_ID;
 
 @Data
-public class MonthDTO {
+public class MonthGrowthDTO {
     private Long id;
     private Long desireId;
     private String title;
@@ -20,7 +20,7 @@ public class MonthDTO {
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date toTime;
 
-    public MonthDTO(){
+    public MonthGrowthDTO(){
         this.id = MONTH_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
@@ -41,8 +41,8 @@ public class MonthDTO {
         return entity;
     }
 
-    public static MonthDTO of(MonthGrowth monthGrowth) {
-        MonthDTO dto = new MonthDTO();
+    public static MonthGrowthDTO of(MonthGrowth monthGrowth) {
+        MonthGrowthDTO dto = new MonthGrowthDTO();
 
         dto.id = monthGrowth.getId();
         dto.desireId = monthGrowth.getDesire().getId();

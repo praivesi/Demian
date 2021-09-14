@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.dto.YearGrowthDTO;
 import com.tutorial.Demian.model.YearGrowth;
 
 @Component
@@ -17,7 +17,7 @@ public class YearValidator implements Validator {
 
     @Override
     public void validate(Object obj, Errors errors) {
-        YearDTO dto = (YearDTO) obj;
+        YearGrowthDTO dto = (YearGrowthDTO) obj;
 
         if (!StringUtils.hasText(dto.getTitle())) {
             errors.rejectValue("title", "key", "제목을 입력하세요");

@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 
 @Component
@@ -17,7 +17,7 @@ public class DecadeValidator implements Validator {
 
     @Override
     public void validate(Object obj, Errors errors) {
-        DecadeDTO dto = (DecadeDTO) obj;
+        DecadeGrowthDTO dto = (DecadeGrowthDTO) obj;
 
         if (!StringUtils.hasText(dto.getTitle())) {
             errors.rejectValue("title", "key", "제목을 입력하세요");

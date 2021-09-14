@@ -2,22 +2,19 @@ package com.tutorial.Demian.dto;
 
 import com.tutorial.Demian.model.YearGrowth;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 import static com.tutorial.Demian.model.YearGrowth.YEAR_JOB_DEFAULT_ID;
 
 @Data
-public class YearDTO {
+public class YearGrowthDTO {
     private Long id;
     private Long desireId;
     private String title;
     private String content;
     private int yearNumber;
 
-    public YearDTO(){
+    public YearGrowthDTO(){
         this.id = YEAR_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
@@ -36,8 +33,8 @@ public class YearDTO {
         return entity;
     }
 
-    public static YearDTO of(YearGrowth yearGrowth){
-        YearDTO dto = new YearDTO();
+    public static YearGrowthDTO of(YearGrowth yearGrowth){
+        YearGrowthDTO dto = new YearGrowthDTO();
 
         dto.id = yearGrowth.getId();
         dto.desireId = yearGrowth.getDesire().getId();

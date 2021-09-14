@@ -14,7 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.tutorial.Demian.dto.DesireDTO;
-import com.tutorial.Demian.dto.YearDTO;
+import com.tutorial.Demian.dto.YearGrowthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearGrowth;
@@ -72,50 +72,50 @@ public class YearController {
             return "redirect:/years/page";
         }
 
-        YearDTO yearDTO = this.getYearDTO(desireId, jobId);
+        YearGrowthDTO yearGrowthDTO = this.getYearDTO(desireId, jobId);
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("yearDTO", yearDTO);
+        model.addAttribute("yearDTO", yearGrowthDTO);
 
         return "schedule/year_form";
     }
 
-    private YearDTO getYearDTO(Long desireId, Long jobId) {
+    private YearGrowthDTO getYearDTO(Long desireId, Long jobId) {
         if (jobId == null) {
-            YearDTO yearDTO = new YearDTO();
-            yearDTO.setDesireId(desireId);
+            YearGrowthDTO yearGrowthDTO = new YearGrowthDTO();
+            yearGrowthDTO.setDesireId(desireId);
 
-            return yearDTO;
+            return yearGrowthDTO;
         }
 
         YearGrowth yearGrowth = yearService.findYear(jobId);
-        return com.tutorial.Demian.dto.YearDTO.of(yearGrowth);
+        return YearGrowthDTO.of(yearGrowth);
     }
 
     @PostMapping("/form")
-    public String postJobForm(Model model, @Valid YearDTO yearDTO, BindingResult bindingResult,
+    public String postJobForm(Model model, @Valid YearGrowthDTO yearGrowthDTO, BindingResult bindingResult,
                               Authentication authentication) {
-        Optional<Desire> mayDesire = desireService.getEntity(yearDTO.getDesireId());
+        Optional<Desire> mayDesire = desireService.getEntity(yearGrowthDTO.getDesireId());
         if (!mayDesire.isPresent()) {
             // TODO: DO more reasonable exception handling
             return "redirect:/years/page";
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("yearDTO", yearDTO);
+        model.addAttribute("yearDTO", yearGrowthDTO);
 
-        yearValidator.validate(yearDTO, bindingResult);
+        yearValidator.validate(yearGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "schedule/year_form";
         }
 
-        this.saveYearDTO(mayDesire.get(), yearDTO);
+        this.saveYearDTO(mayDesire.get(), yearGrowthDTO);
 
         return "redirect:/years/page";
     }
 
-    private YearGrowth saveYearDTO(Desire desire, YearDTO yearDTO) {
-        YearGrowth entity = yearDTO.getEntity();
+    private YearGrowth saveYearDTO(Desire desire, YearGrowthDTO yearGrowthDTO) {
+        YearGrowth entity = yearGrowthDTO.getEntity();
         entity.setDesire(desire);
 
         yearService.save(entity);
@@ -139,7 +139,7 @@ public class YearController {
     @Data
     public static class DesireWithYear {
         private DesireDTO desire;
-        private List<YearDTO> years;
+        private List<YearGrowthDTO> years;
 
         public DesireWithYear() {
             this.desire = null;
