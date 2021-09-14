@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tutorial.Demian.model.DecadeGrowth;
 
-public interface DecadeRepository extends JpaRepository<DecadeGrowth, Long> {
+public interface DecadeGrowthRepository extends JpaRepository<DecadeGrowth, Long> {
     @EntityGraph(attributePaths = {"yearJobs"})
     List<DecadeGrowth> findAll();
 }

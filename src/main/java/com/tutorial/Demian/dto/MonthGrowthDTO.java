@@ -15,18 +15,16 @@ public class MonthGrowthDTO {
     private Long desireId;
     private String title;
     private String content;
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date fromTime;
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date toTime;
+    private int yearNumber;
+    private int monthNumber;
 
     public MonthGrowthDTO(){
         this.id = MONTH_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.yearNumber = 0;
+        this.monthNumber = 0;
     }
 
     public MonthGrowth getEntity(){
@@ -35,8 +33,8 @@ public class MonthGrowthDTO {
         entity.setId(this.id);
         entity.setTitle(this.title);
         entity.setContent(this.content);
-        entity.setFromTime(this.fromTime);
-        entity.setToTime(this.toTime);
+        entity.setYearNumber(this.yearNumber);
+        entity.setMonthNumber(this.monthNumber);
 
         return entity;
     }
@@ -48,8 +46,8 @@ public class MonthGrowthDTO {
         dto.desireId = monthGrowth.getDesire().getId();
         dto.title = monthGrowth.getTitle();
         dto.content = monthGrowth.getContent();
-        dto.fromTime = monthGrowth.getFromTime();
-        dto.toTime = monthGrowth.getToTime();
+        dto.yearNumber = monthGrowth.getYearNumber();
+        dto.monthNumber = monthGrowth.getMonthNumber();
 
         return dto;
     }

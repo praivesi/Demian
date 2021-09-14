@@ -9,7 +9,7 @@ import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 
 @Component
-public class DecadeValidator implements Validator {
+public class DecadeGrowthValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return DecadeGrowth.class.equals(clazz);

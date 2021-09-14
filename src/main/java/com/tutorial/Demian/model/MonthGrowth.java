@@ -20,8 +20,10 @@ public class MonthGrowth {
     private String title;
 
     private String content;
-    private Date fromTime;
-    private Date toTime;
+
+    private int yearNumber;
+
+    private  int monthNumber; // 0 (January) ~ 11 (December)
 
     @ManyToOne
     @JoinColumn(name = "desire_id")
@@ -32,16 +34,16 @@ public class MonthGrowth {
         this.id = MONTH_JOB_DEFAULT_ID;
         this.title = "";
         this.content = "";
-        this.fromTime = null;
-        this.toTime = null;
+        this.yearNumber = 0;
+        this.monthNumber = 0;
         this.desire = null;
     }
 
-    public MonthGrowth(String _title, String _content, Date _from, Date _to, Desire _desire) {
+    public MonthGrowth(String _title, String _content, int _yearNumber, int _monthNumber, Desire _desire) {
         this.title = _title;
         this.content = _content;
-        this.fromTime = _from;
-        this.toTime = _to;
+        this.yearNumber = _yearNumber;
+        this.monthNumber = _monthNumber;
         this.desire = _desire;
     }
 }

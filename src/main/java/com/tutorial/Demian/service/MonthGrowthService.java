@@ -2,14 +2,14 @@ package com.tutorial.Demian.service;
 
 import java.util.*;
 
-import com.tutorial.Demian.controller.MonthController;
+import com.tutorial.Demian.controller.MonthGrowthController;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.dto.MonthGrowthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
-import com.tutorial.Demian.repository.MonthRepository;
+import com.tutorial.Demian.repository.MonthGrowthRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 
@@ -17,19 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MonthService {
+public class MonthGrowthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private MonthRepository monthRepository;
+    private MonthGrowthRepository monthGrowthRepository;
 
-    public MonthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
-        MonthController.Response response = new MonthController.Response();
+    public MonthGrowthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
+        MonthGrowthController.Response response = new MonthGrowthController.Response();
 
         Calendar startCal = this.getStartCal(new GregorianCalendar(), startYear, startMonth);
         Date startDate = startCal.getTime();
 
-        List<MonthController.DesireWithMonth> desireWithMonths = this.getDesireWithMonths(startCal.getTime(), desires);
+        List<MonthGrowthController.DesireWithMonth> desireWithMonths = this.getDesireWithMonths(startCal.getTime(), desires);
         response.setDesireWithMonths(desireWithMonths);
 
         List<String> timeHeaders = TimeHeaderCalculator.getMonthTimeHeaders(startCal, 6);
@@ -41,7 +41,7 @@ public class MonthService {
     }
 
     private Calendar getStartCal(Calendar startCal, int startYear, int startMonth) {
-        if (startYear == MonthController.UNDEFINED_YEAR || startMonth == MonthController.UNDEFINED_MONTH) {
+        if (startYear == MonthGrowthController.UNDEFINED_YEAR || startMonth == MonthGrowthController.UNDEFINED_MONTH) {
             startYear = startCal.get(Calendar.YEAR);
             startMonth = (startCal.get(Calendar.MONTH) - 2) % 12;
         }
@@ -52,11 +52,11 @@ public class MonthService {
         return startCal;
     }
 
-    private List<MonthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<Desire> desires) {
-        List<MonthController.DesireWithMonth> desireWithMonths = new ArrayList<>();
+    private List<MonthGrowthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<Desire> desires) {
+        List<MonthGrowthController.DesireWithMonth> desireWithMonths = new ArrayList<>();
 
         for (Desire desire : desires) {
-            MonthController.DesireWithMonth desireWithMonth = new MonthController.DesireWithMonth();
+            MonthGrowthController.DesireWithMonth desireWithMonth = new MonthGrowthController.DesireWithMonth();
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
 
@@ -70,11 +70,11 @@ public class MonthService {
     }
 
     public MonthGrowth getEntity(Long jobId) {
-        return monthRepository.findById(jobId).orElse(null);
+        return monthGrowthRepository.findById(jobId).orElse(null);
     }
 
     public MonthGrowth save(MonthGrowth monthGrowth) {
-        return monthRepository.save(monthGrowth);
+        return monthGrowthRepository.save(monthGrowth);
     }
 
     public JobDTO save(JobDTO jobDTO) {
@@ -85,15 +85,16 @@ public class MonthService {
             return new JobDTO();
         }
 
-        MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
-        MonthGrowth entity = monthRepository.save(newMonthGrowth);
+        MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(),
+                jobDTO.getYearNumber(), jobDTO.getMonthNumber(), maybeParentJob.get());
+        MonthGrowth entity = monthGrowthRepository.save(newMonthGrowth);
         jobDTO.setId(entity.getId());
 
         return jobDTO;
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<MonthGrowth> maybeEntity = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeEntity = monthGrowthRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
@@ -109,15 +110,15 @@ public class MonthService {
     private MonthGrowth updateInternal(MonthGrowth entity, JobDTO dto) {
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setFromTime(dto.getFromTime());
-        entity.setToTime(dto.getToTime());
+        entity.setYearNumber(dto.getYearNumber());
+        entity.setMonthNumber(dto.getMonthNumber());
 
-        return monthRepository.save(entity);
+        return monthGrowthRepository.save(entity);
     }
 
     public JobDTO get(Long id) {
 
-        Optional<MonthGrowth> maybeMonthJob = monthRepository.findById(id);
+        Optional<MonthGrowth> maybeMonthJob = monthGrowthRepository.findById(id);
 
         if (!maybeMonthJob.isPresent()) {
             return new JobDTO();
@@ -130,8 +131,8 @@ public class MonthService {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
-        dto.setFromTime(entity.getFromTime());
-        dto.setToTime(entity.getToTime());
+        dto.setYearNumber(entity.getYearNumber());
+        dto.setMonthNumber(entity.getMonthNumber());
         dto.setParentId(entity.getDesire().getId());
 
         return dto;
@@ -139,7 +140,7 @@ public class MonthService {
 
     public Long delete(Long id) {
         try {
-            monthRepository.deleteById(id);
+            monthGrowthRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

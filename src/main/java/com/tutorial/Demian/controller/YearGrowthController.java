@@ -20,14 +20,14 @@ import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.model.YearGrowth;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.UserService;
-import com.tutorial.Demian.service.YearService;
-import com.tutorial.Demian.validator.YearValidator;
+import com.tutorial.Demian.service.YearGrowthService;
+import com.tutorial.Demian.validator.YearGrowthValidator;
 
 import lombok.Data;
 
 @Controller
 @RequestMapping("/years")
-public class YearController {
+public class YearGrowthController {
     public final static int UNDEFINED_YEAR = -1;
 
     @Autowired
@@ -35,16 +35,16 @@ public class YearController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private YearService yearService;
+    private YearGrowthService yearGrowthService;
     @Autowired
-    private YearValidator yearValidator;
+    private YearGrowthValidator yearGrowthValidator;
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
+        YearGrowthController.Response response = yearGrowthService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
         model.addAttribute("response", response);
 
@@ -56,7 +56,7 @@ public class YearController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
+        YearGrowthController.Response response = yearGrowthService.getYearPageResp(user.getId(), desires, startYear);
 
         model.addAttribute("response", response);
 
@@ -88,7 +88,7 @@ public class YearController {
             return yearGrowthDTO;
         }
 
-        YearGrowth yearGrowth = yearService.findYear(jobId);
+        YearGrowth yearGrowth = yearGrowthService.findYear(jobId);
         return YearGrowthDTO.of(yearGrowth);
     }
 
@@ -104,7 +104,7 @@ public class YearController {
         model.addAttribute("desire", mayDesire.get());
         model.addAttribute("yearDTO", yearGrowthDTO);
 
-        yearValidator.validate(yearGrowthDTO, bindingResult);
+        yearGrowthValidator.validate(yearGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "schedule/year_form";
         }
@@ -118,14 +118,14 @@ public class YearController {
         YearGrowth entity = yearGrowthDTO.getEntity();
         entity.setDesire(desire);
 
-        yearService.save(entity);
+        yearGrowthService.save(entity);
 
         return entity;
     }
 
     @Data
     public static class Response {
-        private List<YearController.DesireWithYear> desireWithYears;
+        private List<YearGrowthController.DesireWithYear> desireWithYears;
         private List<String> timeHeaders;
         private Date startDate;
 

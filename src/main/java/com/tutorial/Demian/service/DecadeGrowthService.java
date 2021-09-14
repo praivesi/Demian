@@ -9,31 +9,31 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tutorial.Demian.controller.DecadeController;
+import com.tutorial.Demian.controller.DecadeGrowthController;
 import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
-import com.tutorial.Demian.repository.DecadeRepository;
+import com.tutorial.Demian.repository.DecadeGrowthRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.service.Utility.JobFilter;
 import com.tutorial.Demian.service.Utility.TimeHeaderCalculator;
 
 @Service
-public class DecadeService {
+public class DecadeGrowthService {
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private DecadeRepository decadeRepository;
+    private DecadeGrowthRepository decadeGrowthRepository;
 
-    public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
-        DecadeController.Response response = new DecadeController.Response();
+    public DecadeGrowthController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
+        DecadeGrowthController.Response response = new DecadeGrowthController.Response();
 
         Calendar startCal = this.getStartCalendar(startDecade);
 
         for (Desire desire : desires) {
-            DecadeController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
+            DecadeGrowthController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
 
             response.getDesireWithDecades().add(desireWithDecade);
         }
@@ -48,7 +48,7 @@ public class DecadeService {
 
     private Calendar getStartCalendar(int startDecade) {
         Calendar startCal = new GregorianCalendar();
-        if (startDecade == DecadeController.UNDEFINED_DECADE) {
+        if (startDecade == DecadeGrowthController.UNDEFINED_DECADE) {
             startDecade = startCal.get(Calendar.YEAR) - 20;
         }
 
@@ -57,8 +57,8 @@ public class DecadeService {
         return startCal;
     }
 
-    private DecadeController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
-        DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
+    private DecadeGrowthController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
+        DecadeGrowthController.DesireWithDecade desireWithDecade = new DecadeGrowthController.DesireWithDecade();
 
         desireWithDecade.setDesire(DesireDTO.of(desire));
 
@@ -75,7 +75,7 @@ public class DecadeService {
         if (maybeDesire.isPresent()) {
             DecadeGrowth newDecadeGrowth = new DecadeGrowth(jobDTO.getTitle(), jobDTO.getContent(),
                     jobDTO.getDecadeNumber(), maybeDesire.get());
-            DecadeGrowth entity = decadeRepository.save(newDecadeGrowth);
+            DecadeGrowth entity = decadeGrowthRepository.save(newDecadeGrowth);
             jobDTO.setId(entity.getId());
         } else {
             jobDTO = new JobDTO();
@@ -85,14 +85,14 @@ public class DecadeService {
     }
 
     public JobDTO update(JobDTO dto, Long id) {
-        Optional<DecadeGrowth> maybeEntity = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeEntity = decadeGrowthRepository.findById(id);
 
         if (!maybeEntity.isPresent()) {
             return new JobDTO();
         }
 
         DecadeGrowth updatedEntity = this.getUpdatedEntity(maybeEntity.get(), dto);
-        decadeRepository.save(updatedEntity);
+        decadeGrowthRepository.save(updatedEntity);
 
         dto.setId(id);
 
@@ -107,7 +107,7 @@ public class DecadeService {
     }
 
     public JobDTO get(Long id) {
-        Optional<DecadeGrowth> maybeDecadeJob = decadeRepository.findById(id);
+        Optional<DecadeGrowth> maybeDecadeJob = decadeGrowthRepository.findById(id);
 
         if (maybeDecadeJob.isPresent()) {
            return this.get(maybeDecadeJob.get());
@@ -131,7 +131,7 @@ public class DecadeService {
 
     public Long delete(Long id) {
         try {
-            decadeRepository.deleteById(id);
+            decadeGrowthRepository.deleteById(id);
         } catch (Exception e) {
             id = -1l;
         }

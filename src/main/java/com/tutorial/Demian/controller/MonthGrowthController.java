@@ -12,9 +12,9 @@ import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.service.MonthService;
+import com.tutorial.Demian.service.MonthGrowthService;
 import com.tutorial.Demian.service.UserService;
-import com.tutorial.Demian.validator.MonthValidator;
+import com.tutorial.Demian.validator.MonthGrowthValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,7 @@ import lombok.Data;
 
 @Controller
 @RequestMapping("/months")
-public class MonthController {
+public class MonthGrowthController {
     public final static int UNDEFINED_YEAR = -1;
     public final static int UNDEFINED_MONTH = -1;
 
@@ -36,16 +36,16 @@ public class MonthController {
     @Autowired
     private DesireService desireService;
     @Autowired
-    private MonthService monthService;
+    private MonthGrowthService monthGrowthService;
     @Autowired
-    private MonthValidator monthValidator;
+    private MonthGrowthValidator monthGrowthValidator;
 
     @GetMapping("/page")
     public String month(Model model, Authentication authentication) {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
+        MonthGrowthController.Response response = monthGrowthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
 
         model.addAttribute("response", response);
 
@@ -58,7 +58,7 @@ public class MonthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
+        MonthGrowthController.Response response = monthGrowthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
 
         model.addAttribute("response", response);
 
@@ -76,7 +76,7 @@ public class MonthController {
 
         MonthGrowthDTO monthGrowthDTO = this.getMonthDTO(desireId, jobId);
 
-        model.addAttribute("monthDTO", monthGrowthDTO);
+        model.addAttribute("monthGrowthDTO", monthGrowthDTO);
         model.addAttribute("desire", mayDesire.get());
 
         return "schedule/month_form";
@@ -90,7 +90,7 @@ public class MonthController {
             return monthGrowthDTO;
         }
 
-        MonthGrowth monthGrowth = monthService.getEntity(jobId);
+        MonthGrowth monthGrowth = monthGrowthService.getEntity(jobId);
 
         return MonthGrowthDTO.of(monthGrowth);
     }
@@ -105,9 +105,9 @@ public class MonthController {
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("monthDTO", monthGrowthDTO);
+        model.addAttribute("monthGrowthDTO", monthGrowthDTO);
 
-        monthValidator.validate(monthGrowthDTO, bindingResult);
+        monthGrowthValidator.validate(monthGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/month_form";
         }
@@ -121,14 +121,14 @@ public class MonthController {
         MonthGrowth entity = monthGrowthDTO.getEntity();
         entity.setDesire(desire);
 
-        monthService.save(entity);
+        monthGrowthService.save(entity);
 
         return entity;
     }
 
     @Data
     public static class Response {
-        private List<MonthController.DesireWithMonth> desireWithMonths;
+        private List<MonthGrowthController.DesireWithMonth> desireWithMonths;
         private List<String> timeHeaders;
         private Date startDate;
 

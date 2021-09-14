@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import com.tutorial.Demian.dto.MonthGrowthDTO;
 
 @Component
-public class MonthValidator implements Validator {
+public class MonthGrowthValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return MonthGrowth.class.equals(clazz);
@@ -27,13 +27,14 @@ public class MonthValidator implements Validator {
             errors.rejectValue("content", "key", "내용을 입력하세요");
         }
 
-        if (dto.getFromTime() == null) {
-            errors.rejectValue("fromTime", "key", "시작 시간을 지정해야 합니다.");
-        } else if (dto.getToTime() == null) {
-            errors.rejectValue("toTime", "key", "마감 시간을 지정해야 합니다.");
-        } else if (dto.getToTime().compareTo(dto.getFromTime()) < 0) {
-            errors.rejectValue("fromTime", "key", "마감 시간이 시작 시간보다 빠릅니다.");
-            errors.rejectValue("toTime", "key", "마감 시간이 시작 시간보다 빠릅니다.");
+        if (dto.getYearNumber() == 0) {
+            errors.rejectValue("yearNumber", "key", "해당 년도를 지정해야 합니다.");
         }
+
+        if (dto.getMonthNumber() == 0) {
+            errors.rejectValue("monthNumber", "key", "해당 월 을 지정해야 합니다.");
+        }
+
+        dto.setMonthNumber(dto.getMonthNumber() - 1);
     }
 }

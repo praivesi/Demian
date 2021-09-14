@@ -15,39 +15,39 @@ import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.User;
-import com.tutorial.Demian.repository.DecadeRepository;
+import com.tutorial.Demian.repository.DecadeGrowthRepository;
 import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
-import com.tutorial.Demian.service.DecadeService;
+import com.tutorial.Demian.service.DecadeGrowthService;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.validator.DecadeValidator;
+import com.tutorial.Demian.validator.DecadeGrowthValidator;
 
 import lombok.Data;
 
 @Controller
 @RequestMapping("/decades")
-public class DecadeController {
+public class DecadeGrowthController {
     public final static int UNDEFINED_DECADE = -1;
 
     @Autowired
     private DesireService desireService;
     @Autowired
-    private DecadeService decadeService;
+    private DecadeGrowthService decadeGrowthService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private DesireRepository desireRepository;
     @Autowired
-    private DecadeRepository decadeRepository;
+    private DecadeGrowthRepository decadeGrowthRepository;
     @Autowired
-    private DecadeValidator decadeValidator;
+    private DecadeGrowthValidator decadeGrowthValidator;
 
     @GetMapping("/page")
     public String decade(Model model, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
+        Response response = decadeGrowthService.getDecadePageResp(user.getId(), desires, UNDEFINED_DECADE);
 
         model.addAttribute("response", response);
 
@@ -59,7 +59,7 @@ public class DecadeController {
         User user = userRepository.findByUsername(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        Response response = decadeService.getDecadePageResp(user.getId(), desires, startDecade);
+        Response response = decadeGrowthService.getDecadePageResp(user.getId(), desires, startDecade);
 
         model.addAttribute("response", response);
 
@@ -91,7 +91,7 @@ public class DecadeController {
             return dto;
         }
 
-        DecadeGrowth decadeGrowth = decadeRepository.findById(jobId).orElse(null);
+        DecadeGrowth decadeGrowth = decadeGrowthRepository.findById(jobId).orElse(null);
         return DecadeGrowthDTO.of(decadeGrowth);
     }
 
@@ -107,7 +107,7 @@ public class DecadeController {
         model.addAttribute("desireDTO", mayDesire.get());
         model.addAttribute("decadeDTO", decadeDTO);
 
-        decadeValidator.validate(decadeDTO, bindingResult);
+        decadeGrowthValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "schedule/decade_form";
         }
@@ -122,7 +122,7 @@ public class DecadeController {
             DecadeGrowth decadeGrowth = decadeDTO.getEntity();
             decadeGrowth.setDesire(desire);
 
-            decadeRepository.save(decadeGrowth);
+            decadeGrowthRepository.save(decadeGrowth);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
