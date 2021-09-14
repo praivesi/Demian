@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import com.tutorial.Demian.dto.MonthGrowthDTO;
 
 @Component
-public class MonthValidator implements Validator {
+public class MonthGrowthValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return MonthGrowth.class.equals(clazz);

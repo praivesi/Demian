@@ -20,7 +20,7 @@ import com.tutorial.Demian.repository.DesireRepository;
 import com.tutorial.Demian.repository.UserRepository;
 import com.tutorial.Demian.service.DecadeGrowthService;
 import com.tutorial.Demian.service.DesireService;
-import com.tutorial.Demian.validator.DecadeValidator;
+import com.tutorial.Demian.validator.DecadeGrowthValidator;
 
 import lombok.Data;
 
@@ -40,7 +40,7 @@ public class DecadeGrowthController {
     @Autowired
     private DecadeGrowthRepository decadeGrowthRepository;
     @Autowired
-    private DecadeValidator decadeValidator;
+    private DecadeGrowthValidator decadeGrowthValidator;
 
     @GetMapping("/page")
     public String decade(Model model, Authentication authentication) {
@@ -107,7 +107,7 @@ public class DecadeGrowthController {
         model.addAttribute("desireDTO", mayDesire.get());
         model.addAttribute("decadeDTO", decadeDTO);
 
-        decadeValidator.validate(decadeDTO, bindingResult);
+        decadeGrowthValidator.validate(decadeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "schedule/decade_form";
         }

@@ -14,7 +14,7 @@ import com.tutorial.Demian.model.User;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.MonthGrowthService;
 import com.tutorial.Demian.service.UserService;
-import com.tutorial.Demian.validator.MonthValidator;
+import com.tutorial.Demian.validator.MonthGrowthValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -38,7 +38,7 @@ public class MonthGrowthController {
     @Autowired
     private MonthGrowthService monthGrowthService;
     @Autowired
-    private MonthValidator monthValidator;
+    private MonthGrowthValidator monthGrowthValidator;
 
     @GetMapping("/page")
     public String month(Model model, Authentication authentication) {
@@ -107,7 +107,7 @@ public class MonthGrowthController {
         model.addAttribute("desire", mayDesire.get());
         model.addAttribute("monthDTO", monthGrowthDTO);
 
-        monthValidator.validate(monthGrowthDTO, bindingResult);
+        monthGrowthValidator.validate(monthGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/schedule/month_form";
         }

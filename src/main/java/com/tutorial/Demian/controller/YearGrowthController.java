@@ -21,7 +21,7 @@ import com.tutorial.Demian.model.YearGrowth;
 import com.tutorial.Demian.service.DesireService;
 import com.tutorial.Demian.service.UserService;
 import com.tutorial.Demian.service.YearGrowthService;
-import com.tutorial.Demian.validator.YearValidator;
+import com.tutorial.Demian.validator.YearGrowthValidator;
 
 import lombok.Data;
 
@@ -37,7 +37,7 @@ public class YearGrowthController {
     @Autowired
     private YearGrowthService yearGrowthService;
     @Autowired
-    private YearValidator yearValidator;
+    private YearGrowthValidator yearGrowthValidator;
 
     @GetMapping("/page")
     public String year(Model model, Authentication authentication) {
@@ -104,7 +104,7 @@ public class YearGrowthController {
         model.addAttribute("desire", mayDesire.get());
         model.addAttribute("yearDTO", yearGrowthDTO);
 
-        yearValidator.validate(yearGrowthDTO, bindingResult);
+        yearGrowthValidator.validate(yearGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "schedule/year_form";
         }
