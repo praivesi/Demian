@@ -27,7 +27,7 @@ import lombok.Data;
 
 @Controller
 @RequestMapping("/years")
-public class YearController {
+public class YearGrowthController {
     public final static int UNDEFINED_YEAR = -1;
 
     @Autowired
@@ -44,7 +44,7 @@ public class YearController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
+        YearGrowthController.Response response = yearService.getYearPageResp(user.getId(), desires, UNDEFINED_YEAR);
 
         model.addAttribute("response", response);
 
@@ -56,7 +56,7 @@ public class YearController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        YearController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
+        YearGrowthController.Response response = yearService.getYearPageResp(user.getId(), desires, startYear);
 
         model.addAttribute("response", response);
 
@@ -125,7 +125,7 @@ public class YearController {
 
     @Data
     public static class Response {
-        private List<YearController.DesireWithYear> desireWithYears;
+        private List<YearGrowthController.DesireWithYear> desireWithYears;
         private List<String> timeHeaders;
         private Date startDate;
 

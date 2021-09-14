@@ -27,7 +27,7 @@ import lombok.Data;
 
 @Controller
 @RequestMapping("/months")
-public class MonthController {
+public class MonthGrowthController {
     public final static int UNDEFINED_YEAR = -1;
     public final static int UNDEFINED_MONTH = -1;
 
@@ -45,7 +45,7 @@ public class MonthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
+        MonthGrowthController.Response response = monthService.getMonthPageResp(user.getId(), desires, UNDEFINED_YEAR, UNDEFINED_MONTH);
 
         model.addAttribute("response", response);
 
@@ -58,7 +58,7 @@ public class MonthController {
         User user = userService.get(authentication.getName());
 
         List<Desire> desires = desireService.getCurrentUserDesires(user.getId());
-        MonthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
+        MonthGrowthController.Response response = monthService.getMonthPageResp(user.getId(), desires, startYear, startMonth);
 
         model.addAttribute("response", response);
 
@@ -128,7 +128,7 @@ public class MonthController {
 
     @Data
     public static class Response {
-        private List<MonthController.DesireWithMonth> desireWithMonths;
+        private List<MonthGrowthController.DesireWithMonth> desireWithMonths;
         private List<String> timeHeaders;
         private Date startDate;
 

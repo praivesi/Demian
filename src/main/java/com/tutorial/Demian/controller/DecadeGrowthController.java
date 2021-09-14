@@ -26,7 +26,7 @@ import lombok.Data;
 
 @Controller
 @RequestMapping("/decades")
-public class DecadeController {
+public class DecadeGrowthController {
     public final static int UNDEFINED_DECADE = -1;
 
     @Autowired

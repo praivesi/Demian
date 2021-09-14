@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tutorial.Demian.controller.DecadeController;
+import com.tutorial.Demian.controller.DecadeGrowthController;
 import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
@@ -27,13 +27,13 @@ public class DecadeService {
     @Autowired
     private DecadeRepository decadeRepository;
 
-    public DecadeController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
-        DecadeController.Response response = new DecadeController.Response();
+    public DecadeGrowthController.Response getDecadePageResp(Long userId, List<Desire> desires, int startDecade) {
+        DecadeGrowthController.Response response = new DecadeGrowthController.Response();
 
         Calendar startCal = this.getStartCalendar(startDecade);
 
         for (Desire desire : desires) {
-            DecadeController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
+            DecadeGrowthController.DesireWithDecade desireWithDecade = this.getDesireWithDecade(desire, startCal.getTime());
 
             response.getDesireWithDecades().add(desireWithDecade);
         }
@@ -48,7 +48,7 @@ public class DecadeService {
 
     private Calendar getStartCalendar(int startDecade) {
         Calendar startCal = new GregorianCalendar();
-        if (startDecade == DecadeController.UNDEFINED_DECADE) {
+        if (startDecade == DecadeGrowthController.UNDEFINED_DECADE) {
             startDecade = startCal.get(Calendar.YEAR) - 20;
         }
 
@@ -57,8 +57,8 @@ public class DecadeService {
         return startCal;
     }
 
-    private DecadeController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
-        DecadeController.DesireWithDecade desireWithDecade = new DecadeController.DesireWithDecade();
+    private DecadeGrowthController.DesireWithDecade getDesireWithDecade(Desire desire, Date startDate) {
+        DecadeGrowthController.DesireWithDecade desireWithDecade = new DecadeGrowthController.DesireWithDecade();
 
         desireWithDecade.setDesire(DesireDTO.of(desire));
 

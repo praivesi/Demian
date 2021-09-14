@@ -5,7 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tutorial.Demian.controller.YearController;
+import com.tutorial.Demian.controller.YearGrowthController;
 import com.tutorial.Demian.dto.*;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.YearGrowth;
@@ -23,8 +23,8 @@ public class YearService {
     @Autowired
     private YearRepository yearRepository;
 
-    public YearController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
-        YearController.Response response = new YearController.Response();
+    public YearGrowthController.Response getYearPageResp(Long userId, List<Desire> desires, int startYear) {
+        YearGrowthController.Response response = new YearGrowthController.Response();
         Calendar startCal = this.getStartCal(startYear);
 
         response.setDesireWithYears(this.getDesireWithYears(startCal.getTime(), desires));
@@ -37,7 +37,7 @@ public class YearService {
     private Calendar getStartCal(int startYear) {
         Calendar startCal = new GregorianCalendar();
 
-        if (startYear == YearController.UNDEFINED_YEAR) {
+        if (startYear == YearGrowthController.UNDEFINED_YEAR) {
             startYear = startCal.get(Calendar.YEAR) - 2;
         }
 
@@ -46,11 +46,11 @@ public class YearService {
         return startCal;
     }
 
-    private List<YearController.DesireWithYear> getDesireWithYears(Date startDate, List<Desire> desires) {
-        List<YearController.DesireWithYear> desireWithYears = new ArrayList<>();
+    private List<YearGrowthController.DesireWithYear> getDesireWithYears(Date startDate, List<Desire> desires) {
+        List<YearGrowthController.DesireWithYear> desireWithYears = new ArrayList<>();
 
         for (Desire desire : desires) {
-            YearController.DesireWithYear desireWithYear = this.getDesireWithYear(desire, startDate);
+            YearGrowthController.DesireWithYear desireWithYear = this.getDesireWithYear(desire, startDate);
 
             desireWithYears.add(desireWithYear);
         }
@@ -58,8 +58,8 @@ public class YearService {
         return desireWithYears;
     }
 
-    private YearController.DesireWithYear getDesireWithYear(Desire desire, Date startDate) {
-        YearController.DesireWithYear desireWithYear = new YearController.DesireWithYear();
+    private YearGrowthController.DesireWithYear getDesireWithYear(Desire desire, Date startDate) {
+        YearGrowthController.DesireWithYear desireWithYear = new YearGrowthController.DesireWithYear();
 
         desireWithYear.setDesire(DesireDTO.of(desire));
 

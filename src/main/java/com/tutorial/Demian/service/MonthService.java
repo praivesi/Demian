@@ -2,7 +2,7 @@ package com.tutorial.Demian.service;
 
 import java.util.*;
 
-import com.tutorial.Demian.controller.MonthController;
+import com.tutorial.Demian.controller.MonthGrowthController;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.dto.MonthGrowthDTO;
@@ -23,13 +23,13 @@ public class MonthService {
     @Autowired
     private MonthRepository monthRepository;
 
-    public MonthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
-        MonthController.Response response = new MonthController.Response();
+    public MonthGrowthController.Response getMonthPageResp(Long userId, List<Desire> desires, int startYear, int startMonth) {
+        MonthGrowthController.Response response = new MonthGrowthController.Response();
 
         Calendar startCal = this.getStartCal(new GregorianCalendar(), startYear, startMonth);
         Date startDate = startCal.getTime();
 
-        List<MonthController.DesireWithMonth> desireWithMonths = this.getDesireWithMonths(startCal.getTime(), desires);
+        List<MonthGrowthController.DesireWithMonth> desireWithMonths = this.getDesireWithMonths(startCal.getTime(), desires);
         response.setDesireWithMonths(desireWithMonths);
 
         List<String> timeHeaders = TimeHeaderCalculator.getMonthTimeHeaders(startCal, 6);
@@ -41,7 +41,7 @@ public class MonthService {
     }
 
     private Calendar getStartCal(Calendar startCal, int startYear, int startMonth) {
-        if (startYear == MonthController.UNDEFINED_YEAR || startMonth == MonthController.UNDEFINED_MONTH) {
+        if (startYear == MonthGrowthController.UNDEFINED_YEAR || startMonth == MonthGrowthController.UNDEFINED_MONTH) {
             startYear = startCal.get(Calendar.YEAR);
             startMonth = (startCal.get(Calendar.MONTH) - 2) % 12;
         }
@@ -52,11 +52,11 @@ public class MonthService {
         return startCal;
     }
 
-    private List<MonthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<Desire> desires) {
-        List<MonthController.DesireWithMonth> desireWithMonths = new ArrayList<>();
+    private List<MonthGrowthController.DesireWithMonth> getDesireWithMonths(Date startDate, List<Desire> desires) {
+        List<MonthGrowthController.DesireWithMonth> desireWithMonths = new ArrayList<>();
 
         for (Desire desire : desires) {
-            MonthController.DesireWithMonth desireWithMonth = new MonthController.DesireWithMonth();
+            MonthGrowthController.DesireWithMonth desireWithMonth = new MonthGrowthController.DesireWithMonth();
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
 
