@@ -114,9 +114,18 @@ public class JobFilter {
             Date filterEnd = cal.getTime();
 
             MonthGrowth matchedJob = null;
+
+            Calendar filterStartCal = new GregorianCalendar();
+            filterStartCal.setTime(filterStart);
+
+            Calendar filterEndCal = new GregorianCalendar();
+            filterEndCal.setTime(filterEnd);
+
             for (MonthGrowth monthGrowth : entireMonthGrowths) {
-                if (filterStart.getTime() <= monthGrowth.getFromTime().getTime() &&
-                        monthGrowth.getToTime().getTime() <= filterEnd.getTime()) {
+                if (filterStartCal.get(Calendar.YEAR) <= monthGrowth.getYearNumber() &&
+                        monthGrowth.getYearNumber() <= filterEndCal.get(Calendar.YEAR) &&
+                        filterStartCal.get(Calendar.MONTH) <= monthGrowth.getMonthNumber() &&
+                        monthGrowth.getMonthNumber() <= filterEndCal.get(Calendar.MONTH)) {
                     matchedJob = monthGrowth;
                     break;
                 }

@@ -15,7 +15,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<form class="form-container" action="/months/form" th:action="@{/months/form}" th:object="${monthDTO}" method="post">
+<form class="form-container" action="/months/form" th:action="@{/months/form}" th:object="${monthGrowthDTO}" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{desireId}"/>
     <div>
@@ -29,17 +29,17 @@
         </div>
     </div>
     <div class="form-group form-item">
-        <label for="from-date">시작 날짜</label>
-        <input type="date" class="form-control" id="from-date" th:field="*{fromTime}"/>
-        <div class="text-danger" th:if="${#fields.hasErrors('fromTime')}" th:errors="*{fromTime}">
-            시작 시간 에러 메시지
+        <label for="yearNumber">연도</label>
+        <input type="text" class="form-control" id="yearNumber" th:field="*{yearNumber}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('yearNumber')}" th:errors="*{yearNumber}">
+            연도 에러 메시지
         </div>
     </div>
     <div class="form-group form-item">
-        <label for="to-date">종료 날짜</label>
-        <input type="date" class="form-control" id="to-date" th:field="*{toTime}"/>
-        <div class="text-danger" th:if="${#fields.hasErrors('toTime')}" th:errors="*{toTime}">
-            마감 시간 에러 메시지
+        <label for="yearNumber">월</label>
+        <input type="text" class="form-control" id="monthNumber" th:field="*{monthNumber}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('monthNumber')}" th:errors="*{monthNumber}">
+            월 에러 메시지
         </div>
     </div>
     <div class="form-group form-item">

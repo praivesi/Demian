@@ -85,7 +85,8 @@ public class MonthGrowthService {
             return new JobDTO();
         }
 
-        MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(), jobDTO.getFromTime(), jobDTO.getToTime(), maybeParentJob.get());
+        MonthGrowth newMonthGrowth = new MonthGrowth(jobDTO.getTitle(), jobDTO.getContent(),
+                jobDTO.getYearNumber(), jobDTO.getMonthNumber(), maybeParentJob.get());
         MonthGrowth entity = monthGrowthRepository.save(newMonthGrowth);
         jobDTO.setId(entity.getId());
 
@@ -109,8 +110,8 @@ public class MonthGrowthService {
     private MonthGrowth updateInternal(MonthGrowth entity, JobDTO dto) {
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setFromTime(dto.getFromTime());
-        entity.setToTime(dto.getToTime());
+        entity.setYearNumber(dto.getYearNumber());
+        entity.setMonthNumber(dto.getMonthNumber());
 
         return monthGrowthRepository.save(entity);
     }
@@ -130,8 +131,8 @@ public class MonthGrowthService {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
-        dto.setFromTime(entity.getFromTime());
-        dto.setToTime(entity.getToTime());
+        dto.setYearNumber(entity.getYearNumber());
+        dto.setMonthNumber(entity.getMonthNumber());
         dto.setParentId(entity.getDesire().getId());
 
         return dto;

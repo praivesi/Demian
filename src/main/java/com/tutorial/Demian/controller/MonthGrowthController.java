@@ -76,7 +76,7 @@ public class MonthGrowthController {
 
         MonthGrowthDTO monthGrowthDTO = this.getMonthDTO(desireId, jobId);
 
-        model.addAttribute("monthDTO", monthGrowthDTO);
+        model.addAttribute("monthGrowthDTO", monthGrowthDTO);
         model.addAttribute("desire", mayDesire.get());
 
         return "schedule/month_form";
@@ -105,7 +105,7 @@ public class MonthGrowthController {
         }
 
         model.addAttribute("desire", mayDesire.get());
-        model.addAttribute("monthDTO", monthGrowthDTO);
+        model.addAttribute("monthGrowthDTO", monthGrowthDTO);
 
         monthGrowthValidator.validate(monthGrowthDTO, bindingResult);
         if (bindingResult.hasErrors()) {
