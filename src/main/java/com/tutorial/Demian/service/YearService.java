@@ -63,7 +63,7 @@ public class YearService {
 
         desireWithYear.setDesire(DesireDTO.of(desire));
 
-        List<YearDTO> filteredYears = JobFilter.yearFilter(desire.getYearGrowths(), startDate, 5);
+        List<YearGrowthDTO> filteredYears = JobFilter.yearFilter(desire.getYearGrowths(), startDate, 5);
         desireWithYear.setYears(filteredYears);
 
         return desireWithYear;

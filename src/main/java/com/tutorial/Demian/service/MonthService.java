@@ -5,7 +5,7 @@ import java.util.*;
 import com.tutorial.Demian.controller.MonthController;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
-import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.MonthGrowthDTO;
 import com.tutorial.Demian.model.Desire;
 import com.tutorial.Demian.model.MonthGrowth;
 import com.tutorial.Demian.repository.DesireRepository;
@@ -60,7 +60,7 @@ public class MonthService {
 
             desireWithMonth.setDesire(DesireDTO.of(desire));
 
-            List<MonthDTO> filteredMonths = JobFilter.monthFilter(desire.getMonthGrowths(), startDate, 6);
+            List<MonthGrowthDTO> filteredMonths = JobFilter.monthFilter(desire.getMonthGrowths(), startDate, 6);
             desireWithMonth.setMonths(filteredMonths);
 
             desireWithMonths.add(desireWithMonth);

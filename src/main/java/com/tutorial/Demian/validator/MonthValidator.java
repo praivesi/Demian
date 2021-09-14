@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.tutorial.Demian.dto.MonthDTO;
+import com.tutorial.Demian.dto.MonthGrowthDTO;
 
 @Component
 public class MonthValidator implements Validator {
@@ -17,7 +17,7 @@ public class MonthValidator implements Validator {
 
     @Override
     public void validate(Object obj, Errors errors) {
-        MonthDTO dto = (MonthDTO) obj;
+        MonthGrowthDTO dto = (MonthGrowthDTO) obj;
 
         if (!StringUtils.hasText(dto.getTitle())) {
             errors.rejectValue("title", "key", "제목을 입력하세요");

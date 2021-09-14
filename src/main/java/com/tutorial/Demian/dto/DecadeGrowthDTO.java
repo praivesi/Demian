@@ -7,14 +7,14 @@ import static com.tutorial.Demian.model.DecadeGrowth.DECADE_JOB_DEFAULT_ID;
 import static com.tutorial.Demian.model.Desire.DESIRE_DEFAULT_ID;
 
 @Data
-public class DecadeDTO {
+public class DecadeGrowthDTO {
     private Long id;
     private Long desireId;
     private String title;
     private String content;
     private int decadeNumber;
 
-    public DecadeDTO(){
+    public DecadeGrowthDTO(){
         this.id = DECADE_JOB_DEFAULT_ID;
         this.desireId = DESIRE_DEFAULT_ID;
         this.title = "";
@@ -33,8 +33,8 @@ public class DecadeDTO {
         return entity;
     }
 
-    public static DecadeDTO of(DecadeGrowth decadeGrowth){
-        DecadeDTO dto = new DecadeDTO();
+    public static DecadeGrowthDTO of(DecadeGrowth decadeGrowth){
+        DecadeGrowthDTO dto = new DecadeGrowthDTO();
 
         dto.id = decadeGrowth.getId();
         dto.desireId = decadeGrowth.getDesire().getId();

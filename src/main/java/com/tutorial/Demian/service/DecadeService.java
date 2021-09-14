@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tutorial.Demian.controller.DecadeController;
-import com.tutorial.Demian.dto.DecadeDTO;
+import com.tutorial.Demian.dto.DecadeGrowthDTO;
 import com.tutorial.Demian.dto.DesireDTO;
 import com.tutorial.Demian.dto.JobDTO;
 import com.tutorial.Demian.model.DecadeGrowth;
@@ -62,7 +62,7 @@ public class DecadeService {
 
         desireWithDecade.setDesire(DesireDTO.of(desire));
 
-        List<DecadeDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecadeGrowths(), startDate, 5);
+        List<DecadeGrowthDTO> filteredDecades = JobFilter.decadeFilter(desire.getDecadeGrowths(), startDate, 5);
         desireWithDecade.setDecades(filteredDecades);
 
         return desireWithDecade;
