@@ -32,9 +32,16 @@ $(document).ready(function(){
         window.location.replace(uri);
     });
 
+
+    $('#add-decade-growth-dialog').dialog({
+        autoOpen: false,
+        closeOnEscape: false
+    });
+
     $('.decade-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host +
-            '/decades/form?desireId=' + $(this).val());
+        $('#add-decade-growth-dialog').load(window.location.protocol + '//' + window.location.host + '/decades/form?desireId=' + $(this).val(), function(){
+            $('#add-decade-growth-dialog').dialog("open", "resize", "auto");
+        });
     });
 
     $('.decade-delete-btn').on('click', function(){
