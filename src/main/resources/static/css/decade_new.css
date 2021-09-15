@@ -6,6 +6,10 @@ body, html {
     margin: 0;
 }
 
+.ui-dialog-titlebar-close {
+    visibility: hidden;
+}
+
 .fullscreen {
   position: fixed;
   top: 0;
