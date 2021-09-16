@@ -32,7 +32,6 @@ $(document).ready(function(){
         window.location.replace(uri);
     });
 
-
     $('#add-decade-growth-dialog').dialog({
         autoOpen: false,
         closeOnEscape: false

@@ -32,9 +32,25 @@ $(document).ready(function(){
         window.location.replace(uri);
     });
 
+//    $('.year-add-btn').on('click', function(){
+//        window.location.replace(window.location.protocol + '//' + window.location.host +
+//            '/years/form?desireId=' + $(this).val());
+//    });
+
+    $('#add-year-growth-dialog').dialog({
+        autoOpen: false,
+        closeOnEscape: false
+    });
+
     $('.year-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host +
-            '/years/form?desireId=' + $(this).val());
+        console.log("click enter");
+
+        $('#add-year-growth-dialog').load(window.location.protocol + '//' + window.location.host +
+                                                          '/years/form?desireId=' + $(this).val(), function(){
+            $('#add-year-growth-dialog').dialog("open", "resize", "auto");
+        });
+
+        console.log("click leave");
     });
 
     $('.year-delete-btn').on('click', function(){

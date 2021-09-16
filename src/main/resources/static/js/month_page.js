@@ -63,9 +63,21 @@ $(document).ready(function(){
         window.location.replace(uri);
     });
 
+//    $('.month-add-btn').on('click', function(){
+//        window.location.replace(window.location.protocol + '//' + window.location.host +
+//            '/months/form?desireId=' + $(this).val());
+//    });
+
+    $('#add-month-growth-dialog').dialog({
+        autoOpen: false,
+        closeOnEscape: false
+    });
+
     $('.month-add-btn').on('click', function(){
-        window.location.replace(window.location.protocol + '//' + window.location.host +
-            '/months/form?desireId=' + $(this).val());
+        $('#add-month-growth-dialog').load(window.location.protocol + '//' + window.location.host +
+                                                        '/months/form?desireId=' + $(this).val(), function(){
+            $('#add-month-growth-dialog').dialog("open", "resize", "auto");
+        });
     });
 
     $('.month-delete-btn').on('click', function(){
